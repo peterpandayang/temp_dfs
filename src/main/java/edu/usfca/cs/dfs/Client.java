@@ -8,6 +8,7 @@ import com.google.protobuf.ByteString;
 public class Client {
     public static void main(String[] args)
     throws Exception {
+        System.out.println("Hello World");
         Socket sock = new Socket("localhost", 9999);
 
         ByteString data = ByteString.copyFromUtf8("Hello World!");
