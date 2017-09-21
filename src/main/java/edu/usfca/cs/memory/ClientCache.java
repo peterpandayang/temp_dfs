@@ -8,7 +8,7 @@ public class ClientCache extends Cache{
     public String input;
     public static final int DEFAULT_CHUNK_SIZE = 1024 * 1024;   // limit for a chunk is 1MB
     public static String FILE_PATH = "temp/";
-    public static String SERVER_HOST = "bass11";
+    public static String SERVER_HOST = "bass10";
     //public static String SERVER_HOST = "localhost";
 
     public ClientCache(String hostname){

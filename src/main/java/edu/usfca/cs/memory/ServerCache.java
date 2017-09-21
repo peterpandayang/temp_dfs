@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class ServerCache extends Cache{
     public static String[] storageNode = {"bass01", "bass02", "bass03", "bass04", "bass05", "bass06", "bass07", "bass08", "bass09", "bass10"};
-    private static String HOSTNAME = "bass11";
+    private static String SERVER_HOST = "bass10";
     Map<String, List<Chunk>> map;  // helpful when retrieving file
 
     public ServerCache(){
