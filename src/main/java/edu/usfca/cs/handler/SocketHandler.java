@@ -1,4 +1,4 @@
-package edu.usfca.cs.control;
+package edu.usfca.cs.handler;
 
 import com.google.protobuf.ByteString;
 import edu.usfca.cs.dfs.StorageMessages;
@@ -14,13 +14,13 @@ public class SocketHandler {
 
     private Socket socket;
 
-    public void write(ClientCache cache, String filename, int chunkId) throws IOException {
-        socket = new Socket(cache.SERVER_HOST, cache.CLIENT_SERVER_PORT);
-        ByteString data = ByteString.copyFromUtf8("Hello World!");
+    public void send(ClientCache cache, String filename, int chunkId) throws IOException {
+        socket = new Socket(ClientCache.SERVER_HOST, cache.CLIENT_SERVER_PORT);
+        ByteString data = ByteString.copyFromUtf8("post"); // data here is just the method
         StorageMessages.StoreChunk storeChunkMsg
                 = StorageMessages.StoreChunk.newBuilder()
-                .setFileName("my_file.txt")
-                .setChunkId(3)
+                .setFileName(filename)
+                .setChunkId(chunkId)
                 .setData(data)
                 .build();
 

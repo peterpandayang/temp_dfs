@@ -40,8 +40,7 @@ public class StorageNode {
      *
      * @return name of the current host
      */
-    private static String getHostname()
-    throws UnknownHostException {
+    private static String getHostname() throws UnknownHostException {
         return InetAddress.getLocalHost().getHostName();
     }
 
