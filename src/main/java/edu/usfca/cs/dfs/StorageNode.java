@@ -1,38 +1,23 @@
 package edu.usfca.cs.dfs;
 
+import edu.usfca.cs.handler.DataNodeHandler;
+
 import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class StorageNode {
 
-    private ServerSocket srvSocket;
+    private static DataNodeHandler handler;
 
-    public static void main(String[] args) 
-    throws Exception {
+    public StorageNode() throws UnknownHostException {
         String hostname = getHostname();
-        System.out.println("Starting storage node on " + hostname + "...");
-        new StorageNode().start();
+        handler = new DataNodeHandler(hostname);
     }
 
-    public void start()
-    throws Exception {
-        srvSocket = new ServerSocket(9999);
-        System.out.println("Listening...");
-        while (true) {
-            Socket socket = srvSocket.accept();
-            StorageMessages.StorageMessageWrapper msgWrapper
-                = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(
-                        socket.getInputStream());
-
-            if (msgWrapper.hasStoreChunkMsg()) {
-                StorageMessages.StoreChunk storeChunkMsg
-                    = msgWrapper.getStoreChunkMsg();
-                System.out.println("Storing file name: "
-                        + storeChunkMsg.getFileName());
-            }
-        }
+    public static void main(String[] args) throws Exception {
+        StorageNode storageNode = new StorageNode();
+        System.out.println("DataNode start listening...");
+        handler.start();
     }
 
     /**

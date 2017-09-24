@@ -1,28 +1,22 @@
 package edu.usfca.cs.dfs;
 
+import edu.usfca.cs.handler.ClientSideHandler;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import edu.usfca.cs.handler.ClientSocketHandler;
-import edu.usfca.cs.memory.ClientCache;
-
 
 public class Client {
 
-    private static ClientCache cache;
-//    private static ClientFileHandler fileHandler;
-    private static ClientSocketHandler socketHandler;
+    private static String hostname;
+    private static ClientSideHandler handler;
 
-    public Client() {
-        try {
-            cache = new ClientCache(getHostname());
-            socketHandler = new ClientSocketHandler(cache);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+    public Client() throws UnknownHostException {
+        hostname = getHostname();
+        handler = new ClientSideHandler(hostname);
     }
 
     /**
@@ -37,9 +31,7 @@ public class Client {
 
     public static void main(String[] args) throws Exception {
         Client client = new Client();
-        client.socketHandler.listenServer();
-        client.socketHandler.listenNode();
-        client.socketHandler.start();
+        handler.start();
     }
 
 }
