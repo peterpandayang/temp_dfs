@@ -1,5 +1,6 @@
 package edu.usfca.cs.route;
 
+import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.thread.RequestedFixThread;
 import edu.usfca.cs.thread.RequestingFixThread;
 
@@ -10,10 +11,12 @@ import java.net.Socket;
  */
 public class DataNodeFixRouter {
 
-    Socket socket;  // this is socket from server to datanode;
+    private Socket socket;  // this is socket from server to datanode;
+    private StorageMessages.StorageMessageWrapper msgWrapper;
 
-    public DataNodeFixRouter(Socket socket){
+    public DataNodeFixRouter(Socket socket, StorageMessages.StorageMessageWrapper msgWrapper){
         this.socket = socket;
+        this.msgWrapper = msgWrapper;
     }
 
     public void startReqFixThread(){

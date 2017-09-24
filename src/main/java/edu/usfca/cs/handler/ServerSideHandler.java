@@ -29,7 +29,7 @@ public class ServerSideHandler {
             Socket socket = serverSocket.accept();
             StorageMessages.StorageMessageWrapper msgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
             if(msgWrapper.hasRequestMsg()){
-                ServerReqRouter serverReqRouter = new ServerReqRouter(socket, cache);
+                ServerReqRouter serverReqRouter = new ServerReqRouter(socket, cache, msgWrapper);
                 String type = msgWrapper.getRequestMsg().getType();
                 if(type.equals("post")){
                     serverReqRouter.startPostReqThread();
@@ -39,7 +39,7 @@ public class ServerSideHandler {
                 }
             }
             else if(msgWrapper.hasHeartbeatMsg()){
-                HeartbeatRouter heartbeatRouter = new HeartbeatRouter(socket, cache);
+                HeartbeatRouter heartbeatRouter = new HeartbeatRouter(socket, cache, msgWrapper);
                 String type = msgWrapper.getHeartbeatMsg().getType();
                 if(type.equals("init")){
                     heartbeatRouter.startInitHeartbeatThread();

@@ -41,7 +41,7 @@ public class DataNodeHandler {
             Socket socket = datanodeSocket.accept();
             StorageMessages.StorageMessageWrapper msgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
             if(msgWrapper.hasDataMsg()){
-                DataNodeDataRouter dataNodeDataRouter = new DataNodeDataRouter(socket, myHost);
+                DataNodeDataRouter dataNodeDataRouter = new DataNodeDataRouter(socket, myHost, msgWrapper);
                 String type = msgWrapper.getDataMsg().getType();
                 if(type.equals("store")){
                     dataNodeDataRouter.startStoreDataThread();
@@ -54,11 +54,11 @@ public class DataNodeHandler {
                 // this is unnecessary
             }
             else if(msgWrapper.hasFixInfoMsg()){ // current datanode will ask other datanode for replica
-                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket);
+                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper);
                 dataNodeFixRouter.startReqFixThread();
             }
             else if(msgWrapper.hasFixDataMsg()){ // current datanode will proved the replica
-                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket);
+                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper);
                 dataNodeFixRouter.startResFixThread();
             }
         }

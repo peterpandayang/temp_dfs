@@ -37,7 +37,6 @@ public class ClientFileSender {
      */
     public void sendPostReq() throws IOException {
         Socket toServerSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
-        toServerSocket.setSoTimeout(5000);
 //        ByteString data = ByteString.copyFromUtf8(content); // data here is just the empty
         String host = myHostname + " " + toServerSocket.getLocalPort();
         StorageMessages.RequestMsg.Builder builder
@@ -51,6 +50,7 @@ public class ClientFileSender {
                         .setRequestMsg(requestMsg)
                         .build();
         msgWrapper.writeDelimitedTo(toServerSocket.getOutputStream());
+        toServerSocket.setSoTimeout(5000);
         if(toServerSocket.getInputStream() != null){
             // send msg to the datanode
         }

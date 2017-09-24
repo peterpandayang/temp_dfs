@@ -1,5 +1,6 @@
 package edu.usfca.cs.route;
 
+import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.thread.DataNodeStoreThread;
 
 import java.net.Socket;
@@ -11,10 +12,12 @@ public class DataNodeDataRouter {
 
     private static Socket socket;
     private static String myHost;
+    private StorageMessages.StorageMessageWrapper msgWrapper;
 
-    public DataNodeDataRouter(Socket socket, String myHost){
+    public DataNodeDataRouter(Socket socket, String myHost, StorageMessages.StorageMessageWrapper msgWrapper){
         this.socket = socket;
         this.myHost = myHost;
+        this.msgWrapper = msgWrapper;
     }
 
     public void startStoreDataThread(){

@@ -16,10 +16,12 @@ public class ServerReqRouter {
 
     private static Socket socket;
     private ServerCache cache;
+    StorageMessages.StorageMessageWrapper msgWrapper;
 
-    public ServerReqRouter(Socket socket, ServerCache cache){
+    public ServerReqRouter(Socket socket, ServerCache cache, StorageMessages.StorageMessageWrapper msgWrapper){
         this.socket = socket;
         this.cache = cache;
+        this.msgWrapper = msgWrapper;
     }
 
     public void startPostReqThread(){
@@ -33,19 +35,7 @@ public class ServerReqRouter {
     }
 
     public void processPostReq() throws IOException {
-        StorageMessages.RequestMsg requestMsg = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream()).getRequestMsg();
-        cache.storeChunkInfo(requestMsg);
-        List<String> nodes = cache.getAvailableNodeName(); // the available nodes
-        StorageMessages.RequestMsg.Builder responseMsgBuilder
-                = StorageMessages.RequestMsg.newBuilder();
-        responseMsgBuilder.addAllHost(nodes);
-        StorageMessages.StorageMessageWrapper msgWrapper
-                = StorageMessages.StorageMessageWrapper.newBuilder()
-                .setRequestMsg(responseMsgBuilder)
-                .build();
-//        String[] clientHostInfo = requestMsg.getHost(0).split(" "); // this could be used to test
-        msgWrapper.writeDelimitedTo(socket.getOutputStream());
-        socket.close();
+
     }
 
 

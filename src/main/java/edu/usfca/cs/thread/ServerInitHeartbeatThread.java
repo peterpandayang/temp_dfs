@@ -2,6 +2,8 @@ package edu.usfca.cs.thread;
 
 import edu.usfca.cs.route.HeartbeatRouter;
 
+import java.io.IOException;
+
 /**
  * Created by bingkunyang on 9/24/17.
  *
@@ -18,7 +20,11 @@ public class ServerInitHeartbeatThread extends Thread{
 
     @Override
     public void run(){
-        router.updateDataNodeHost();
+        try {
+            router.initDataNodeStatus();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
