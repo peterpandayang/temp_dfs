@@ -1,8 +1,7 @@
 package edu.usfca.cs.dfs;
 
-import edu.usfca.cs.handler.ClientSocketHandler;
-import edu.usfca.cs.handler.ServerSocketHandler;
-import edu.usfca.cs.memory.ServerCache;
+
+import edu.usfca.cs.handler.ServerSideHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,18 +9,15 @@ import java.net.Socket;
 
 public class Controller {
 
-    private static ServerSocketHandler socketHandler;
-    private static ServerCache cache;
+    private static ServerSideHandler handler;
 
     public Controller(){
-        cache = new ServerCache();
-        socketHandler = new ServerSocketHandler(cache);
+        handler = new ServerSideHandler();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Controller server = new Controller();
-        server.socketHandler.listenClient();
-        server.socketHandler.listenNode();
+        handler.start();
     }
 
 }
