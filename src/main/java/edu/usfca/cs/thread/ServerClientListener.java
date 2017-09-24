@@ -22,7 +22,7 @@ public class ServerClientListener extends Thread{
     @Override
     public void run(){
         try {
-            serverSocketHandler.serveReqFromClient();
+            serverSocketHandler.serveReqFromClient(); // also responsible for sending response
         } catch (IOException e) {
             e.printStackTrace();
         }

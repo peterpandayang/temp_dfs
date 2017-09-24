@@ -5,12 +5,18 @@ message StoreChunk {
     string fileName = 1;
     int32 chunkId = 2;
     bytes data = 3;
-    string method = 4;
+    string storeNode1 = 4;
+    string storeNode2 = 5;
+    string storeNode3 = 6;
+    string hostname = 7;
 }
 
 message RetrieveFile {
     string fileName = 1;
-    string method = 2;
+    string retrieveNode1 = 2;
+    string retrieveNode2 = 3;
+    string retrieveNode3 = 4;
+    string hostname = 5;
 }
 
 message StorageMessageWrapper {

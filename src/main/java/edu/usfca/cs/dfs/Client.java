@@ -13,13 +13,13 @@ import edu.usfca.cs.memory.ClientCache;
 public class Client {
 
     private static ClientCache cache;
-//    private static ClinetFileHandler fileHandler;
+//    private static ClientFileHandler fileHandler;
     private static ClientSocketHandler socketHandler;
 
     public Client() {
         try {
             cache = new ClientCache(getHostname());
-            socketHandler = new ClientSocketHandler();
+            socketHandler = new ClientSocketHandler(cache);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -37,48 +37,9 @@ public class Client {
 
     public static void main(String[] args) throws Exception {
         Client client = new Client();
-        client.start();
-    }
-
-    private void start() throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        String line = "";
-        while (true) {
-            System.out.println("please enter your command...");
-            line = scanner.nextLine();
-            if (line.equals("EOF")) {
-                break;
-            }
-            if (cache.parse(line)) {
-                String method = line.split(" ")[0].toLowerCase();
-                if(method.equals("post")){
-                    makePost(line.split(" ")[1].toLowerCase());
-                }
-                else{
-
-                }
-            }
-        }
-    }
-
-    private void makePost(String filename) throws IOException {
-        // check if the file exist
-        File file = new File(cache.FILE_PATH + filename);
-        if(file.exists()){
-            int kilobytes = (int) (file.length() / 1024);  // limit is 4295 GB for the use of integer
-            if(kilobytes < 1024){
-                socketHandler.clientReqToServer(cache, filename, 0);
-            }
-            else{
-                int loop = kilobytes % 1024 == 0 ? (kilobytes / 1024) : (kilobytes / 1024) + 1;
-                for(int i = 1; i <= loop ; i++){
-                    socketHandler.clientReqToServer(cache, filename, i - 1);
-                }
-            }
-        }
-        else{
-            System.out.println("The file you want to store does not exists");
-        }
+        client.socketHandler.listenServer();
+        client.socketHandler.listenNode();
+        client.socketHandler.start();
     }
 
 }

@@ -8,6 +8,5 @@ import java.util.List;
 public class Chunk {
     public int chunkId;
     public List<Integer> locations;
-    public int chunkSize;
     public Chunk(){}
 }

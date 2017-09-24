@@ -9,18 +9,18 @@ import java.io.IOException;
  */
 public class ServerNodeListener extends Thread {
 
-    public ServerSocketHandler serverSocketHandler;
-    public int PORT;
+    public ServerSocketHandler handler;
+    public int port;
 
-    public ServerNodeListener(ServerSocketHandler serverSocketHandler, int PORT) {
-        this.serverSocketHandler = serverSocketHandler;
-        this.PORT = PORT;
+    public ServerNodeListener(ServerSocketHandler serverSocketHandler, int port) {
+        this.handler = serverSocketHandler;
+        this.port = port;
     }
 
     @Override
     public void run() {
         try {
-            serverSocketHandler.serveReqFromNode(PORT);
+            handler.serveReqFromNode(port);
         } catch (IOException e) {
             e.printStackTrace();
         }

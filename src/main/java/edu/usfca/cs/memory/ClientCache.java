@@ -12,7 +12,7 @@ public class ClientCache extends Cache{
     public static String SERVER_HOST = "localhost";
 
     public ClientCache(String hostname){
-        hostname = this.hostname;
+        this.hostname = hostname;
     }
 
     public boolean parse(String line) {

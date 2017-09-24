@@ -39,14 +39,44 @@ public final class StorageMessages {
     com.google.protobuf.ByteString getData();
 
     /**
-     * <code>string method = 4;</code>
+     * <code>string storeNode1 = 4;</code>
      */
-    java.lang.String getMethod();
+    java.lang.String getStoreNode1();
     /**
-     * <code>string method = 4;</code>
+     * <code>string storeNode1 = 4;</code>
      */
     com.google.protobuf.ByteString
-        getMethodBytes();
+        getStoreNode1Bytes();
+
+    /**
+     * <code>string storeNode2 = 5;</code>
+     */
+    java.lang.String getStoreNode2();
+    /**
+     * <code>string storeNode2 = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getStoreNode2Bytes();
+
+    /**
+     * <code>string storeNode3 = 6;</code>
+     */
+    java.lang.String getStoreNode3();
+    /**
+     * <code>string storeNode3 = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getStoreNode3Bytes();
+
+    /**
+     * <code>string hostname = 7;</code>
+     */
+    java.lang.String getHostname();
+    /**
+     * <code>string hostname = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getHostnameBytes();
   }
   /**
    * Protobuf type {@code StoreChunk}
@@ -64,7 +94,10 @@ public final class StorageMessages {
       fileName_ = "";
       chunkId_ = 0;
       data_ = com.google.protobuf.ByteString.EMPTY;
-      method_ = "";
+      storeNode1_ = "";
+      storeNode2_ = "";
+      storeNode3_ = "";
+      hostname_ = "";
     }
 
     @java.lang.Override
@@ -114,7 +147,25 @@ public final class StorageMessages {
             case 34: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              method_ = s;
+              storeNode1_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              storeNode2_ = s;
+              break;
+            }
+            case 50: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              storeNode3_ = s;
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              hostname_ = s;
               break;
             }
           }
@@ -193,34 +244,136 @@ public final class StorageMessages {
       return data_;
     }
 
-    public static final int METHOD_FIELD_NUMBER = 4;
-    private volatile java.lang.Object method_;
+    public static final int STORENODE1_FIELD_NUMBER = 4;
+    private volatile java.lang.Object storeNode1_;
     /**
-     * <code>string method = 4;</code>
+     * <code>string storeNode1 = 4;</code>
      */
-    public java.lang.String getMethod() {
-      java.lang.Object ref = method_;
+    public java.lang.String getStoreNode1() {
+      java.lang.Object ref = storeNode1_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        method_ = s;
+        storeNode1_ = s;
         return s;
       }
     }
     /**
-     * <code>string method = 4;</code>
+     * <code>string storeNode1 = 4;</code>
      */
     public com.google.protobuf.ByteString
-        getMethodBytes() {
-      java.lang.Object ref = method_;
+        getStoreNode1Bytes() {
+      java.lang.Object ref = storeNode1_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        method_ = b;
+        storeNode1_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int STORENODE2_FIELD_NUMBER = 5;
+    private volatile java.lang.Object storeNode2_;
+    /**
+     * <code>string storeNode2 = 5;</code>
+     */
+    public java.lang.String getStoreNode2() {
+      java.lang.Object ref = storeNode2_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        storeNode2_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string storeNode2 = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStoreNode2Bytes() {
+      java.lang.Object ref = storeNode2_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        storeNode2_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int STORENODE3_FIELD_NUMBER = 6;
+    private volatile java.lang.Object storeNode3_;
+    /**
+     * <code>string storeNode3 = 6;</code>
+     */
+    public java.lang.String getStoreNode3() {
+      java.lang.Object ref = storeNode3_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        storeNode3_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string storeNode3 = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStoreNode3Bytes() {
+      java.lang.Object ref = storeNode3_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        storeNode3_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HOSTNAME_FIELD_NUMBER = 7;
+    private volatile java.lang.Object hostname_;
+    /**
+     * <code>string hostname = 7;</code>
+     */
+    public java.lang.String getHostname() {
+      java.lang.Object ref = hostname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        hostname_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string hostname = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHostnameBytes() {
+      java.lang.Object ref = hostname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        hostname_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -248,8 +401,17 @@ public final class StorageMessages {
       if (!data_.isEmpty()) {
         output.writeBytes(3, data_);
       }
-      if (!getMethodBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, method_);
+      if (!getStoreNode1Bytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, storeNode1_);
+      }
+      if (!getStoreNode2Bytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, storeNode2_);
+      }
+      if (!getStoreNode3Bytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, storeNode3_);
+      }
+      if (!getHostnameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, hostname_);
       }
       unknownFields.writeTo(output);
     }
@@ -270,8 +432,17 @@ public final class StorageMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, data_);
       }
-      if (!getMethodBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, method_);
+      if (!getStoreNode1Bytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, storeNode1_);
+      }
+      if (!getStoreNode2Bytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, storeNode2_);
+      }
+      if (!getStoreNode3Bytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, storeNode3_);
+      }
+      if (!getHostnameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, hostname_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -295,8 +466,14 @@ public final class StorageMessages {
           == other.getChunkId());
       result = result && getData()
           .equals(other.getData());
-      result = result && getMethod()
-          .equals(other.getMethod());
+      result = result && getStoreNode1()
+          .equals(other.getStoreNode1());
+      result = result && getStoreNode2()
+          .equals(other.getStoreNode2());
+      result = result && getStoreNode3()
+          .equals(other.getStoreNode3());
+      result = result && getHostname()
+          .equals(other.getHostname());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -314,8 +491,14 @@ public final class StorageMessages {
       hash = (53 * hash) + getChunkId();
       hash = (37 * hash) + DATA_FIELD_NUMBER;
       hash = (53 * hash) + getData().hashCode();
-      hash = (37 * hash) + METHOD_FIELD_NUMBER;
-      hash = (53 * hash) + getMethod().hashCode();
+      hash = (37 * hash) + STORENODE1_FIELD_NUMBER;
+      hash = (53 * hash) + getStoreNode1().hashCode();
+      hash = (37 * hash) + STORENODE2_FIELD_NUMBER;
+      hash = (53 * hash) + getStoreNode2().hashCode();
+      hash = (37 * hash) + STORENODE3_FIELD_NUMBER;
+      hash = (53 * hash) + getStoreNode3().hashCode();
+      hash = (37 * hash) + HOSTNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getHostname().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -451,7 +634,13 @@ public final class StorageMessages {
 
         data_ = com.google.protobuf.ByteString.EMPTY;
 
-        method_ = "";
+        storeNode1_ = "";
+
+        storeNode2_ = "";
+
+        storeNode3_ = "";
+
+        hostname_ = "";
 
         return this;
       }
@@ -478,7 +667,10 @@ public final class StorageMessages {
         result.fileName_ = fileName_;
         result.chunkId_ = chunkId_;
         result.data_ = data_;
-        result.method_ = method_;
+        result.storeNode1_ = storeNode1_;
+        result.storeNode2_ = storeNode2_;
+        result.storeNode3_ = storeNode3_;
+        result.hostname_ = hostname_;
         onBuilt();
         return result;
       }
@@ -530,8 +722,20 @@ public final class StorageMessages {
         if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
           setData(other.getData());
         }
-        if (!other.getMethod().isEmpty()) {
-          method_ = other.method_;
+        if (!other.getStoreNode1().isEmpty()) {
+          storeNode1_ = other.storeNode1_;
+          onChanged();
+        }
+        if (!other.getStoreNode2().isEmpty()) {
+          storeNode2_ = other.storeNode2_;
+          onChanged();
+        }
+        if (!other.getStoreNode3().isEmpty()) {
+          storeNode3_ = other.storeNode3_;
+          onChanged();
+        }
+        if (!other.getHostname().isEmpty()) {
+          hostname_ = other.hostname_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -685,71 +889,278 @@ public final class StorageMessages {
         return this;
       }
 
-      private java.lang.Object method_ = "";
+      private java.lang.Object storeNode1_ = "";
       /**
-       * <code>string method = 4;</code>
+       * <code>string storeNode1 = 4;</code>
        */
-      public java.lang.String getMethod() {
-        java.lang.Object ref = method_;
+      public java.lang.String getStoreNode1() {
+        java.lang.Object ref = storeNode1_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          method_ = s;
+          storeNode1_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string method = 4;</code>
+       * <code>string storeNode1 = 4;</code>
        */
       public com.google.protobuf.ByteString
-          getMethodBytes() {
-        java.lang.Object ref = method_;
+          getStoreNode1Bytes() {
+        java.lang.Object ref = storeNode1_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          method_ = b;
+          storeNode1_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string method = 4;</code>
+       * <code>string storeNode1 = 4;</code>
        */
-      public Builder setMethod(
+      public Builder setStoreNode1(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        method_ = value;
+        storeNode1_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string method = 4;</code>
+       * <code>string storeNode1 = 4;</code>
        */
-      public Builder clearMethod() {
+      public Builder clearStoreNode1() {
         
-        method_ = getDefaultInstance().getMethod();
+        storeNode1_ = getDefaultInstance().getStoreNode1();
         onChanged();
         return this;
       }
       /**
-       * <code>string method = 4;</code>
+       * <code>string storeNode1 = 4;</code>
        */
-      public Builder setMethodBytes(
+      public Builder setStoreNode1Bytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        method_ = value;
+        storeNode1_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object storeNode2_ = "";
+      /**
+       * <code>string storeNode2 = 5;</code>
+       */
+      public java.lang.String getStoreNode2() {
+        java.lang.Object ref = storeNode2_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          storeNode2_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string storeNode2 = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStoreNode2Bytes() {
+        java.lang.Object ref = storeNode2_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          storeNode2_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string storeNode2 = 5;</code>
+       */
+      public Builder setStoreNode2(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        storeNode2_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string storeNode2 = 5;</code>
+       */
+      public Builder clearStoreNode2() {
+        
+        storeNode2_ = getDefaultInstance().getStoreNode2();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string storeNode2 = 5;</code>
+       */
+      public Builder setStoreNode2Bytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        storeNode2_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object storeNode3_ = "";
+      /**
+       * <code>string storeNode3 = 6;</code>
+       */
+      public java.lang.String getStoreNode3() {
+        java.lang.Object ref = storeNode3_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          storeNode3_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string storeNode3 = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStoreNode3Bytes() {
+        java.lang.Object ref = storeNode3_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          storeNode3_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string storeNode3 = 6;</code>
+       */
+      public Builder setStoreNode3(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        storeNode3_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string storeNode3 = 6;</code>
+       */
+      public Builder clearStoreNode3() {
+        
+        storeNode3_ = getDefaultInstance().getStoreNode3();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string storeNode3 = 6;</code>
+       */
+      public Builder setStoreNode3Bytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        storeNode3_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object hostname_ = "";
+      /**
+       * <code>string hostname = 7;</code>
+       */
+      public java.lang.String getHostname() {
+        java.lang.Object ref = hostname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          hostname_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string hostname = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHostnameBytes() {
+        java.lang.Object ref = hostname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hostname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string hostname = 7;</code>
+       */
+      public Builder setHostname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        hostname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hostname = 7;</code>
+       */
+      public Builder clearHostname() {
+        
+        hostname_ = getDefaultInstance().getHostname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hostname = 7;</code>
+       */
+      public Builder setHostnameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        hostname_ = value;
         onChanged();
         return this;
       }
@@ -817,14 +1228,44 @@ public final class StorageMessages {
         getFileNameBytes();
 
     /**
-     * <code>string method = 2;</code>
+     * <code>string retrieveNode1 = 2;</code>
      */
-    java.lang.String getMethod();
+    java.lang.String getRetrieveNode1();
     /**
-     * <code>string method = 2;</code>
+     * <code>string retrieveNode1 = 2;</code>
      */
     com.google.protobuf.ByteString
-        getMethodBytes();
+        getRetrieveNode1Bytes();
+
+    /**
+     * <code>string retrieveNode2 = 3;</code>
+     */
+    java.lang.String getRetrieveNode2();
+    /**
+     * <code>string retrieveNode2 = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getRetrieveNode2Bytes();
+
+    /**
+     * <code>string retrieveNode3 = 4;</code>
+     */
+    java.lang.String getRetrieveNode3();
+    /**
+     * <code>string retrieveNode3 = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getRetrieveNode3Bytes();
+
+    /**
+     * <code>string hostname = 5;</code>
+     */
+    java.lang.String getHostname();
+    /**
+     * <code>string hostname = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getHostnameBytes();
   }
   /**
    * Protobuf type {@code RetrieveFile}
@@ -840,7 +1281,10 @@ public final class StorageMessages {
     }
     private RetrieveFile() {
       fileName_ = "";
-      method_ = "";
+      retrieveNode1_ = "";
+      retrieveNode2_ = "";
+      retrieveNode3_ = "";
+      hostname_ = "";
     }
 
     @java.lang.Override
@@ -880,7 +1324,25 @@ public final class StorageMessages {
             case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              method_ = s;
+              retrieveNode1_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              retrieveNode2_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              retrieveNode3_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              hostname_ = s;
               break;
             }
           }
@@ -941,34 +1403,136 @@ public final class StorageMessages {
       }
     }
 
-    public static final int METHOD_FIELD_NUMBER = 2;
-    private volatile java.lang.Object method_;
+    public static final int RETRIEVENODE1_FIELD_NUMBER = 2;
+    private volatile java.lang.Object retrieveNode1_;
     /**
-     * <code>string method = 2;</code>
+     * <code>string retrieveNode1 = 2;</code>
      */
-    public java.lang.String getMethod() {
-      java.lang.Object ref = method_;
+    public java.lang.String getRetrieveNode1() {
+      java.lang.Object ref = retrieveNode1_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        method_ = s;
+        retrieveNode1_ = s;
         return s;
       }
     }
     /**
-     * <code>string method = 2;</code>
+     * <code>string retrieveNode1 = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getMethodBytes() {
-      java.lang.Object ref = method_;
+        getRetrieveNode1Bytes() {
+      java.lang.Object ref = retrieveNode1_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        method_ = b;
+        retrieveNode1_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int RETRIEVENODE2_FIELD_NUMBER = 3;
+    private volatile java.lang.Object retrieveNode2_;
+    /**
+     * <code>string retrieveNode2 = 3;</code>
+     */
+    public java.lang.String getRetrieveNode2() {
+      java.lang.Object ref = retrieveNode2_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        retrieveNode2_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string retrieveNode2 = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRetrieveNode2Bytes() {
+      java.lang.Object ref = retrieveNode2_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        retrieveNode2_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int RETRIEVENODE3_FIELD_NUMBER = 4;
+    private volatile java.lang.Object retrieveNode3_;
+    /**
+     * <code>string retrieveNode3 = 4;</code>
+     */
+    public java.lang.String getRetrieveNode3() {
+      java.lang.Object ref = retrieveNode3_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        retrieveNode3_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string retrieveNode3 = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRetrieveNode3Bytes() {
+      java.lang.Object ref = retrieveNode3_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        retrieveNode3_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int HOSTNAME_FIELD_NUMBER = 5;
+    private volatile java.lang.Object hostname_;
+    /**
+     * <code>string hostname = 5;</code>
+     */
+    public java.lang.String getHostname() {
+      java.lang.Object ref = hostname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        hostname_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string hostname = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHostnameBytes() {
+      java.lang.Object ref = hostname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        hostname_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -990,8 +1554,17 @@ public final class StorageMessages {
       if (!getFileNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fileName_);
       }
-      if (!getMethodBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, method_);
+      if (!getRetrieveNode1Bytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, retrieveNode1_);
+      }
+      if (!getRetrieveNode2Bytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, retrieveNode2_);
+      }
+      if (!getRetrieveNode3Bytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, retrieveNode3_);
+      }
+      if (!getHostnameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, hostname_);
       }
       unknownFields.writeTo(output);
     }
@@ -1004,8 +1577,17 @@ public final class StorageMessages {
       if (!getFileNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fileName_);
       }
-      if (!getMethodBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, method_);
+      if (!getRetrieveNode1Bytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, retrieveNode1_);
+      }
+      if (!getRetrieveNode2Bytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, retrieveNode2_);
+      }
+      if (!getRetrieveNode3Bytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, retrieveNode3_);
+      }
+      if (!getHostnameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, hostname_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1025,8 +1607,14 @@ public final class StorageMessages {
       boolean result = true;
       result = result && getFileName()
           .equals(other.getFileName());
-      result = result && getMethod()
-          .equals(other.getMethod());
+      result = result && getRetrieveNode1()
+          .equals(other.getRetrieveNode1());
+      result = result && getRetrieveNode2()
+          .equals(other.getRetrieveNode2());
+      result = result && getRetrieveNode3()
+          .equals(other.getRetrieveNode3());
+      result = result && getHostname()
+          .equals(other.getHostname());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -1040,8 +1628,14 @@ public final class StorageMessages {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + FILENAME_FIELD_NUMBER;
       hash = (53 * hash) + getFileName().hashCode();
-      hash = (37 * hash) + METHOD_FIELD_NUMBER;
-      hash = (53 * hash) + getMethod().hashCode();
+      hash = (37 * hash) + RETRIEVENODE1_FIELD_NUMBER;
+      hash = (53 * hash) + getRetrieveNode1().hashCode();
+      hash = (37 * hash) + RETRIEVENODE2_FIELD_NUMBER;
+      hash = (53 * hash) + getRetrieveNode2().hashCode();
+      hash = (37 * hash) + RETRIEVENODE3_FIELD_NUMBER;
+      hash = (53 * hash) + getRetrieveNode3().hashCode();
+      hash = (37 * hash) + HOSTNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getHostname().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -1173,7 +1767,13 @@ public final class StorageMessages {
         super.clear();
         fileName_ = "";
 
-        method_ = "";
+        retrieveNode1_ = "";
+
+        retrieveNode2_ = "";
+
+        retrieveNode3_ = "";
+
+        hostname_ = "";
 
         return this;
       }
@@ -1198,7 +1798,10 @@ public final class StorageMessages {
       public edu.usfca.cs.dfs.StorageMessages.RetrieveFile buildPartial() {
         edu.usfca.cs.dfs.StorageMessages.RetrieveFile result = new edu.usfca.cs.dfs.StorageMessages.RetrieveFile(this);
         result.fileName_ = fileName_;
-        result.method_ = method_;
+        result.retrieveNode1_ = retrieveNode1_;
+        result.retrieveNode2_ = retrieveNode2_;
+        result.retrieveNode3_ = retrieveNode3_;
+        result.hostname_ = hostname_;
         onBuilt();
         return result;
       }
@@ -1244,8 +1847,20 @@ public final class StorageMessages {
           fileName_ = other.fileName_;
           onChanged();
         }
-        if (!other.getMethod().isEmpty()) {
-          method_ = other.method_;
+        if (!other.getRetrieveNode1().isEmpty()) {
+          retrieveNode1_ = other.retrieveNode1_;
+          onChanged();
+        }
+        if (!other.getRetrieveNode2().isEmpty()) {
+          retrieveNode2_ = other.retrieveNode2_;
+          onChanged();
+        }
+        if (!other.getRetrieveNode3().isEmpty()) {
+          retrieveNode3_ = other.retrieveNode3_;
+          onChanged();
+        }
+        if (!other.getHostname().isEmpty()) {
+          hostname_ = other.hostname_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -1344,71 +1959,278 @@ public final class StorageMessages {
         return this;
       }
 
-      private java.lang.Object method_ = "";
+      private java.lang.Object retrieveNode1_ = "";
       /**
-       * <code>string method = 2;</code>
+       * <code>string retrieveNode1 = 2;</code>
        */
-      public java.lang.String getMethod() {
-        java.lang.Object ref = method_;
+      public java.lang.String getRetrieveNode1() {
+        java.lang.Object ref = retrieveNode1_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          method_ = s;
+          retrieveNode1_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string method = 2;</code>
+       * <code>string retrieveNode1 = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getMethodBytes() {
-        java.lang.Object ref = method_;
+          getRetrieveNode1Bytes() {
+        java.lang.Object ref = retrieveNode1_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          method_ = b;
+          retrieveNode1_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string method = 2;</code>
+       * <code>string retrieveNode1 = 2;</code>
        */
-      public Builder setMethod(
+      public Builder setRetrieveNode1(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        method_ = value;
+        retrieveNode1_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string method = 2;</code>
+       * <code>string retrieveNode1 = 2;</code>
        */
-      public Builder clearMethod() {
+      public Builder clearRetrieveNode1() {
         
-        method_ = getDefaultInstance().getMethod();
+        retrieveNode1_ = getDefaultInstance().getRetrieveNode1();
         onChanged();
         return this;
       }
       /**
-       * <code>string method = 2;</code>
+       * <code>string retrieveNode1 = 2;</code>
        */
-      public Builder setMethodBytes(
+      public Builder setRetrieveNode1Bytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        method_ = value;
+        retrieveNode1_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object retrieveNode2_ = "";
+      /**
+       * <code>string retrieveNode2 = 3;</code>
+       */
+      public java.lang.String getRetrieveNode2() {
+        java.lang.Object ref = retrieveNode2_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          retrieveNode2_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string retrieveNode2 = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRetrieveNode2Bytes() {
+        java.lang.Object ref = retrieveNode2_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          retrieveNode2_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string retrieveNode2 = 3;</code>
+       */
+      public Builder setRetrieveNode2(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        retrieveNode2_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string retrieveNode2 = 3;</code>
+       */
+      public Builder clearRetrieveNode2() {
+        
+        retrieveNode2_ = getDefaultInstance().getRetrieveNode2();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string retrieveNode2 = 3;</code>
+       */
+      public Builder setRetrieveNode2Bytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        retrieveNode2_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object retrieveNode3_ = "";
+      /**
+       * <code>string retrieveNode3 = 4;</code>
+       */
+      public java.lang.String getRetrieveNode3() {
+        java.lang.Object ref = retrieveNode3_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          retrieveNode3_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string retrieveNode3 = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRetrieveNode3Bytes() {
+        java.lang.Object ref = retrieveNode3_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          retrieveNode3_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string retrieveNode3 = 4;</code>
+       */
+      public Builder setRetrieveNode3(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        retrieveNode3_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string retrieveNode3 = 4;</code>
+       */
+      public Builder clearRetrieveNode3() {
+        
+        retrieveNode3_ = getDefaultInstance().getRetrieveNode3();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string retrieveNode3 = 4;</code>
+       */
+      public Builder setRetrieveNode3Bytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        retrieveNode3_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object hostname_ = "";
+      /**
+       * <code>string hostname = 5;</code>
+       */
+      public java.lang.String getHostname() {
+        java.lang.Object ref = hostname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          hostname_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string hostname = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHostnameBytes() {
+        java.lang.Object ref = hostname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hostname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string hostname = 5;</code>
+       */
+      public Builder setHostname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        hostname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hostname = 5;</code>
+       */
+      public Builder clearHostname() {
+        
+        hostname_ = getDefaultInstance().getHostname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string hostname = 5;</code>
+       */
+      public Builder setHostnameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        hostname_ = value;
         onChanged();
         return this;
       }
@@ -2374,14 +3196,17 @@ public final class StorageMessages {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\026storage_messages.proto\"M\n\nStoreChunk\022\020" +
-      "\n\010fileName\030\001 \001(\t\022\017\n\007chunkId\030\002 \001(\005\022\014\n\004dat" +
-      "a\030\003 \001(\014\022\016\n\006method\030\004 \001(\t\"0\n\014RetrieveFile\022" +
-      "\020\n\010fileName\030\001 \001(\t\022\016\n\006method\030\002 \001(\t\"n\n\025Sto" +
-      "rageMessageWrapper\022$\n\rstoreChunkMsg\030\001 \001(" +
-      "\0132\013.StoreChunkH\000\022(\n\017retrieveFileMsg\030\002 \001(" +
-      "\0132\r.RetrieveFileH\000B\005\n\003msgB\022\n\020edu.usfca.c" +
-      "s.dfsb\006proto3"
+      "\n\026storage_messages.proto\"\213\001\n\nStoreChunk\022" +
+      "\020\n\010fileName\030\001 \001(\t\022\017\n\007chunkId\030\002 \001(\005\022\014\n\004da" +
+      "ta\030\003 \001(\014\022\022\n\nstoreNode1\030\004 \001(\t\022\022\n\nstoreNod" +
+      "e2\030\005 \001(\t\022\022\n\nstoreNode3\030\006 \001(\t\022\020\n\010hostname" +
+      "\030\007 \001(\t\"w\n\014RetrieveFile\022\020\n\010fileName\030\001 \001(\t" +
+      "\022\025\n\rretrieveNode1\030\002 \001(\t\022\025\n\rretrieveNode2" +
+      "\030\003 \001(\t\022\025\n\rretrieveNode3\030\004 \001(\t\022\020\n\010hostnam" +
+      "e\030\005 \001(\t\"n\n\025StorageMessageWrapper\022$\n\rstor" +
+      "eChunkMsg\030\001 \001(\0132\013.StoreChunkH\000\022(\n\017retrie" +
+      "veFileMsg\030\002 \001(\0132\r.RetrieveFileH\000B\005\n\003msgB",
+      "\022\n\020edu.usfca.cs.dfsb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2400,13 +3225,13 @@ public final class StorageMessages {
     internal_static_StoreChunk_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_StoreChunk_descriptor,
-        new java.lang.String[] { "FileName", "ChunkId", "Data", "Method", });
+        new java.lang.String[] { "FileName", "ChunkId", "Data", "StoreNode1", "StoreNode2", "StoreNode3", "Hostname", });
     internal_static_RetrieveFile_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_RetrieveFile_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RetrieveFile_descriptor,
-        new java.lang.String[] { "FileName", "Method", });
+        new java.lang.String[] { "FileName", "RetrieveNode1", "RetrieveNode2", "RetrieveNode3", "Hostname", });
     internal_static_StorageMessageWrapper_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_StorageMessageWrapper_fieldAccessorTable = new
