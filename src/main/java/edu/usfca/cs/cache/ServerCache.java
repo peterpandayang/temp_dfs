@@ -54,4 +54,10 @@ public class ServerCache {
         return nodeNames;
     }
 
+    public void initDataMapInfo(StorageMessages.HeartbeatMsg heartbeatMsg){
+        String[] nodeHost = heartbeatMsg.getHost().split(" ");
+        nodeHostMap.put(nodeHost[0], Integer.parseInt(nodeHost[1]));
+        System.out.println(nodeHostMap.toString());
+    }
+
 }

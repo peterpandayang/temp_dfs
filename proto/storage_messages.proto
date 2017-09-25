@@ -13,8 +13,8 @@ message RequestMsg{
 
 message DataMsg{
     string host = 1;
-    repeated string filename = 2;
-    repeated int32 chunkId = 3;
+    string filename = 2;
+    int32 chunkId = 3;
     string data = 4;
     string type = 5;
     string success = 6;
@@ -23,10 +23,9 @@ message DataMsg{
 
 message HeartbeatMsg{
     string host = 1;
-    string filename = 2;
-    int32 chunkId = 3;
-    string type = 4;
-    string success = 5;
+    repeated string filenameChunkId = 2;
+    string type = 3;
+    string success = 4;
 }
 
 

@@ -33,7 +33,7 @@ public class DataNodeHandler {
         String myHost = hostname + " " + port;
 
         // create a thread and send the heartbeat
-        HeartbeatSender heartbeatSender = new HeartbeatSender(myHost);
+        HeartbeatSender heartbeatSender = new HeartbeatSender(myHost, cache);
         heartbeatSender.createHeartbeatSendThread();
 
         // start to listen
@@ -52,6 +52,7 @@ public class DataNodeHandler {
             }
             else if(msgWrapper.hasHeartbeatMsg()){
                 // this is unnecessary
+                continue;
             }
             else if(msgWrapper.hasFixInfoMsg()){ // current datanode will ask other datanode for replica
                 DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper);

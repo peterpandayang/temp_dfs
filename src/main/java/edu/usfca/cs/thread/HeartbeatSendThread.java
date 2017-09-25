@@ -2,6 +2,8 @@ package edu.usfca.cs.thread;
 
 import edu.usfca.cs.route.HeartbeatSender;
 
+import java.io.IOException;
+
 /**
  * Created by bingkunyang on 9/24/17.
  */
@@ -15,7 +17,13 @@ public class HeartbeatSendThread extends Thread{
 
     @Override
     public void run(){
-        sender.sendHeartbeat();
+        try {
+            sender.sendHeartbeat();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

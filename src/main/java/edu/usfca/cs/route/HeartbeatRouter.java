@@ -33,18 +33,7 @@ public class HeartbeatRouter {
     }
 
     public void initDataNodeStatus() throws IOException {
-        StorageMessages.RequestMsg requestMsg = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream()).getRequestMsg();
-        cache.storeChunkInfo(requestMsg);
-        List<String> nodes = cache.getAvailableNodeName(); // the available nodes
-        StorageMessages.RequestMsg.Builder responseMsgBuilder
-                = StorageMessages.RequestMsg.newBuilder();
-        responseMsgBuilder.addAllHost(nodes);
-        StorageMessages.StorageMessageWrapper msgWrapper
-                = StorageMessages.StorageMessageWrapper.newBuilder()
-                .setRequestMsg(responseMsgBuilder)
-                .build();
-//        String[] clientHostInfo = requestMsg.getHost(0).split(" "); // this could be used to test
-        msgWrapper.writeDelimitedTo(socket.getOutputStream());
+        cache.initDataMapInfo(msgWrapper.getHeartbeatMsg());
         socket.close();
     }
 
@@ -54,9 +43,9 @@ public class HeartbeatRouter {
     }
 
     public void updateDataNodeStatus(){
+        System.out.println("receive update info from datanode");
 
-
-        // should do sonething if the datanode is down
+        // should do something if the datanode is down
     }
 
 }

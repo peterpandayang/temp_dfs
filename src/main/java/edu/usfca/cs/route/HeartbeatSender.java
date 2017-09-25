@@ -1,12 +1,15 @@
 package edu.usfca.cs.route;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.Timestamp;
+import edu.usfca.cs.cache.DataNodeCache;
 import edu.usfca.cs.cache.GeneralCache;
 import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.thread.HeartbeatSendThread;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * Created by bingkunyang on 9/24/17.
@@ -17,9 +20,11 @@ import java.net.Socket;
 public class HeartbeatSender {
 
     private String myHost;
+    private DataNodeCache cache;
 
-    public HeartbeatSender(String myHost){
+    public HeartbeatSender(String myHost, DataNodeCache cache){
         this.myHost = myHost;
+        this.cache = cache;
     }
 
     public void createHeartbeatSendThread() throws IOException {
@@ -44,8 +49,26 @@ public class HeartbeatSender {
 
     }
 
-    public void sendHeartbeat(){
-
+    public void sendHeartbeat() throws InterruptedException, IOException {
+        while(true){
+            Thread.sleep(5000);
+            Socket socket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
+            List<String> filenameAndChunkId = cache.getFilenameAndChunkId();
+//            if(filenameAndChunkId.size() == 0){
+//                continue;
+//            }
+            StorageMessages.HeartbeatMsg.Builder builder
+                    = StorageMessages.HeartbeatMsg.newBuilder()
+                    .setType("general")
+                    .addAllFilenameChunkId(filenameAndChunkId);
+            StorageMessages.HeartbeatMsg heartbeatMsg = builder.build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                            .setHeartbeatMsg(heartbeatMsg)
+                            .build();
+            msgWrapper.writeDelimitedTo(socket.getOutputStream());
+            socket.close();
+        }
     }
 
 }
