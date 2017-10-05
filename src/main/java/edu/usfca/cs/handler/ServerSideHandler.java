@@ -50,8 +50,6 @@ public class ServerSideHandler {
         serverSocket = new ServerSocket(GeneralCache.SERVER_PORT);
 
         while (true) {
-            System.out.println("server is: ...");
-            System.out.println("server's hostname is: " + InetAddress.getLocalHost().getHostName());
             Socket socket = serverSocket.accept();
             StorageMessages.StorageMessageWrapper msgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
             if(msgWrapper.hasRequestMsg()){

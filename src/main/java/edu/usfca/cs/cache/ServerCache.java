@@ -97,9 +97,10 @@ public class ServerCache {
                 lastHeartbeat.remove(currHost);
                 System.out.println("remove host " + currHost + " from the list");
             }
-            for(int i = 0; i <= active.size() - 1; i++){
-                System.out.println("active node is: " + active.get(i));
-            }
+            System.out.println("active node count is : " + active.size());
+//            for(int i = 0; i <= active.size() - 1; i++){
+//                System.out.println("active node is: " + active.get(i));
+//            }
         }
         else{
             // the shutdown node restart...
