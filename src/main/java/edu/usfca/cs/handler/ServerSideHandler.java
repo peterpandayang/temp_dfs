@@ -8,8 +8,6 @@ import edu.usfca.cs.route.ReplicaMaintainer;
 import edu.usfca.cs.route.ServerReqRouter;
 
 import java.io.IOException;
-import java.net.Inet4Address;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Executors;
@@ -48,7 +46,6 @@ public class ServerSideHandler {
 
         System.out.println("Server start listening...");
         serverSocket = new ServerSocket(GeneralCache.SERVER_PORT);
-
         while (true) {
             Socket socket = serverSocket.accept();
             StorageMessages.StorageMessageWrapper msgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
@@ -74,10 +71,6 @@ public class ServerSideHandler {
                 else{
                     heartbeatRouter.startGeneralHeartbeatThread();
                 }
-            }
-            else if(msgWrapper.hasFixInfoMsg()){
-                System.out.println("there is some fix request");
-                maintainer.startRemoveFileInfoThread(msgWrapper.getFixInfoMsg());
             }
         }
     }

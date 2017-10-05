@@ -77,18 +77,19 @@ public class ServerCache {
      * @param heartbeatMsg
      * @return
      */
-    public synchronized List<String> updateActiveNode(StorageMessages.HeartbeatMsg heartbeatMsg) {
+    public synchronized boolean updateActiveNode(StorageMessages.HeartbeatMsg heartbeatMsg) {
         long currentTime = System.currentTimeMillis();
         String host = heartbeatMsg.getHost();
-        List<String> removeList = new ArrayList<>();
+        boolean hasDown = false;
         if(lastHeartbeat.containsKey(host)){
             lastHeartbeat.put(host, currentTime);
+            List<String> removeList = new ArrayList<>();
             for(int i = 0; i <= active.size() - 1; i++){
                 long prevTime = lastHeartbeat.get(active.get(i));
                 long diff = (currentTime - prevTime) / 1000;
                 if(diff > 15){
                     removeList.add(active.get(i));
-                    System.out.println("Datanode " + active.get(i) + " is down...");
+                    hasDown = true;
                 }
             }
             for(int i = 0; i <= removeList.size() - 1; i++){
@@ -97,16 +98,15 @@ public class ServerCache {
                 lastHeartbeat.remove(currHost);
                 System.out.println("remove host " + currHost + " from the list");
             }
-            System.out.println("active node count is : " + active.size());
-//            for(int i = 0; i <= active.size() - 1; i++){
-//                System.out.println("active node is: " + active.get(i));
-//            }
+            for(int i = 0; i <= active.size() - 1; i++){
+                System.out.println("active node is: " + active.get(i));
+            }
         }
         else{
             // the shutdown node restart...
 
         }
-        return removeList;
+        return hasDown;
     }
 
     public synchronized void updateFileInfo(String host, List<String> list) {
@@ -138,10 +138,11 @@ public class ServerCache {
             sb.append(chunkId).append(" ");
             for(String s : potentialNodes){
                 if(active.contains(s)){
-                    sb.append(s).append(" ");
+                    sb.append(s);
+                    break;
                 }
             }
-            rst.add(sb.toString().trim());
+            rst.add(sb.toString());
         }
         return rst;
     }
@@ -149,48 +150,26 @@ public class ServerCache {
     public Map<String, List<String>> getMaintainMap(){
         // this method will get the chunk that needs to be fixed and
         // the value in the map contains the following information:
-        // <filenameChunkId, <host1(valid chunk), host2(replica destination), ...>>
+        // <host1(valid chunk), host2(replica destination), ...>
         Map<String, List<String>> map = new HashMap<>();
-        System.out.println("looking for corrupted chunks...");
         for(String filename : dataMap.keySet()){
             TreeMap treeMap = dataMap.get(filename);
             for(Object id : treeMap.keySet()){
                 int chunkId = (int)id;
                 List<String> hosts = (List<String>) treeMap.get(chunkId);
-                System.out.println("checking for file " + filename + "'s chunk " + chunkId);
-                System.out.println("chunk replica number: " + hosts.size());
-                if(hosts.size() < Math.min(active.size(), 3)){
-                    System.out.println("file " + filename + "'s chunk " + chunkId + " has not enough replica");
+                if(hosts.size() != Math.min(active.size(), 3)){
                     int i = random.nextInt(hosts.size());
                     String askedHost = hosts.get(i);
                     List<String> fixList = new ArrayList<>();
-                    System.out.println("add normal node to the list ");
-                    List<String> temp = new ArrayList<>(active);
                     fixList.add(askedHost);
-                    for(String host : hosts){
-                        temp.remove(host);
+                    while(fixList.size() != Math.min(active.size(), 3)){
+                        i = random.nextInt(active.size());
+                        String askingHost = active.get(i);
+                        if(!fixList.contains(askingHost) && !hosts.contains(askingHost)){
+                            fixList.add(askingHost);
+                        }
                     }
-                    int count = Math.min(active.size(), 3) - hosts.size();
-                    for(int j = 0; j <= count - 1; j++){
-                        fixList.add(temp.get(j));
-                        System.out.println("node " + temp.get(j) + " will ask data from node " + askedHost);
-                    }
-//                    while(fixList.size() != (Math.min(active.size(), 3) - hosts.size())){
-//                        System.out.println("replica is not enough and looking for more active node to store");
-//                        i = random.nextInt(active.size());
-//                        String askingHost = active.get(i);
-//                        if(!fixList.contains(askingHost) && !hosts.contains(askingHost)){
-//                            fixList.add(askingHost);
-//                        }
-//                        System.out.println("total number of active node: " + active.size());
-//                        System.out.println("current fixList size: " + fixList.size());
-//                        if(fixList.size() == (Math.min(3, active.size()) - hosts.size())){
-//                            break;
-//                        }
-//                    }
-                    System.out.println("finished for finding node to store replica");
                     String filenameChunkId = filename + " " + chunkId;
-                    System.out.println("The file: " + filename + "'s chunkId " + chunkId + " needs to be fixed");
                     map.put(filenameChunkId, fixList);
                 }
             }
@@ -198,33 +177,5 @@ public class ServerCache {
         return map;
     }
 
-    public synchronized void removeFromDataMap(String filename, int chunkId, String host){
-        TreeMap<Integer, List<String>> treeMap = dataMap.get(filename);
-        if(treeMap != null){
-            List<String> hosts = treeMap.get(chunkId);
-            hosts.remove(host);
-        }
-        else{
-            System.out.println("We do not have this file");
-        }
-    }
-
-    public synchronized void removeDownNodeInfo(List<String> downNodes){
-        for(String filename : dataMap.keySet()){
-            TreeMap treeMap = dataMap.get(filename);
-            for(Object id : treeMap.keySet()){
-                int chunkId = (int)id;
-                List<String> list = (List<String>) treeMap.get(chunkId);
-                List<String> temp = new ArrayList<>(list);
-                for(String node : list){
-                    if(downNodes.contains(node)){
-                        temp.remove(node);
-                        System.out.println("file " + filename + "'s chunk " + chunkId + " has lost one replica");
-                    }
-                }
-                treeMap.put(chunkId, temp);
-            }
-        }
-    }
 
 }

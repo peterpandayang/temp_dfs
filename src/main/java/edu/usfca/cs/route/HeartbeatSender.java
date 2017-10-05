@@ -39,9 +39,10 @@ public class HeartbeatSender {
                 = StorageMessages.HeartbeatMsg.newBuilder()
                 .setHost(myHost)
                 .setType("init");
+        StorageMessages.HeartbeatMsg heartbeatMsg = builder.build();
         StorageMessages.StorageMessageWrapper msgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
-                        .setHeartbeatMsg(builder.build())
+                        .setHeartbeatMsg(heartbeatMsg)
                         .build();
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
         socket.close();
@@ -61,9 +62,10 @@ public class HeartbeatSender {
                     .setType("general")
                     .setHost(myHost)
                     .addAllFilenameChunkId(filenameAndChunkId);
+            StorageMessages.HeartbeatMsg heartbeatMsg = builder.build();
             StorageMessages.StorageMessageWrapper msgWrapper =
                     StorageMessages.StorageMessageWrapper.newBuilder()
-                            .setHeartbeatMsg(builder.build())
+                            .setHeartbeatMsg(heartbeatMsg)
                             .build();
             msgWrapper.writeDelimitedTo(socket.getOutputStream());
             socket.close();

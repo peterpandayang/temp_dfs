@@ -1,11 +1,12 @@
 package edu.usfca.cs.handler;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import edu.usfca.cs.cache.DataNodeCache;
+import edu.usfca.cs.cache.GeneralCache;
 import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.route.DataNodeDataRouter;
 import edu.usfca.cs.route.DataNodeFixRouter;
 import edu.usfca.cs.route.HeartbeatSender;
+import edu.usfca.cs.route.ServerReqRouter;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -58,7 +59,6 @@ public class DataNodeHandler {
         while (true) {
             Socket socket = datanodeSocket.accept();
             StorageMessages.StorageMessageWrapper msgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
-
             if(msgWrapper.hasDataMsg()){
                 DataNodeDataRouter dataNodeDataRouter = new DataNodeDataRouter(cache, socket, myHost, msgWrapper, threadPool);
                 String type = msgWrapper.getDataMsg().getType();
@@ -75,13 +75,11 @@ public class DataNodeHandler {
                 continue;
             }
             else if(msgWrapper.hasFixInfoMsg()){ // current datanode will ask other datanode for replica
-                System.out.println("get fix info from the server");
-                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper, myHost, cache);
+                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper);
                 dataNodeFixRouter.startReqFixThread();
             }
             else if(msgWrapper.hasFixDataMsg()){ // current datanode will proved the replica
-                System.out.println("get fix info from the datanode");
-                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper, myHost, cache);
+                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper);
                 dataNodeFixRouter.startResFixThread();
             }
         }

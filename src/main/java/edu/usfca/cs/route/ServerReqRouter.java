@@ -39,11 +39,12 @@ public class ServerReqRouter {
     public void processPostReq() throws IOException {
         cache.storeChunkInfo(msgWrapper.getRequestMsg());
         List<String> nodes = cache.getAvailableNodeName(); // the available nodes
-        StorageMessages.RequestMsg requestMsg
-                = StorageMessages.RequestMsg.newBuilder().addAllHost(nodes).build();
+        StorageMessages.RequestMsg.Builder responseMsgBuilder
+                = StorageMessages.RequestMsg.newBuilder();
+        responseMsgBuilder.addAllHost(nodes);
         StorageMessages.StorageMessageWrapper msgWrapper
                 = StorageMessages.StorageMessageWrapper.newBuilder()
-                .setRequestMsg(requestMsg)
+                .setRequestMsg(responseMsgBuilder)
                 .build();
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
         socket.close();
@@ -57,11 +58,12 @@ public class ServerReqRouter {
         StorageMessages.RequestMsg getMsg = msgWrapper.getRequestMsg();
         String filename = getMsg.getFilename();
         List<String> chunkIdAndHostList = cache.constructChunkIdAndHostList(filename);
-        StorageMessages.RequestMsg requestMsg
-                = StorageMessages.RequestMsg.newBuilder().addAllChunkIdHost(chunkIdAndHostList).build();
+        StorageMessages.RequestMsg.Builder responseMsgBuilder
+                = StorageMessages.RequestMsg.newBuilder();
+        responseMsgBuilder.addAllChunkIdHost(chunkIdAndHostList);
         StorageMessages.StorageMessageWrapper msgWrapper
                 = StorageMessages.StorageMessageWrapper.newBuilder()
-                .setRequestMsg(requestMsg)
+                .setRequestMsg(responseMsgBuilder)
                 .build();
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
         socket.close();

@@ -48,10 +48,10 @@ public class ClientFileRetriever {
                 .setFilename(filename)
                 .setType("get");
         builder.addHostBytes(ByteString.copyFromUtf8(myHost));
-//        StorageMessages.RequestMsg requestMsg = builder.build();
+        StorageMessages.RequestMsg requestMsg = builder.build();
         StorageMessages.StorageMessageWrapper msgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
-                        .setRequestMsg(builder)
+                        .setRequestMsg(requestMsg)
                         .build();
         msgWrapper.writeDelimitedTo(toServerSocket.getOutputStream());
         // get response from the server
@@ -130,105 +130,16 @@ public class ClientFileRetriever {
     public void retrieveOneChunkAndStore(String filename, String chunkIdHost) throws IOException, InterruptedException, NoSuchAlgorithmException {
         String[] info = chunkIdHost.split(" ");
         int chunkId = Integer.parseInt(info[0]);
-        Socket socket1 = new Socket(info[1], Integer.parseInt(info[2]));
-        StorageMessages.StorageMessageWrapper returnMsgWrapper = sendMsgToDataNode(filename, chunkIdHost, chunkId, socket1);
-        if(returnMsgWrapper != null){
-            if(returnMsgWrapper.getDataMsg().getSuccess().equals("success")){
-                storeChunkOnDisk(filename, chunkId, returnMsgWrapper);
-            }
-            else{
-                System.out.println("The file has been corrupted on the datanode side");
-                sendFixInfoToServer(filename, chunkId, info[1], info[2]);
-                if(info.length > 3){
-                    Socket socket2 = new Socket(info[3], Integer.parseInt(info[4]));
-                    returnMsgWrapper = sendMsgToDataNode(filename, chunkIdHost, chunkId, socket2);
-                    if(returnMsgWrapper != null){
-                        if(returnMsgWrapper.getDataMsg().getSuccess().equals("success")){
-                            storeChunkOnDisk(filename, chunkId, returnMsgWrapper);
-                        }
-                        else{
-                            System.out.println("The file has been corrupted on the datanode side");
-                            sendFixInfoToServer(filename, chunkId, info[3], info[4]);
-                            if(info.length > 5){
-                                Socket socket3 = new Socket(info[5], Integer.parseInt(info[6]));
-                                returnMsgWrapper = sendMsgToDataNode(filename, chunkIdHost, chunkId, socket3);
-                                if(returnMsgWrapper != null){
-                                    if(returnMsgWrapper.getDataMsg().getSuccess().equals("success")){
-                                        storeChunkOnDisk(filename, chunkId, returnMsgWrapper);
-                                    }
-                                    else{
-                                        sendFixInfoToServer(filename, chunkId, info[5], info[6]);
-                                        // send something to the server that this chunk has been complete invalid
-                                    }
-                                }
-                                else{
-                                    System.out.println("return message is empty");
-                                }
-                                socket3.close();
-                            }
-                            else{
-                                // send something to the server that this chunk has been complete invalid
-                            }
-                        }
-                    }
-                    else{
-                        System.out.println("return message is empty");
-                    }
-                    socket2.close();
-                }
-                else{
-                    // send something to the server that this chunk has been complete invalid
-                }
-            }
-            socket1.close();
-        }
-    }
-
-
-    private void sendFixInfoToServer(String filename, int chunkId, String hostname, String port) throws IOException {
-        Socket toServerSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
-        String host = hostname + " " + port;
-        StorageMessages.FixInfoMsg fixInfoMsg
-                = StorageMessages.FixInfoMsg.newBuilder()
-                .setFilename(filename)
-                .setChunkId(chunkId)
-                .setHost(host).build();
-        StorageMessages.StorageMessageWrapper msgWrapper =
-                StorageMessages.StorageMessageWrapper.newBuilder().setFixInfoMsg(fixInfoMsg).build();
-        msgWrapper.writeTo(toServerSocket.getOutputStream());
-    }
-
-
-    private void storeChunkOnDisk(String filename, int chunkId, StorageMessages.StorageMessageWrapper returnMsgWrapper) throws NoSuchAlgorithmException, IOException {
-        StorageMessages.DataMsg dataMsg = returnMsgWrapper.getDataMsg();
-        String folderPath = cache.RETRIEVE_TEMP_PATH + "/files/" + filename;
-        String checksum = dataMsg.getChecksum();
-        String data = dataMsg.getData().toStringUtf8();
-        String checkSheckSum = io.getCheckSum(data);
-        if(checkSheckSum.equals(checksum)){
-            System.out.println("network working well and client side checksum matched...");
-        }
-        else{
-            System.out.println("network has some problem and data is lost...");
-        }
-        if(!Files.exists(Paths.get(folderPath))){
-            Files.createDirectories(Paths.get(folderPath));
-        }
-        System.out.println("write to chunkId : " + chunkId);
-        File file = new File(folderPath + "/" + chunkId);
-        io.writeGeneralFile(file, dataMsg.getData().toStringUtf8());
-    }
-
-    private StorageMessages.StorageMessageWrapper sendMsgToDataNode(String filename, String chunkIdHost, int chunkId, Socket socket) throws IOException, InterruptedException {
+        Socket socket = new Socket(info[1], Integer.parseInt(info[2]));
         System.out.println("Chunk Info: " + chunkIdHost);
-        StorageMessages.DataMsg dataMsg
+        StorageMessages.DataMsg.Builder dataMsgBuilder
                 = StorageMessages.DataMsg.newBuilder()
                 .setChunkId(chunkId)
                 .setFilename(filename)
-                .setType("retrieve").build();
+                .setType("retrieve");
         StorageMessages.StorageMessageWrapper dataMsgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
-                        .setDataMsg(dataMsg)
+                        .setDataMsg(dataMsgBuilder.build())
                         .build();
         dataMsgWrapper.writeDelimitedTo(socket.getOutputStream());
         // here should get the info...
@@ -245,8 +156,26 @@ public class ClientFileRetriever {
         else{
             System.out.println("get something from the storage node...");
         }
-        return returnMsgWrapper;
+        if(returnMsgWrapper != null){
+            StorageMessages.DataMsg dataMsg = returnMsgWrapper.getDataMsg();
+            String folderPath = cache.RETRIEVE_TEMP_PATH + "/files/" + filename;
+            String checksum = dataMsg.getChecksum();
+            String data = dataMsg.getData().toStringUtf8();
+            String checkSheckSum = io.getCheckSum(data);
+            if(checkSheckSum.equals(checksum)){
+                System.out.println("network working well and client side checksum matched...");
+            }
+            else{
+                System.out.println("network has some problem and data is lost...");
+            }
+            if(!Files.exists(Paths.get(folderPath))){
+                Files.createDirectories(Paths.get(folderPath));
+            }
+            System.out.println("write to chunkId : " + chunkId);
+            File file = new File(folderPath + "/" + chunkId);
+            io.writeGeneralFile(file, dataMsg.getData().toStringUtf8());
+            socket.close();
+        }
     }
-
 
 }

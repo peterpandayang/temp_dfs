@@ -62,20 +62,20 @@ public class DataNodeDataRouter {
         io.writeGeneralFile(file, data);
         File checkSum = new File(folderPath + "/" + chunkId + ".checksum");
         io.writeGeneralFile(checkSum, dataMsg.getChecksum());
-        StorageMessages.DataMsg dataMsg1;
+        StorageMessages.DataMsg.Builder builder;
         if(io.fileIsValid(file, checkSum)){
             cache.updateFileInfo(filename, chunkId);
             System.out.println("chunk id : " + chunkId + " is stored on the disk");
-            dataMsg1 = StorageMessages.DataMsg.newBuilder().setSuccess("success").build();
+            builder = StorageMessages.DataMsg.newBuilder().setSuccess("success");
         }
         else{
             System.out.println("chunk id : " + chunkId + " is not correctly stored on the disk");
-            dataMsg1 = StorageMessages.DataMsg.newBuilder().setSuccess("failed").build();
+            builder = StorageMessages.DataMsg.newBuilder().setSuccess("failed");
             // should remove that from the disk
         }
         StorageMessages.StorageMessageWrapper msgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
-                        .setDataMsg(dataMsg1)
+                        .setDataMsg(builder.build())
                         .build();
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
     }
@@ -103,37 +103,22 @@ public class DataNodeDataRouter {
             ByteString byteString = ByteString.copyFromUtf8(data);
             String sendCheckSum = io.getCheckSum(data);
             System.out.println("bytestring is: " + byteString);
-            System.out.println("data length is: " + byteString.size());
-            StorageMessages.DataMsg dataMsg1
+            StorageMessages.DataMsg.Builder dataMsgBuilder
                     = StorageMessages.DataMsg.newBuilder()
                     .setChunkId(chunkId)
                     .setData(byteString)
                     .setChecksum(sendCheckSum)
-                    .setFilename(filename)
-                    .setSuccess("success").build();
+                    .setFilename(filename);
             StorageMessages.StorageMessageWrapper msgWrapper
                     = StorageMessages.StorageMessageWrapper.newBuilder()
-                    .setDataMsg(dataMsg1)
+                    .setDataMsg(dataMsgBuilder)
                     .build();
             msgWrapper.writeDelimitedTo(socket.getOutputStream());
             socket.close();
         }
         else{
             // create message and write not valid to socket
-            System.out.println("This chunk has been corrupted");
-            // should remove this file from the local
-            StorageMessages.DataMsg dataMsg1
-                    = StorageMessages.DataMsg.newBuilder()
-                    .setHost(myHost)
-                    .setFilename(filename)
-                    .setChunkId(chunkId)
-                    .setSuccess("failed").build();
-            StorageMessages.StorageMessageWrapper msgWrapper
-                    = StorageMessages.StorageMessageWrapper.newBuilder()
-                    .setDataMsg(dataMsg1)
-                    .build();
-            msgWrapper.writeTo(socket.getOutputStream());
-            socket.close();
+
         }
     }
 

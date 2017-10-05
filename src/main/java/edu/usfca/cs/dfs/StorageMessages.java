@@ -3450,14 +3450,14 @@ public final class StorageMessages {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string host = 1;</code>
+     * <code>string hostname = 1;</code>
      */
-    java.lang.String getHost();
+    java.lang.String getHostname();
     /**
-     * <code>string host = 1;</code>
+     * <code>string hostname = 1;</code>
      */
     com.google.protobuf.ByteString
-        getHostBytes();
+        getHostnameBytes();
 
     /**
      * <code>string filename = 2;</code>
@@ -3497,7 +3497,7 @@ public final class StorageMessages {
       super(builder);
     }
     private FixInfoMsg() {
-      host_ = "";
+      hostname_ = "";
       filename_ = "";
       chunkId_ = 0;
       success_ = "";
@@ -3534,7 +3534,7 @@ public final class StorageMessages {
             case 10: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              host_ = s;
+              hostname_ = s;
               break;
             }
             case 18: {
@@ -3578,34 +3578,34 @@ public final class StorageMessages {
               edu.usfca.cs.dfs.StorageMessages.FixInfoMsg.class, edu.usfca.cs.dfs.StorageMessages.FixInfoMsg.Builder.class);
     }
 
-    public static final int HOST_FIELD_NUMBER = 1;
-    private volatile java.lang.Object host_;
+    public static final int HOSTNAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object hostname_;
     /**
-     * <code>string host = 1;</code>
+     * <code>string hostname = 1;</code>
      */
-    public java.lang.String getHost() {
-      java.lang.Object ref = host_;
+    public java.lang.String getHostname() {
+      java.lang.Object ref = hostname_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
         com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        host_ = s;
+        hostname_ = s;
         return s;
       }
     }
     /**
-     * <code>string host = 1;</code>
+     * <code>string hostname = 1;</code>
      */
     public com.google.protobuf.ByteString
-        getHostBytes() {
-      java.lang.Object ref = host_;
+        getHostnameBytes() {
+      java.lang.Object ref = hostname_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        host_ = b;
+        hostname_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -3701,8 +3701,8 @@ public final class StorageMessages {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getHostBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, host_);
+      if (!getHostnameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, hostname_);
       }
       if (!getFilenameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, filename_);
@@ -3721,8 +3721,8 @@ public final class StorageMessages {
       if (size != -1) return size;
 
       size = 0;
-      if (!getHostBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, host_);
+      if (!getHostnameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, hostname_);
       }
       if (!getFilenameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, filename_);
@@ -3750,8 +3750,8 @@ public final class StorageMessages {
       edu.usfca.cs.dfs.StorageMessages.FixInfoMsg other = (edu.usfca.cs.dfs.StorageMessages.FixInfoMsg) obj;
 
       boolean result = true;
-      result = result && getHost()
-          .equals(other.getHost());
+      result = result && getHostname()
+          .equals(other.getHostname());
       result = result && getFilename()
           .equals(other.getFilename());
       result = result && (getChunkId()
@@ -3769,8 +3769,8 @@ public final class StorageMessages {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + HOST_FIELD_NUMBER;
-      hash = (53 * hash) + getHost().hashCode();
+      hash = (37 * hash) + HOSTNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getHostname().hashCode();
       hash = (37 * hash) + FILENAME_FIELD_NUMBER;
       hash = (53 * hash) + getFilename().hashCode();
       hash = (37 * hash) + CHUNKID_FIELD_NUMBER;
@@ -3906,7 +3906,7 @@ public final class StorageMessages {
       }
       public Builder clear() {
         super.clear();
-        host_ = "";
+        hostname_ = "";
 
         filename_ = "";
 
@@ -3936,7 +3936,7 @@ public final class StorageMessages {
 
       public edu.usfca.cs.dfs.StorageMessages.FixInfoMsg buildPartial() {
         edu.usfca.cs.dfs.StorageMessages.FixInfoMsg result = new edu.usfca.cs.dfs.StorageMessages.FixInfoMsg(this);
-        result.host_ = host_;
+        result.hostname_ = hostname_;
         result.filename_ = filename_;
         result.chunkId_ = chunkId_;
         result.success_ = success_;
@@ -3981,8 +3981,8 @@ public final class StorageMessages {
 
       public Builder mergeFrom(edu.usfca.cs.dfs.StorageMessages.FixInfoMsg other) {
         if (other == edu.usfca.cs.dfs.StorageMessages.FixInfoMsg.getDefaultInstance()) return this;
-        if (!other.getHost().isEmpty()) {
-          host_ = other.host_;
+        if (!other.getHostname().isEmpty()) {
+          hostname_ = other.hostname_;
           onChanged();
         }
         if (!other.getFilename().isEmpty()) {
@@ -4023,71 +4023,71 @@ public final class StorageMessages {
         return this;
       }
 
-      private java.lang.Object host_ = "";
+      private java.lang.Object hostname_ = "";
       /**
-       * <code>string host = 1;</code>
+       * <code>string hostname = 1;</code>
        */
-      public java.lang.String getHost() {
-        java.lang.Object ref = host_;
+      public java.lang.String getHostname() {
+        java.lang.Object ref = hostname_;
         if (!(ref instanceof java.lang.String)) {
           com.google.protobuf.ByteString bs =
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
-          host_ = s;
+          hostname_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>string host = 1;</code>
+       * <code>string hostname = 1;</code>
        */
       public com.google.protobuf.ByteString
-          getHostBytes() {
-        java.lang.Object ref = host_;
+          getHostnameBytes() {
+        java.lang.Object ref = hostname_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          host_ = b;
+          hostname_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>string host = 1;</code>
+       * <code>string hostname = 1;</code>
        */
-      public Builder setHost(
+      public Builder setHostname(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   
-        host_ = value;
+        hostname_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string host = 1;</code>
+       * <code>string hostname = 1;</code>
        */
-      public Builder clearHost() {
+      public Builder clearHostname() {
         
-        host_ = getDefaultInstance().getHost();
+        hostname_ = getDefaultInstance().getHostname();
         onChanged();
         return this;
       }
       /**
-       * <code>string host = 1;</code>
+       * <code>string hostname = 1;</code>
        */
-      public Builder setHostBytes(
+      public Builder setHostnameBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
         
-        host_ = value;
+        hostname_ = value;
         onChanged();
         return this;
       }
@@ -4324,39 +4324,19 @@ public final class StorageMessages {
     int getChunkId();
 
     /**
-     * <code>string host = 3;</code>
-     */
-    java.lang.String getHost();
-    /**
-     * <code>string host = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getHostBytes();
-
-    /**
-     * <code>string success = 4;</code>
+     * <code>string success = 3;</code>
      */
     java.lang.String getSuccess();
     /**
-     * <code>string success = 4;</code>
+     * <code>string success = 3;</code>
      */
     com.google.protobuf.ByteString
         getSuccessBytes();
 
     /**
-     * <code>bytes data = 5;</code>
+     * <code>bytes data = 4;</code>
      */
     com.google.protobuf.ByteString getData();
-
-    /**
-     * <code>string checksum = 6;</code>
-     */
-    java.lang.String getChecksum();
-    /**
-     * <code>string checksum = 6;</code>
-     */
-    com.google.protobuf.ByteString
-        getChecksumBytes();
   }
   /**
    * Protobuf type {@code FixDataMsg}
@@ -4373,10 +4353,8 @@ public final class StorageMessages {
     private FixDataMsg() {
       filename_ = "";
       chunkId_ = 0;
-      host_ = "";
       success_ = "";
       data_ = com.google.protobuf.ByteString.EMPTY;
-      checksum_ = "";
     }
 
     @java.lang.Override
@@ -4421,24 +4399,12 @@ public final class StorageMessages {
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              host_ = s;
-              break;
-            }
-            case 34: {
-              java.lang.String s = input.readStringRequireUtf8();
-
               success_ = s;
               break;
             }
-            case 42: {
+            case 34: {
 
               data_ = input.readBytes();
-              break;
-            }
-            case 50: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              checksum_ = s;
               break;
             }
           }
@@ -4508,44 +4474,10 @@ public final class StorageMessages {
       return chunkId_;
     }
 
-    public static final int HOST_FIELD_NUMBER = 3;
-    private volatile java.lang.Object host_;
-    /**
-     * <code>string host = 3;</code>
-     */
-    public java.lang.String getHost() {
-      java.lang.Object ref = host_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        host_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string host = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getHostBytes() {
-      java.lang.Object ref = host_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        host_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int SUCCESS_FIELD_NUMBER = 4;
+    public static final int SUCCESS_FIELD_NUMBER = 3;
     private volatile java.lang.Object success_;
     /**
-     * <code>string success = 4;</code>
+     * <code>string success = 3;</code>
      */
     public java.lang.String getSuccess() {
       java.lang.Object ref = success_;
@@ -4560,7 +4492,7 @@ public final class StorageMessages {
       }
     }
     /**
-     * <code>string success = 4;</code>
+     * <code>string success = 3;</code>
      */
     public com.google.protobuf.ByteString
         getSuccessBytes() {
@@ -4576,47 +4508,13 @@ public final class StorageMessages {
       }
     }
 
-    public static final int DATA_FIELD_NUMBER = 5;
+    public static final int DATA_FIELD_NUMBER = 4;
     private com.google.protobuf.ByteString data_;
     /**
-     * <code>bytes data = 5;</code>
+     * <code>bytes data = 4;</code>
      */
     public com.google.protobuf.ByteString getData() {
       return data_;
-    }
-
-    public static final int CHECKSUM_FIELD_NUMBER = 6;
-    private volatile java.lang.Object checksum_;
-    /**
-     * <code>string checksum = 6;</code>
-     */
-    public java.lang.String getChecksum() {
-      java.lang.Object ref = checksum_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        checksum_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string checksum = 6;</code>
-     */
-    public com.google.protobuf.ByteString
-        getChecksumBytes() {
-      java.lang.Object ref = checksum_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        checksum_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4637,17 +4535,11 @@ public final class StorageMessages {
       if (chunkId_ != 0) {
         output.writeInt32(2, chunkId_);
       }
-      if (!getHostBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, host_);
-      }
       if (!getSuccessBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, success_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, success_);
       }
       if (!data_.isEmpty()) {
-        output.writeBytes(5, data_);
-      }
-      if (!getChecksumBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, checksum_);
+        output.writeBytes(4, data_);
       }
       unknownFields.writeTo(output);
     }
@@ -4664,18 +4556,12 @@ public final class StorageMessages {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, chunkId_);
       }
-      if (!getHostBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, host_);
-      }
       if (!getSuccessBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, success_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, success_);
       }
       if (!data_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, data_);
-      }
-      if (!getChecksumBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, checksum_);
+          .computeBytesSize(4, data_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4697,14 +4583,10 @@ public final class StorageMessages {
           .equals(other.getFilename());
       result = result && (getChunkId()
           == other.getChunkId());
-      result = result && getHost()
-          .equals(other.getHost());
       result = result && getSuccess()
           .equals(other.getSuccess());
       result = result && getData()
           .equals(other.getData());
-      result = result && getChecksum()
-          .equals(other.getChecksum());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4720,14 +4602,10 @@ public final class StorageMessages {
       hash = (53 * hash) + getFilename().hashCode();
       hash = (37 * hash) + CHUNKID_FIELD_NUMBER;
       hash = (53 * hash) + getChunkId();
-      hash = (37 * hash) + HOST_FIELD_NUMBER;
-      hash = (53 * hash) + getHost().hashCode();
       hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
       hash = (53 * hash) + getSuccess().hashCode();
       hash = (37 * hash) + DATA_FIELD_NUMBER;
       hash = (53 * hash) + getData().hashCode();
-      hash = (37 * hash) + CHECKSUM_FIELD_NUMBER;
-      hash = (53 * hash) + getChecksum().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4861,13 +4739,9 @@ public final class StorageMessages {
 
         chunkId_ = 0;
 
-        host_ = "";
-
         success_ = "";
 
         data_ = com.google.protobuf.ByteString.EMPTY;
-
-        checksum_ = "";
 
         return this;
       }
@@ -4893,10 +4767,8 @@ public final class StorageMessages {
         edu.usfca.cs.dfs.StorageMessages.FixDataMsg result = new edu.usfca.cs.dfs.StorageMessages.FixDataMsg(this);
         result.filename_ = filename_;
         result.chunkId_ = chunkId_;
-        result.host_ = host_;
         result.success_ = success_;
         result.data_ = data_;
-        result.checksum_ = checksum_;
         onBuilt();
         return result;
       }
@@ -4945,20 +4817,12 @@ public final class StorageMessages {
         if (other.getChunkId() != 0) {
           setChunkId(other.getChunkId());
         }
-        if (!other.getHost().isEmpty()) {
-          host_ = other.host_;
-          onChanged();
-        }
         if (!other.getSuccess().isEmpty()) {
           success_ = other.success_;
           onChanged();
         }
         if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
           setData(other.getData());
-        }
-        if (!other.getChecksum().isEmpty()) {
-          checksum_ = other.checksum_;
-          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5082,78 +4946,9 @@ public final class StorageMessages {
         return this;
       }
 
-      private java.lang.Object host_ = "";
-      /**
-       * <code>string host = 3;</code>
-       */
-      public java.lang.String getHost() {
-        java.lang.Object ref = host_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          host_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string host = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getHostBytes() {
-        java.lang.Object ref = host_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          host_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string host = 3;</code>
-       */
-      public Builder setHost(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        host_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string host = 3;</code>
-       */
-      public Builder clearHost() {
-        
-        host_ = getDefaultInstance().getHost();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string host = 3;</code>
-       */
-      public Builder setHostBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        host_ = value;
-        onChanged();
-        return this;
-      }
-
       private java.lang.Object success_ = "";
       /**
-       * <code>string success = 4;</code>
+       * <code>string success = 3;</code>
        */
       public java.lang.String getSuccess() {
         java.lang.Object ref = success_;
@@ -5168,7 +4963,7 @@ public final class StorageMessages {
         }
       }
       /**
-       * <code>string success = 4;</code>
+       * <code>string success = 3;</code>
        */
       public com.google.protobuf.ByteString
           getSuccessBytes() {
@@ -5184,7 +4979,7 @@ public final class StorageMessages {
         }
       }
       /**
-       * <code>string success = 4;</code>
+       * <code>string success = 3;</code>
        */
       public Builder setSuccess(
           java.lang.String value) {
@@ -5197,7 +4992,7 @@ public final class StorageMessages {
         return this;
       }
       /**
-       * <code>string success = 4;</code>
+       * <code>string success = 3;</code>
        */
       public Builder clearSuccess() {
         
@@ -5206,7 +5001,7 @@ public final class StorageMessages {
         return this;
       }
       /**
-       * <code>string success = 4;</code>
+       * <code>string success = 3;</code>
        */
       public Builder setSuccessBytes(
           com.google.protobuf.ByteString value) {
@@ -5222,13 +5017,13 @@ public final class StorageMessages {
 
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>bytes data = 5;</code>
+       * <code>bytes data = 4;</code>
        */
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
       /**
-       * <code>bytes data = 5;</code>
+       * <code>bytes data = 4;</code>
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -5240,80 +5035,11 @@ public final class StorageMessages {
         return this;
       }
       /**
-       * <code>bytes data = 5;</code>
+       * <code>bytes data = 4;</code>
        */
       public Builder clearData() {
         
         data_ = getDefaultInstance().getData();
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object checksum_ = "";
-      /**
-       * <code>string checksum = 6;</code>
-       */
-      public java.lang.String getChecksum() {
-        java.lang.Object ref = checksum_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          checksum_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string checksum = 6;</code>
-       */
-      public com.google.protobuf.ByteString
-          getChecksumBytes() {
-        java.lang.Object ref = checksum_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          checksum_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string checksum = 6;</code>
-       */
-      public Builder setChecksum(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        checksum_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string checksum = 6;</code>
-       */
-      public Builder clearChecksum() {
-        
-        checksum_ = getDefaultInstance().getChecksum();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string checksum = 6;</code>
-       */
-      public Builder setChecksumBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        checksum_ = value;
         onChanged();
         return this;
       }
@@ -6953,18 +6679,17 @@ public final class StorageMessages {
       "\014\n\004data\030\004 \001(\014\022\014\n\004type\030\005 \001(\t\022\020\n\010checksum\030" +
       "\006 \001(\t\022\017\n\007success\030\007 \001(\t\"T\n\014HeartbeatMsg\022\014" +
       "\n\004host\030\001 \001(\t\022\027\n\017filenameChunkId\030\002 \003(\t\022\014\n" +
-      "\004type\030\003 \001(\t\022\017\n\007success\030\004 \001(\t\"N\n\nFixInfoM" +
-      "sg\022\014\n\004host\030\001 \001(\t\022\020\n\010filename\030\002 \001(\t\022\017\n\007ch",
-      "unkId\030\003 \001(\005\022\017\n\007success\030\004 \001(\t\"n\n\nFixDataM" +
-      "sg\022\020\n\010filename\030\001 \001(\t\022\017\n\007chunkId\030\002 \001(\005\022\014\n" +
-      "\004host\030\003 \001(\t\022\017\n\007success\030\004 \001(\t\022\014\n\004data\030\005 \001" +
-      "(\014\022\020\n\010checksum\030\006 \001(\t\"\313\001\n\025StorageMessageW" +
-      "rapper\022!\n\nrequestMsg\030\001 \001(\0132\013.RequestMsgH" +
-      "\000\022\033\n\007dataMsg\030\002 \001(\0132\010.DataMsgH\000\022%\n\014heartb" +
-      "eatMsg\030\003 \001(\0132\r.HeartbeatMsgH\000\022!\n\nfixInfo" +
-      "Msg\030\004 \001(\0132\013.FixInfoMsgH\000\022!\n\nfixDataMsg\030\005" +
-      " \001(\0132\013.FixDataMsgH\000B\005\n\003msgB\022\n\020edu.usfca." +
-      "cs.dfsb\006proto3"
+      "\004type\030\003 \001(\t\022\017\n\007success\030\004 \001(\t\"R\n\nFixInfoM" +
+      "sg\022\020\n\010hostname\030\001 \001(\t\022\020\n\010filename\030\002 \001(\t\022\017",
+      "\n\007chunkId\030\003 \001(\005\022\017\n\007success\030\004 \001(\t\"N\n\nFixD" +
+      "ataMsg\022\020\n\010filename\030\001 \001(\t\022\017\n\007chunkId\030\002 \001(" +
+      "\005\022\017\n\007success\030\003 \001(\t\022\014\n\004data\030\004 \001(\014\"\313\001\n\025Sto" +
+      "rageMessageWrapper\022!\n\nrequestMsg\030\001 \001(\0132\013" +
+      ".RequestMsgH\000\022\033\n\007dataMsg\030\002 \001(\0132\010.DataMsg" +
+      "H\000\022%\n\014heartbeatMsg\030\003 \001(\0132\r.HeartbeatMsgH" +
+      "\000\022!\n\nfixInfoMsg\030\004 \001(\0132\013.FixInfoMsgH\000\022!\n\n" +
+      "fixDataMsg\030\005 \001(\0132\013.FixDataMsgH\000B\005\n\003msgB\022" +
+      "\n\020edu.usfca.cs.dfsb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -7001,13 +6726,13 @@ public final class StorageMessages {
     internal_static_FixInfoMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FixInfoMsg_descriptor,
-        new java.lang.String[] { "Host", "Filename", "ChunkId", "Success", });
+        new java.lang.String[] { "Hostname", "Filename", "ChunkId", "Success", });
     internal_static_FixDataMsg_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_FixDataMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_FixDataMsg_descriptor,
-        new java.lang.String[] { "Filename", "ChunkId", "Host", "Success", "Data", "Checksum", });
+        new java.lang.String[] { "Filename", "ChunkId", "Success", "Data", });
     internal_static_StorageMessageWrapper_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_StorageMessageWrapper_fieldAccessorTable = new

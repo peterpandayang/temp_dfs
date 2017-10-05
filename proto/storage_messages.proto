@@ -32,7 +32,7 @@ message HeartbeatMsg{
 
 
 message FixInfoMsg{
-    string host = 1;
+    string hostname = 1;
     string filename = 2;
     int32 chunkId = 3;
     string success = 4;
@@ -42,10 +42,8 @@ message FixInfoMsg{
 message FixDataMsg{
     string filename = 1;
     int32 chunkId = 2;
-    string host = 3;
-    string success = 4;
-    bytes data = 5;
-    string checksum = 6;
+    string success = 3;
+    bytes data = 4;
 }
 
 
@@ -59,4 +57,65 @@ message StorageMessageWrapper {
         FixDataMsg fixDataMsg = 5;
     }
 }
+
+
+
+
+
+//syntax = "proto3";
+//option java_package = "edu.usfca.cs.dfs.temp";
+//
+//message StoreChunk {
+//    string fileName = 1;
+//    int32 chunkId = 2;
+//    bytes data = 3;
+//    string md5 = 4;
+//}
+//
+//message RetrieveFile {
+//    string fileName = 1;
+//    int32 chunkId = 2;
+//    bytes data = 3;
+//    string md5 = 4;
+//}
+//
+//
+//message StorageMessageWrapper {
+//    oneof msg {
+//        StoreChunk storeChunkMsg = 1;
+//        RetrieveFile retrieveFileMsg = 2;
+//    }
+//}
+
+
+
+
+
+
+//message StoreChunk {
+//    string fileName = 1;
+//    int32 chunkId = 2;
+//    bytes data = 3;
+//    string storeNode1 = 4;
+//    string storeNode2 = 5;
+//    string storeNode3 = 6;
+//    string hostname = 7;
+//    string port = 8;
+//}
+
+//message RetrieveFile {
+//    string fileName = 1;
+//    string retrieveNode1 = 2;
+//    string retrieveNode2 = 3;
+//    string retrieveNode3 = 4;
+//    string hostname = 5;
+//    string port = 6;
+//}
+
+//message StorageMessageWrapper {
+//    oneof msg {
+//        StoreChunk storeChunkMsg = 1;
+//        RetrieveFile retrieveFileMsg = 2;
+//    }
+//}
 

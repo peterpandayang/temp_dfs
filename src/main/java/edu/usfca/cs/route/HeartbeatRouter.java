@@ -44,11 +44,10 @@ public class HeartbeatRouter {
 
     public void updateDataNodeStatus(){
         StorageMessages.HeartbeatMsg heartbeatMsg = msgWrapper.getHeartbeatMsg();
-        List<String> downNodes = cache.updateActiveNode(heartbeatMsg);
-        if(downNodes.size() >= 1){
+        boolean nodeDown = cache.updateActiveNode(heartbeatMsg);
+        if(nodeDown){
             // should do something if the datanode is down
             System.out.println("Some node is down... ");
-            cache.removeDownNodeInfo(downNodes);
         }
         // should update the node info
         String host = heartbeatMsg.getHost();

@@ -1,6 +1,5 @@
 package edu.usfca.cs.handler;
 
-import com.google.protobuf.ByteString;
 import edu.usfca.cs.cache.ClientCache;
 import edu.usfca.cs.io.FileIO;
 import edu.usfca.cs.route.ClientFileRetriever;
@@ -115,9 +114,8 @@ public class ClientSideHandler {
             int chunkId = 0;
             StringBuilder sb = new StringBuilder();
             while((byteread = bin.read(buffer)) != -1){
-                String string = new String(buffer, 0, byteread);
-                ByteString data = ByteString.copyFrom(buffer, 0, byteread);
-                sb.append(string);
+                String data = new String(buffer, 0, byteread);
+                sb.append(data);
                 ClientFileSender sender = new ClientFileSender(myHostname, filename, chunkId, data);
                 sender.startPostReq();
                 chunkId++;

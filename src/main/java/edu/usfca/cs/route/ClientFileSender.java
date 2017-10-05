@@ -8,7 +8,6 @@ import edu.usfca.cs.io.FileIO;
 import java.io.*;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,10 +18,10 @@ public class ClientFileSender {
     private String myHostname;
     private String filename;
     private int chunkId;
-    private ByteString data;
+    private String data;
     private FileIO io = new FileIO();
 
-    public ClientFileSender(String myHostname, String filename, int chunkId, ByteString data){
+    public ClientFileSender(String myHostname, String filename, int chunkId, String data){
         this.myHostname = myHostname;
         this.filename = filename;
         this.data = data;
@@ -40,14 +39,13 @@ public class ClientFileSender {
     public void sendPostReq() throws IOException, InterruptedException, NoSuchAlgorithmException {
         Socket toServerSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
         String host = myHostname + " " + toServerSocket.getLocalPort();
-        List<String> hosts = new ArrayList<>();
-        hosts.add(host);
-        StorageMessages.RequestMsg requestMsg
+        StorageMessages.RequestMsg.Builder builder
                 = StorageMessages.RequestMsg.newBuilder()
                 .setFilename(filename)
                 .setChunkId(chunkId)
-                .setType("post")
-                .addAllChunkIdHost(hosts).build();
+                .setType("post");
+        builder.addHostBytes(ByteString.copyFromUtf8(host));
+        StorageMessages.RequestMsg requestMsg = builder.build();
         StorageMessages.StorageMessageWrapper msgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
                         .setRequestMsg(requestMsg)
@@ -76,17 +74,18 @@ public class ClientFileSender {
     private void sendDataToDataNode(String node) throws IOException, NoSuchAlgorithmException {
         String[] nodeInfo = node.split(" ");
         Socket nodeSocket = new Socket(nodeInfo[0], Integer.parseInt(nodeInfo[1]));
-        String checksum = io.getCheckSum(data.toStringUtf8());
-        StorageMessages.DataMsg dataMsg
+        ByteString byteString = ByteString.copyFromUtf8(data);
+        String checksum = io.getCheckSum(data);
+        StorageMessages.DataMsg.Builder dataMsgBuilder
                 = StorageMessages.DataMsg.newBuilder()
                 .setChunkId(chunkId)
-                .setData(data)
+                .setData(byteString)
                 .setFilename(filename)
                 .setChecksum(checksum)
-                .setType("store").build();
+                .setType("store");
         StorageMessages.StorageMessageWrapper dataMsgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
-                        .setDataMsg(dataMsg)
+                        .setDataMsg(dataMsgBuilder.build())
                         .build();
         System.out.println("sending chunk : " + chunkId + " for file: " + filename);
         dataMsgWrapper.writeDelimitedTo(nodeSocket.getOutputStream());
