@@ -25,7 +25,9 @@ public class ServerReqRouter {
     }
 
     public void startPostReqThread(){
+        System.out.println("start the thread...");
         ServerPostReqThread thread = new ServerPostReqThread(this);
+        System.out.println("process the request...");
         thread.start();
     }
 
@@ -37,14 +39,12 @@ public class ServerReqRouter {
     public void processPostReq() throws IOException {
         cache.storeChunkInfo(msgWrapper.getRequestMsg());
         List<String> nodes = cache.getAvailableNodeName(); // the available nodes
-        StorageMessages.RequestMsg.Builder responseMsgBuilder
-                = StorageMessages.RequestMsg.newBuilder();
-        responseMsgBuilder.addAllHost(nodes);
+        StorageMessages.RequestMsg requestMsg
+                = StorageMessages.RequestMsg.newBuilder().addAllHost(nodes).build();
         StorageMessages.StorageMessageWrapper msgWrapper
                 = StorageMessages.StorageMessageWrapper.newBuilder()
-                .setRequestMsg(responseMsgBuilder)
+                .setRequestMsg(requestMsg)
                 .build();
-//        String[] clientHostInfo = requestMsg.getHost(0).split(" "); // this could be used to test
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
         socket.close();
     }
@@ -53,8 +53,18 @@ public class ServerReqRouter {
     /**
      * get the working datanode with chunkId for the client
      */
-    public void processGetReq(){
-
+    public void processGetReq() throws IOException {
+        StorageMessages.RequestMsg getMsg = msgWrapper.getRequestMsg();
+        String filename = getMsg.getFilename();
+        List<String> chunkIdAndHostList = cache.constructChunkIdAndHostList(filename);
+        StorageMessages.RequestMsg requestMsg
+                = StorageMessages.RequestMsg.newBuilder().addAllChunkIdHost(chunkIdAndHostList).build();
+        StorageMessages.StorageMessageWrapper msgWrapper
+                = StorageMessages.StorageMessageWrapper.newBuilder()
+                .setRequestMsg(requestMsg)
+                .build();
+        msgWrapper.writeDelimitedTo(socket.getOutputStream());
+        socket.close();
 
 
         // if there is mistake, should get a valid chunk to the client and get make a duplicate

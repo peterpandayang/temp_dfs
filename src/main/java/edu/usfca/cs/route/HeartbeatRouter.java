@@ -33,7 +33,7 @@ public class HeartbeatRouter {
     }
 
     public void initDataNodeStatus() throws IOException {
-        cache.initDataMapInfo(msgWrapper.getHeartbeatMsg());
+        cache.initNodeHost(msgWrapper.getHeartbeatMsg());
         socket.close();
     }
 
@@ -43,9 +43,22 @@ public class HeartbeatRouter {
     }
 
     public void updateDataNodeStatus(){
-        System.out.println("receive update info from datanode");
-
-        // should do something if the datanode is down
+        StorageMessages.HeartbeatMsg heartbeatMsg = msgWrapper.getHeartbeatMsg();
+        List<String> downNodes = cache.updateActiveNode(heartbeatMsg);
+        if(downNodes.size() >= 1){
+            // should do something if the datanode is down
+            System.out.println("Some node is down... ");
+            cache.removeDownNodeInfo(downNodes);
+        }
+        // should update the node info
+        String host = heartbeatMsg.getHost();
+        List<String> list = heartbeatMsg.getFilenameChunkIdList();
+        if(list.size() != 0){
+            cache.updateFileInfo(host, list);
+        }
+        else{
+            System.out.println("This heartbeat is empty...");
+        }
     }
 
 }

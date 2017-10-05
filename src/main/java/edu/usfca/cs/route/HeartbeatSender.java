@@ -29,20 +29,19 @@ public class HeartbeatSender {
 
     public void createHeartbeatSendThread() throws IOException {
         HeartbeatSendThread thread = new HeartbeatSendThread(this);
-        initialSend(myHost);
+        initialSend();
         thread.start();
     }
 
-    private void initialSend(String myHost) throws IOException {
+    private void initialSend() throws IOException {
         Socket socket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
         StorageMessages.HeartbeatMsg.Builder builder
                 = StorageMessages.HeartbeatMsg.newBuilder()
                 .setHost(myHost)
                 .setType("init");
-        StorageMessages.HeartbeatMsg heartbeatMsg = builder.build();
         StorageMessages.StorageMessageWrapper msgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
-                        .setHeartbeatMsg(heartbeatMsg)
+                        .setHeartbeatMsg(builder.build())
                         .build();
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
         socket.close();
@@ -60,11 +59,11 @@ public class HeartbeatSender {
             StorageMessages.HeartbeatMsg.Builder builder
                     = StorageMessages.HeartbeatMsg.newBuilder()
                     .setType("general")
+                    .setHost(myHost)
                     .addAllFilenameChunkId(filenameAndChunkId);
-            StorageMessages.HeartbeatMsg heartbeatMsg = builder.build();
             StorageMessages.StorageMessageWrapper msgWrapper =
                     StorageMessages.StorageMessageWrapper.newBuilder()
-                            .setHeartbeatMsg(heartbeatMsg)
+                            .setHeartbeatMsg(builder.build())
                             .build();
             msgWrapper.writeDelimitedTo(socket.getOutputStream());
             socket.close();

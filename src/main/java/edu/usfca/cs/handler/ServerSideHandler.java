@@ -4,11 +4,16 @@ import edu.usfca.cs.cache.GeneralCache;
 import edu.usfca.cs.cache.ServerCache;
 import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.route.HeartbeatRouter;
+import edu.usfca.cs.route.ReplicaMaintainer;
 import edu.usfca.cs.route.ServerReqRouter;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by bingkunyang on 9/24/17.
@@ -17,15 +22,36 @@ public class ServerSideHandler {
 
     ServerSocket serverSocket;
     ServerCache cache;
+    private static ThreadPoolExecutor threadPool;
 
     public ServerSideHandler(){
         cache = new ServerCache();
     }
 
+    public void initThreadPool(){
+        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+    }
+
+    public void closeThreadPool(){
+        int activeThreads = threadPool.getActiveCount();
+        while(activeThreads != 0){
+            activeThreads = threadPool.getActiveCount();
+        }
+        threadPool.shutdown();
+    }
+
     public void start() throws IOException {
+
+        initThreadPool();
+        ReplicaMaintainer maintainer = new ReplicaMaintainer(cache, threadPool);
+        maintainer.startScanningThread();
+
         System.out.println("Server start listening...");
         serverSocket = new ServerSocket(GeneralCache.SERVER_PORT);
+
         while (true) {
+            System.out.println("server is: ...");
+            System.out.println("server's hostname is: " + InetAddress.getLocalHost().getHostName());
             Socket socket = serverSocket.accept();
             StorageMessages.StorageMessageWrapper msgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
             if(msgWrapper.hasRequestMsg()){
@@ -34,8 +60,11 @@ public class ServerSideHandler {
                 if(type.equals("post")){
                     serverReqRouter.startPostReqThread();
                 }
-                else{
+                else if(type.equals("get")){
                     serverReqRouter.startGetReqThread();
+                }
+                else{
+                    // handle the put request later...
                 }
             }
             else if(msgWrapper.hasHeartbeatMsg()){
@@ -47,6 +76,10 @@ public class ServerSideHandler {
                 else{
                     heartbeatRouter.startGeneralHeartbeatThread();
                 }
+            }
+            else if(msgWrapper.hasFixInfoMsg()){
+                System.out.println("there is some fix request");
+                maintainer.startRemoveFileInfoThread(msgWrapper.getFixInfoMsg());
             }
         }
     }

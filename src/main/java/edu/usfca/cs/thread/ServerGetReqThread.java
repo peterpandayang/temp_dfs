@@ -2,6 +2,7 @@ package edu.usfca.cs.thread;
 
 import edu.usfca.cs.route.ServerReqRouter;
 
+import java.io.IOException;
 import java.net.Socket;
 
 /**
@@ -17,7 +18,11 @@ public class ServerGetReqThread extends Thread{
 
     @Override
     public void run(){
-        router.processGetReq();
+        try {
+            router.processGetReq();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

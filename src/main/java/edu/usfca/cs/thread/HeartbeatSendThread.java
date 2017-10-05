@@ -19,9 +19,7 @@ public class HeartbeatSendThread extends Thread{
     public void run(){
         try {
             sender.sendHeartbeat();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (InterruptedException | IOException e) {
             e.printStackTrace();
         }
     }

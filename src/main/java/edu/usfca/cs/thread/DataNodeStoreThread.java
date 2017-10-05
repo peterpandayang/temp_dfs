@@ -3,7 +3,9 @@ package edu.usfca.cs.thread;
 import edu.usfca.cs.handler.DataNodeHandler;
 import edu.usfca.cs.route.DataNodeDataRouter;
 
+import java.io.IOException;
 import java.net.Socket;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by bingkunyang on 9/24/17.
@@ -20,7 +22,13 @@ public class DataNodeStoreThread extends Thread{
 
     @Override
     public void run(){
-        router.storeData();
+        try {
+            router.storeData(socket);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

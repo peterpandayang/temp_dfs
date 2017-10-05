@@ -1,11 +1,18 @@
 package edu.usfca.cs.handler;
 
+import com.google.protobuf.ByteString;
+import edu.usfca.cs.cache.ClientCache;
+import edu.usfca.cs.io.FileIO;
 import edu.usfca.cs.route.ClientFileRetriever;
 import edu.usfca.cs.route.ClientFileSender;
-import edu.usfca.cs.thread.ClientPostReqThread;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by bingkunyang on 9/24/17.
@@ -13,20 +20,35 @@ import java.util.Scanner;
 public class ClientSideHandler {
     private static String myHostname;
     private static String FILE_PATH = "temp/";
+    private static ThreadPoolExecutor threadPool;
+    private ClientCache cache = new ClientCache();
+    private FileIO io = new FileIO();
 
     public ClientSideHandler(String myHostname){
         this.myHostname = myHostname;
     }
 
-    public void start() throws IOException {
+    public void start() throws IOException, InterruptedException, NoSuchAlgorithmException {
         startClient();
+    }
+
+    public void initThreadPool(){
+        threadPool = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+    }
+
+    public void closeThreadPool(){
+        int activeThreads = threadPool.getActiveCount();
+        while(activeThreads != 0){
+            activeThreads = threadPool.getActiveCount();
+        }
+        threadPool.shutdown();
     }
 
     /**
      * This is preprocessing part for the usr's input
      * @throws IOException
      */
-    private void startClient() throws IOException {
+    private void startClient() throws IOException, InterruptedException, NoSuchAlgorithmException {
         Scanner scanner = new Scanner(System.in);
         String line = "";
         while (true) {
@@ -42,11 +64,14 @@ public class ClientSideHandler {
                     splitFileAndSend(filename);
                 }
                 else if (method.equals("get")){
-                    ClientFileRetriever retriever = new ClientFileRetriever(filename);
-                    retriever.startGetReqThread();
+                    // this will do the retrieval in parallel
+                    initThreadPool();
+                    ClientFileRetriever retriever = new ClientFileRetriever(filename, myHostname, threadPool);
+                    retriever.startGetReq();
+                    closeThreadPool();
                 }
                 else if(method.equals("put")){
-
+                    // to be handled...
                 }
                 else{
 
@@ -79,7 +104,7 @@ public class ClientSideHandler {
      * @param filename
      * @throws IOException
      */
-    private void splitFileAndSend(String filename) throws IOException {
+    private void splitFileAndSend(String filename) throws IOException, InterruptedException, NoSuchAlgorithmException {
         // check if the file exist
         File file = new File(FILE_PATH + filename);
         if(file.exists()){
@@ -88,11 +113,24 @@ public class ClientSideHandler {
             BufferedInputStream bin = new BufferedInputStream(inputStream);
             int byteread;
             int chunkId = 0;
+            StringBuilder sb = new StringBuilder();
             while((byteread = bin.read(buffer)) != -1){
-                String data = new String(buffer, 0, byteread);
+                String string = new String(buffer, 0, byteread);
+                ByteString data = ByteString.copyFrom(buffer, 0, byteread);
+                sb.append(string);
                 ClientFileSender sender = new ClientFileSender(myHostname, filename, chunkId, data);
-                sender.startPostReqThread();
+                sender.startPostReq();
                 chunkId++;
+            }
+            String dataString = new String(Files.readAllBytes(Paths.get(file.getPath())));
+            if(sb.toString().equals(dataString)){
+                System.out.println("merge successful");
+                String checkSum = io.getCheckSum(dataString);
+                cache.setFirstCheckSum(checkSum);
+                System.out.println("initial checksum is: " + checkSum);
+            }
+            else{
+                System.out.println("merge fail");
             }
         }
         else{

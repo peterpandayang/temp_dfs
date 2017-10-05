@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by bingkunyang on 9/24/17.
  */
 public class DataNodeCache {
 
+    public static String PATH = "datanode";
     private Map<String, List<Integer>> dataMap;
 
     public DataNodeCache(){
-        dataMap = new HashMap<>();
+        dataMap = new ConcurrentHashMap<>();
     }
 
     public List<String> getFilenameAndChunkId(){
@@ -28,7 +30,18 @@ public class DataNodeCache {
                 rst.add(temp);
             }
         }
+        dataMap.clear();
         return rst;
+    }
+
+    public void updateFileInfo(String filename, int chunkId){
+        if(!dataMap.containsKey(filename)){
+            dataMap.put(filename, new ArrayList());
+        }
+        dataMap.get(filename).add(chunkId);
+
+        // should write to the local disk as well...
+
     }
 
 }
