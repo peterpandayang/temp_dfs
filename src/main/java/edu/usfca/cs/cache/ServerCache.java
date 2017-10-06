@@ -169,14 +169,14 @@ public class ServerCache {
         // <host1(valid chunk), host2(replica destination)>
         ConcurrentHashMap<String, List<String>> map = new ConcurrentHashMap<>();
         for(String filename : dataMap.keySet()){
-            if(dataMap.get(filename).size() == GeneralCache.DEFAULT_REPLICAS){
-                System.out.println("file " + filename + " has enough chunk ");
-                continue;
-            }
             TreeMap treeMap = dataMap.get(filename);
             for(Object chunkId : treeMap.keySet()){
                 // current host that hold the chunk
                 List<String> hosts = (List<String>) treeMap.get(chunkId);
+                System.out.println("file " + filename + " has duplica size of: " + hosts.size());
+                if(hosts.size() == GeneralCache.DEFAULT_REPLICAS){
+                    continue;
+                }
                 List<String> temp = new ArrayList<>(active);
                 for(String host : hosts){
                     temp.remove(host);
