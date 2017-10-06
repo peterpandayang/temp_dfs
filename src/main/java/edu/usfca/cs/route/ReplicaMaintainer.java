@@ -29,7 +29,7 @@ public class ReplicaMaintainer {
 
     public void scanAndFix() throws InterruptedException {
         while(true){
-            Thread.sleep(10000);
+            Thread.sleep(20000);
             System.out.println("start scanning...");
             cache.getMaintainMap(fixMap);
             System.out.println("waiting for chunk to be fixed...");

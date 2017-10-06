@@ -190,7 +190,7 @@ public class ServerCache {
 //                System.out.println("temp size is : " + temp.size());
                 String askingHost = temp.get(random.nextInt(temp.size()));
                 rst.add(askingHost);
-                System.out.println("Host " + askingHost + " will ask host " + askedHost + " for file " + filename + "'s " + chunkId + " chunk" );
+                System.out.println("Host " + askingHost + " will ask host " + askedHost + " for file " + filename + "'s "  + " chunk" + chunkId);
                 String filenameChunkId = filename + " " + chunkId;
                 map.put(filenameChunkId, rst);
             }
