@@ -15,7 +15,7 @@ public class ReplicaMaintainer {
 
     private ServerCache cache;
     private ThreadPoolExecutor threadPool;
-    private ConcurrentHashMap<String, List<String>> fixMap;
+    private ConcurrentHashMap<String, List<String>> fixMap = new ConcurrentHashMap<>();
 
     public ReplicaMaintainer(ServerCache cache, ThreadPoolExecutor threadPool){
         this.cache = cache;
@@ -31,10 +31,10 @@ public class ReplicaMaintainer {
         while(true){
             Thread.sleep(10000);
             System.out.println("start scanning...");
-            fixMap = cache.getMaintainMap();
+            cache.getMaintainMap(fixMap);
             System.out.println("waiting for chunk to be fixed...");
             int counter = 0;
-            if(fixMap == null){
+            if(fixMap.size() == 0){
                 System.out.println("no duplica needs to be fixed");
             }
             else{
@@ -42,16 +42,16 @@ public class ReplicaMaintainer {
                     System.out.println("still waiting...");
                     Thread.sleep(5000);
                     counter++;
+                    if(fixMap.size() == 0){
+                        System.out.println("all duplica has been fixed");
+                    }
                     if(counter == 3){
                         System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
                         break;
                     }
                 }
             }
-            if(fixMap.size() == 0){
-                System.out.println("all chunk has been fixed");
-            }
-            else{
+            if(fixMap.size() != 0){
                 System.out.println("scan again for insufficient chunk duplica");
             }
         }
