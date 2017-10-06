@@ -99,6 +99,7 @@ public class ServerCache {
                 lastHeartbeat.remove(currHost);
                 System.out.println("remove host " + currHost + " from the list");
             }
+            System.out.println("we have active nodes of size of: " + active.size());
             for(int i = 0; i <= active.size() - 1; i++){
                 System.out.println("active node is: " + active.get(i));
             }
@@ -182,9 +183,9 @@ public class ServerCache {
                 }
                 List<String> rst = new ArrayList<>();
                 String askedHost = hosts.get(random.nextInt(hosts.size()));
-                System.out.println("hosts size is: " + hosts.size());
+//                System.out.println("hosts size is: " + hosts.size());
                 rst.add(askedHost);
-                System.out.println("temp size is : " + temp.size());
+//                System.out.println("temp size is : " + temp.size());
                 String askingHost = temp.get(random.nextInt(temp.size()));
                 rst.add(askingHost);
                 System.out.println("Host " + askingHost + " will ask host " + askedHost + " for file " + filename + "'s " + chunkId + " chunk" );
