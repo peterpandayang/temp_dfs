@@ -27,7 +27,7 @@ public class ReplicaMaintainer {
 
     public void scanAndFix() throws InterruptedException {
         while(true){
-            Thread.sleep(10000);
+            Thread.sleep(20000);
             Map<String, List<String>> fixMap = cache.getMaintainMap();
 
         }
