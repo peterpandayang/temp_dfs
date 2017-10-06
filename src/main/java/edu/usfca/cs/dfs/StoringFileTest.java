@@ -14,7 +14,7 @@ import java.nio.file.StandardOpenOption;
 public class StoringFileTest {
 
     public static void main(String[] args) throws IOException {
-        String oneFile = "~/home2/bigdata/testfile";
+        String oneFile = "~/home2/byang14/bigdata/testfile";
         File file = new File(oneFile);
         Path filePath = Paths.get(file.getPath());
         String content = "This is just a test";
