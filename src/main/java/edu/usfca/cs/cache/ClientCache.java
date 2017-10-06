@@ -10,7 +10,7 @@ public class ClientCache {
     public static String RETRIEVE_TEMP_PATH = "retrieveTemp/";
     public static String RETRIEVE_PATH = "retrieve/";
     private static String firstCheckSum = "";
-    private static ConcurrentHashMap<String, String> checkSumMap;
+    private static ConcurrentHashMap<String, String> checkSumMap = new ConcurrentHashMap<>();
 
     public void setFirstCheckSum(String s){
         this.firstCheckSum = s;
