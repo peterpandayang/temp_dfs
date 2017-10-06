@@ -21,6 +21,10 @@ public class FileIO {
         if(!Files.exists(filename)){
             Files.createFile(filename);
         }
+        else{
+            Files.delete(filename);
+            Files.createFile(filename);
+        }
         Files.write(filename, data.getBytes(), StandardOpenOption.APPEND);
 
     }
