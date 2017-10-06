@@ -8,4 +8,5 @@ public class GeneralCache {
     public static final String SERVER_HOSTNAME = "bass01.cs.usfca.edu";
     public static final int SERVER_PORT = 38000;
     public static final int DEFAULT_REPLICAS = 3;
+    public static final String pathPrefix = "../../../../home2/byang14/bigdata/";
 }

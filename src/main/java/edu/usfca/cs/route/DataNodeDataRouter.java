@@ -53,7 +53,9 @@ public class DataNodeDataRouter {
         String data = dataMsg.getData().toStringUtf8();
         checker.check(io.getCheckSum(data), dataMsg.getChecksum(), "network", "datanode");
         // later I will not use the port as the path but use hostname.
-        String folderPath = DataNodeCache.PATH + "/" + port + "/files/" + filename;
+//        String folderPath = DataNodeCache.PATH + "/" + port + "/files/" + filename;
+        String folderPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files/" + filename;
+
         if(!Files.exists(Paths.get(folderPath))){
             Files.createDirectories(Paths.get(folderPath));
         }
@@ -92,7 +94,8 @@ public class DataNodeDataRouter {
         String filename = dataMsg.getFilename();
         int chunkId = dataMsg.getChunkId();
         // later I will not use the port as the path but use hostname.
-        String folderPath = DataNodeCache.PATH + "/" + port + "/files/" + filename;
+//        String folderPath = DataNodeCache.PATH + "/" + port + "/files/" + filename;
+        String folderPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files/" + filename;
         Files.createDirectories(Paths.get(folderPath));
         File file = new File(folderPath + "/" + chunkId);
         File checkSum = new File(folderPath + "/" + chunkId + ".checksum");

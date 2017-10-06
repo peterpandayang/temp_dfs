@@ -13,6 +13,7 @@ public class DataNodeCache {
 
     public static String PATH = "datanode";
     private Map<String, List<Integer>> dataMap;
+    public static final String pathPrefix = GeneralCache.pathPrefix;
 
     public DataNodeCache(){
         dataMap = new ConcurrentHashMap<>();
