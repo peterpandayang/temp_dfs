@@ -162,6 +162,7 @@ public class ServerCache {
     }
 
     public Map<String, List<String>> getMaintainMap(){
+        
         // this method will get the chunk that needs to be fixed and
         // the value in the map contains the following information:
         // <host1(valid chunk), host2(replica destination)>
