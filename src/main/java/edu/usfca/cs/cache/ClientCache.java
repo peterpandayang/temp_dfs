@@ -16,8 +16,8 @@ public class ClientCache {
         this.firstCheckSum = s;
     }
 
-    public String getFirstCheckSum(){
-        return firstCheckSum;
+    public String getFileCheckSum(String filename){
+        return checkSumMap.get(filename);
     }
 
     public void addToCheckSumMap(String filename, String firstCheckSum){

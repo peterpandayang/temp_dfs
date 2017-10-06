@@ -91,6 +91,10 @@ public class ClientFileRetriever {
         if(!Files.exists(filePath)){
             Files.createFile(filePath);
         }
+        else{
+            Files.delete(filePath);
+            Files.createFile(filePath);
+        }
         DirectoryStream<Path> fileList = Files.newDirectoryStream(Paths.get(copyFromPath));
 
         Iterator<Path> iterator = fileList.iterator();
@@ -123,7 +127,7 @@ public class ClientFileRetriever {
         else{
             System.out.println("retrieve failed :(");
             System.out.println("retrieved file's checksum is: " + checkSum);
-            System.out.println("original file's checksum is: " + cache.getFirstCheckSum());
+            System.out.println("original file's checksum is: " + cache.getFileCheckSum(filename));
         }
 
     }
