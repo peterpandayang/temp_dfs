@@ -87,8 +87,9 @@ public class ServerCache {
             for(int i = 0; i <= active.size() - 1; i++){
                 long prevTime = lastHeartbeat.get(active.get(i));
                 long diff = (currentTime - prevTime) / 1000;
-                if(diff > 15){
+                if(diff > 10){
                     removeList.add(active.get(i));
+                    removeDownNodeChunkInfo(active.get(i));
                     hasDown = true;
                 }
             }
@@ -107,6 +108,19 @@ public class ServerCache {
 
         }
         return hasDown;
+    }
+
+    private void removeDownNodeChunkInfo(String host) {
+        for(String filename : dataMap.keySet()){
+            TreeMap map = dataMap.get(filename);
+            for(Object chunkId : map.keySet()){
+                List<String> list = (List<String>) map.get(chunkId);
+                if(list.contains(host)){
+                    list.remove(host);
+                    System.out.println("File " + filename + "'s " + "chunk " + chunkId + "is losing one duplica");
+                }
+            }
+        }
     }
 
     public synchronized void updateFileInfo(String host, List<String> list) {
