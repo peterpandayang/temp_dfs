@@ -63,7 +63,7 @@ public class ServerSideHandler {
                 }
             }
             else if(msgWrapper.hasHeartbeatMsg()){
-                HeartbeatRouter heartbeatRouter = new HeartbeatRouter(socket, cache, msgWrapper);
+                HeartbeatRouter heartbeatRouter = new HeartbeatRouter(socket, cache, msgWrapper, threadPool);
                 String type = msgWrapper.getHeartbeatMsg().getType();
                 if(type.equals("init")){
                     heartbeatRouter.startInitHeartbeatThread();

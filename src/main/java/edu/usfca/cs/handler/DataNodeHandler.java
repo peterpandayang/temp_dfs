@@ -80,6 +80,7 @@ public class DataNodeHandler {
                 dataNodeFixRouter.startReqFixThread();
             }
             else if(msgWrapper.hasFixDataMsg()){ // current datanode will proved the replica
+                System.out.println("get the fix data request from come datanode");
                 DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper);
                 dataNodeFixRouter.startResFixThread();
             }

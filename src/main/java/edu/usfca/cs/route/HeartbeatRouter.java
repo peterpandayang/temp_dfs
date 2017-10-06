@@ -8,6 +8,7 @@ import edu.usfca.cs.thread.ServerInitHeartbeatThread;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by bingkunyang on 9/24/17.
@@ -20,16 +21,19 @@ public class HeartbeatRouter {
     private Socket socket;
     private ServerCache cache;
     private StorageMessages.StorageMessageWrapper msgWrapper;
+    private ThreadPoolExecutor threadPool;
 
-    public HeartbeatRouter(Socket socket, ServerCache cache, StorageMessages.StorageMessageWrapper msgWrapper) {
+    public HeartbeatRouter(Socket socket, ServerCache cache, StorageMessages.StorageMessageWrapper msgWrapper, ThreadPoolExecutor threadPool) {
         this.socket = socket;
         this.cache = cache;
         this.msgWrapper = msgWrapper;
+        this.threadPool = threadPool;
     }
 
     public void startInitHeartbeatThread(){
         ServerInitHeartbeatThread thread = new ServerInitHeartbeatThread(this);
-        thread.start();
+//        thread.start();
+        threadPool.execute(thread);
     }
 
     public void initDataNodeStatus() throws IOException {
@@ -39,7 +43,8 @@ public class HeartbeatRouter {
 
     public void startGeneralHeartbeatThread(){
         ServerGeneralHeartbeatThread thread = new ServerGeneralHeartbeatThread(this);
-        thread.start();
+//        thread.start();
+        threadPool.execute(thread);
     }
 
     public void updateDataNodeStatus(){

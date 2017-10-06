@@ -12,11 +12,11 @@ import java.net.Socket;
  */
 public class DataNodeFixRouter {
 
-    private Socket toServerSocket;  // this is socket from server to datanode;
+    private Socket socket;  // this is socket from server to datanode;
     private StorageMessages.StorageMessageWrapper msgWrapper;
 
     public DataNodeFixRouter(Socket socket, StorageMessages.StorageMessageWrapper msgWrapper){
-        this.toServerSocket = socket;
+        this.socket = socket;
         this.msgWrapper = msgWrapper;
     }
 
@@ -37,6 +37,7 @@ public class DataNodeFixRouter {
             String host = fixInfoMsg.getHost();
             System.out.println("get the request of fixing " + filenameChunkId + " from " + host);
             // construct the message to another datanode here...
+            // this is toDataNodeSocket...
 
 
 
@@ -54,8 +55,8 @@ public class DataNodeFixRouter {
                 StorageMessages.StorageMessageWrapper.newBuilder()
                         .setFixInfoMsg(fixInfoMsg1)
                         .build();
-        msgWrapper.writeDelimitedTo(toServerSocket.getOutputStream());
-        toServerSocket.close();
+        msgWrapper.writeDelimitedTo(socket.getOutputStream());
+        socket.close();
     }
 
 
@@ -67,8 +68,15 @@ public class DataNodeFixRouter {
     /**
      * prodigin other datanode with current replicas
      */
-    public void startRequested(){
+    public void startRequested() throws IOException {
+        System.out.println("start processing fixing data request");
+        if(msgWrapper.hasFixInfoMsg()){
 
+        }
+        else{
+            System.out.println("Nothing in the message wrapper");
+        }
+        socket.close();
     }
 
 
