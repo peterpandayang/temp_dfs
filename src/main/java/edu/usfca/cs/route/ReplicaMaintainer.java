@@ -86,32 +86,40 @@ public class ReplicaMaintainer {
             String askedHost = hosts.get(0);
             String askingHost = hosts.get(1);
             String[] askingHosts = askingHost.split(" ");
-            Socket socket = new Socket(askingHosts[0], Integer.parseInt(askingHosts[1]));
-            StorageMessages.FixInfoMsg  fixInfoMsg =
-                    StorageMessages.FixInfoMsg.newBuilder()
-                    .setFilenameChunkId(filenameChunkId)
-                    .setHost(askedHost).build();
-            StorageMessages.StorageMessageWrapper msgWrapper =
-                    StorageMessages.StorageMessageWrapper.newBuilder()
-                            .setFixInfoMsg(fixInfoMsg)
-                            .build();
-            msgWrapper.writeDelimitedTo(socket.getOutputStream());
-            // get response from the server
-            StorageMessages.StorageMessageWrapper returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
-            int attempt = 0;
-            while(returnMsgWrapper == null && attempt <= 999){
-                attempt++;
-                returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
-                Thread.sleep(10);
-            }
-            StorageMessages.RequestMsg returnRequestMsg = null;
-            if(returnMsgWrapper != null){
-                System.out.println("get response from the fixing datanode...");
-                returnRequestMsg = returnMsgWrapper.getRequestMsg();
-            }
+            try {
+                Socket socket = new Socket(askingHosts[0], Integer.parseInt(askingHosts[1]));
+                StorageMessages.FixInfoMsg fixInfoMsg =
+                        StorageMessages.FixInfoMsg.newBuilder()
+                                .setFilenameChunkId(filenameChunkId)
+                                .setHost(askedHost).build();
+                StorageMessages.StorageMessageWrapper msgWrapper =
+                        StorageMessages.StorageMessageWrapper.newBuilder()
+                                .setFixInfoMsg(fixInfoMsg)
+                                .build();
+                msgWrapper.writeDelimitedTo(socket.getOutputStream());
+                // get response from the server
+                StorageMessages.StorageMessageWrapper returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
+                int attempt = 0;
+                while (returnMsgWrapper == null && attempt <= 999) {
+                    attempt++;
+                    returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
+                    Thread.sleep(10);
+                }
+                StorageMessages.RequestMsg returnRequestMsg = null;
+                if (returnMsgWrapper != null) {
+                    System.out.println("get response from the fixing datanode...");
+                    returnRequestMsg = returnMsgWrapper.getRequestMsg();
+                }
 
-//            Thread.sleep(1000);
-            socket.close();
+                //            Thread.sleep(1000);
+                socket.close();
+            }
+            catch (java.net.ConnectException e){
+                System.out.println("The node" + askingHost + " is down...");
+            }
+            finally{
+                continue;
+            }
         }
 
         // should have all the response from the datanode even of they do not fix it!!!

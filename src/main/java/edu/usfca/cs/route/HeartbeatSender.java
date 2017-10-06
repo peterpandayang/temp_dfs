@@ -46,29 +46,37 @@ public class HeartbeatSender {
                         .build();
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
         socket.close();
-
     }
 
     public void sendHeartbeat() throws InterruptedException, IOException {
         while(true){
             Thread.sleep(5000);
-            Socket socket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
-            List<String> filenameAndChunkId = cache.getFilenameAndChunkId();
+            try{
+                Socket socket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
+                List<String> filenameAndChunkId = cache.getFilenameAndChunkId();
 //            if(filenameAndChunkId.size() == 0){
 //                continue;
 //            }
-            StorageMessages.HeartbeatMsg.Builder builder
-                    = StorageMessages.HeartbeatMsg.newBuilder()
-                    .setType("general")
-                    .setHost(myHost)
-                    .addAllFilenameChunkId(filenameAndChunkId);
-            StorageMessages.HeartbeatMsg heartbeatMsg = builder.build();
-            StorageMessages.StorageMessageWrapper msgWrapper =
-                    StorageMessages.StorageMessageWrapper.newBuilder()
-                            .setHeartbeatMsg(heartbeatMsg)
-                            .build();
-            msgWrapper.writeDelimitedTo(socket.getOutputStream());
-            socket.close();
+                StorageMessages.HeartbeatMsg.Builder builder
+                        = StorageMessages.HeartbeatMsg.newBuilder()
+                        .setType("general")
+                        .setHost(myHost)
+                        .addAllFilenameChunkId(filenameAndChunkId);
+                StorageMessages.HeartbeatMsg heartbeatMsg = builder.build();
+                StorageMessages.StorageMessageWrapper msgWrapper =
+                        StorageMessages.StorageMessageWrapper.newBuilder()
+                                .setHeartbeatMsg(heartbeatMsg)
+                                .build();
+                msgWrapper.writeDelimitedTo(socket.getOutputStream());
+                socket.close();
+            }
+            catch (java.net.ConnectException e){
+                System.out.println("The controller is down...");
+                Thread.sleep(5000);
+            }
+            finally{
+                continue;
+            }
         }
     }
 
