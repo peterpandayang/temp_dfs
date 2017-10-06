@@ -117,7 +117,7 @@ public class ServerCache {
                 List<String> list = (List<String>) map.get(chunkId);
                 if(list.contains(host)){
                     list.remove(host);
-                    System.out.println("File " + filename + "'s " + "chunk " + chunkId + "is losing one duplica");
+                    System.out.println("File " + filename + "'s " + "chunk " + chunkId + " is losing one duplica");
                 }
             }
         }
@@ -164,32 +164,28 @@ public class ServerCache {
     public Map<String, List<String>> getMaintainMap(){
         // this method will get the chunk that needs to be fixed and
         // the value in the map contains the following information:
-        // <host1(valid chunk), host2(replica destination), ...>
+        // <host1(valid chunk), host2(replica destination)>
         Map<String, List<String>> map = new HashMap<>();
         for(String filename : dataMap.keySet()){
             TreeMap treeMap = dataMap.get(filename);
-            for(Object id : treeMap.keySet()){
-                int chunkId = (int)id;
+            for(Object chunkId : treeMap.keySet()){
+                // current host that hold the chunk
                 List<String> hosts = (List<String>) treeMap.get(chunkId);
-                if(hosts.size() != Math.min(active.size(), 3)){
-                    int i = random.nextInt(hosts.size());
-                    String askedHost = hosts.get(i);
-                    List<String> fixList = new ArrayList<>();
-                    fixList.add(askedHost);
-                    while(fixList.size() != Math.min(active.size(), 3)){
-                        i = random.nextInt(active.size());
-                        String askingHost = active.get(i);
-                        if(!fixList.contains(askingHost) && !hosts.contains(askingHost)){
-                            fixList.add(askingHost);
-                        }
-                    }
-                    String filenameChunkId = filename + " " + chunkId;
-                    map.put(filenameChunkId, fixList);
+                List<String> temp = new ArrayList<>(active);
+                for(String host : hosts){
+                    temp.remove(host);
                 }
+                List<String> rst = new ArrayList<>();
+                String askedHost = hosts.get(random.nextInt(hosts.size()));
+                rst.add(askedHost);
+                String askingHost = temp.get(random.nextInt(temp.size()));
+                rst.add(askingHost);
+                System.out.println("Host " + askingHost + " will ask host " + askedHost + " for file " + filename + "'s " + chunkId + " chunk" );
+                String filenameChunkId = filename + " " + chunkId;
+                map.put(filenameChunkId, rst);
             }
         }
         return map;
     }
-
 
 }

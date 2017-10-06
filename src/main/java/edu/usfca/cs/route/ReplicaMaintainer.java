@@ -26,11 +26,11 @@ public class ReplicaMaintainer {
     }
 
     public void scanAndFix() throws InterruptedException {
-//        while(true){
-//            Thread.sleep(10000);
-//            Map<String, List<String>> fixMap = cache.getMaintainMap();
-//            for(String s : )
-//        }
+        while(true){
+            Thread.sleep(10000);
+            Map<String, List<String>> fixMap = cache.getMaintainMap();
+            
+        }
     }
 
 }
