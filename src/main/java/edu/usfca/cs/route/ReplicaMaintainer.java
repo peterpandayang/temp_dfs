@@ -5,6 +5,7 @@ import edu.usfca.cs.thread.ServerScanningThread;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -14,6 +15,7 @@ public class ReplicaMaintainer {
 
     private ServerCache cache;
     private ThreadPoolExecutor threadPool;
+    private ConcurrentHashMap<String, List<String>> fixMap;
 
     public ReplicaMaintainer(ServerCache cache, ThreadPoolExecutor threadPool){
         this.cache = cache;
@@ -27,10 +29,25 @@ public class ReplicaMaintainer {
 
     public void scanAndFix() throws InterruptedException {
         while(true){
-            Thread.sleep(20000);
+            Thread.sleep(10000);
             System.out.println("start scanning...");
-            Map<String, List<String>> fixMap = cache.getMaintainMap();
-
+            fixMap = cache.getMaintainMap();
+            System.out.println("waiting for chunk to be fixed...");
+            int counter = 0;
+            while(fixMap.size() != 0){
+                System.out.println("still waiting...");
+                Thread.sleep(5000);
+                counter++;
+                if(counter == 3){
+                    System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
+                }
+            }
+            if(fixMap.size() == 0){
+                System.out.println("all chunk has been fixed");
+            }
+            else{
+                System.out.println("scan again for insufficient chunk duplica");
+            }
         }
     }
 

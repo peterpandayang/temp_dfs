@@ -100,9 +100,9 @@ public class ServerCache {
                 System.out.println("remove host " + currHost + " from the list");
             }
             System.out.println("we have active nodes of size of: " + active.size());
-            for(int i = 0; i <= active.size() - 1; i++){
-//                System.out.println("active node is: " + active.get(i));
-            }
+//            for(int i = 0; i <= active.size() - 1; i++){
+////                System.out.println("active node is: " + active.get(i));
+//            }
         }
         else{
             // the shutdown node restart...
@@ -162,12 +162,12 @@ public class ServerCache {
         return rst;
     }
 
-    public Map<String, List<String>> getMaintainMap(){
+    public ConcurrentHashMap<String, List<String>> getMaintainMap(){
 
         // this method will get the chunk that needs to be fixed and
         // the value in the map contains the following information:
         // <host1(valid chunk), host2(replica destination)>
-        Map<String, List<String>> map = new HashMap<>();
+        ConcurrentHashMap<String, List<String>> map = new ConcurrentHashMap<>();
         for(String filename : dataMap.keySet()){
             if(dataMap.get(filename).size() == GeneralCache.DEFAULT_REPLICAS){
                 System.out.println("file " + filename + " has enough chunk ");
