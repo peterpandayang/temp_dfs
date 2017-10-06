@@ -193,7 +193,7 @@ public class ServerCache {
                 map.put(filenameChunkId, rst);
             }
         }
-        return map;
+        return map.size() == 0 ? null : map;
     }
 
 }

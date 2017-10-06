@@ -34,13 +34,18 @@ public class ReplicaMaintainer {
             fixMap = cache.getMaintainMap();
             System.out.println("waiting for chunk to be fixed...");
             int counter = 0;
-            while(fixMap.size() != 0){
-                System.out.println("still waiting...");
-                Thread.sleep(5000);
-                counter++;
-                if(counter == 3){
-                    System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
-                    break;
+            if(fixMap == null){
+                System.out.println("no duplica needs to be fixed");
+            }
+            else{
+                while(fixMap.size() != 0){
+                    System.out.println("still waiting...");
+                    Thread.sleep(5000);
+                    counter++;
+                    if(counter == 3){
+                        System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
+                        break;
+                    }
                 }
             }
             if(fixMap.size() == 0){
