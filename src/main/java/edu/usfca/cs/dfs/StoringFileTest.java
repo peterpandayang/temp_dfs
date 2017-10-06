@@ -14,9 +14,12 @@ import java.nio.file.StandardOpenOption;
 public class StoringFileTest {
 
     public static void main(String[] args) throws IOException {
-        String oneFile = "~/home2/byang14/bigdata/testfile";
+        String oneFile = "../../../../home2/byang14/bigdata/testfile";
         File file = new File(oneFile);
         Path filePath = Paths.get(file.getPath());
+        if(Files.exists(filePath)){
+            Files.createDirectories(filePath);
+        }
         String content = "This is just a test";
         Files.write(filePath, content.getBytes(), StandardOpenOption.APPEND);
     }
