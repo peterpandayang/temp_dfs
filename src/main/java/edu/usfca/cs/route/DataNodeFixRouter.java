@@ -6,6 +6,7 @@ import edu.usfca.cs.thread.RequestingFixThread;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by bingkunyang on 9/24/17.
@@ -14,15 +15,20 @@ public class DataNodeFixRouter {
 
     private Socket socket;  // this is socket from server to datanode;
     private StorageMessages.StorageMessageWrapper msgWrapper;
+    private ThreadPoolExecutor threadPool;
 
-    public DataNodeFixRouter(Socket socket, StorageMessages.StorageMessageWrapper msgWrapper){
+    public DataNodeFixRouter(Socket socket, StorageMessages.StorageMessageWrapper msgWrapper, ThreadPoolExecutor threadPool){
         this.socket = socket;
         this.msgWrapper = msgWrapper;
+        this.threadPool = threadPool;
     }
+
+
 
     public void startReqFixThread(){
         RequestingFixThread thread = new RequestingFixThread(this);
-        thread.start();
+//        thread.start();
+        threadPool.execute(thread);
     }
 
     /**
@@ -38,7 +44,7 @@ public class DataNodeFixRouter {
             System.out.println("get the request of fixing " + filenameChunkId + " from " + host);
             // construct the message to another datanode here...
             // this is toDataNodeSocket...
-
+            
 
 
 
@@ -62,7 +68,8 @@ public class DataNodeFixRouter {
 
     public void startResFixThread(){
         RequestedFixThread thread = new RequestedFixThread(this);
-        thread.start();
+//        thread.start();
+        threadPool.execute(thread);
     }
 
     /**
@@ -70,7 +77,8 @@ public class DataNodeFixRouter {
      */
     public void startRequested() throws IOException {
         System.out.println("start processing fixing data request");
-        if(msgWrapper.hasFixInfoMsg()){
+        if(msgWrapper.hasFixDataMsg()){
+            System.out.println("there is request for fixing data replica");
 
         }
         else{
