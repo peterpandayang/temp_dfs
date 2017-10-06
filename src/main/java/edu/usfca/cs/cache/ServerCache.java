@@ -174,7 +174,7 @@ public class ServerCache {
             for(Object chunkId : treeMap.keySet()){
                 // current host that hold the chunk
                 List<String> hosts = (List<String>) treeMap.get(chunkId);
-                System.out.println("file " + filename + " has duplica size of: " + hosts.size());
+                System.out.println("file " + filename + "'s chunk " + chunkId +" has duplica size of: " + hosts.size());
                 if(hosts.size() == GeneralCache.DEFAULT_REPLICAS){
                     continue;
                 }

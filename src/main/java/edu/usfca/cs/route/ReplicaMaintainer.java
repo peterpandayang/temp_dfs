@@ -1,8 +1,11 @@
 package edu.usfca.cs.route;
 
 import edu.usfca.cs.cache.ServerCache;
+import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.thread.ServerScanningThread;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,7 +30,7 @@ public class ReplicaMaintainer {
         threadPool.execute(thread);
     }
 
-    public void scanAndFix() throws InterruptedException {
+    public void scanAndFix() throws InterruptedException, IOException {
         while(true){
             Thread.sleep(20000);
             System.out.println("start scanning...");
@@ -38,22 +41,47 @@ public class ReplicaMaintainer {
                 System.out.println("no duplica needs to be fixed");
             }
             else{
-                while(fixMap.size() != 0){
-                    System.out.println("still waiting...");
-                    Thread.sleep(5000);
-                    counter++;
+//                while(fixMap.size() != 0){
+//                    System.out.println("still waiting...");
+//                    Thread.sleep(5000);
+//                    counter++;
+                if(fixMap.size() != 0){
+                    sendFixInfo(fixMap);
                     if(fixMap.size() == 0){
                         System.out.println("all duplica has been fixed");
-                    }
-                    if(counter == 3){
-                        System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
                         break;
                     }
+//                    if(counter == 3){
+//                        System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
+//                        break;
+//                    }
                 }
             }
             if(fixMap.size() != 0){
                 System.out.println("scan again for insufficient chunk duplica");
             }
+        }
+    }
+
+    private void sendFixInfo(ConcurrentHashMap<String, List<String>> fixMap) throws IOException, InterruptedException {
+        int fixNumber = fixMap.size();
+        for(String filenameChunkId : fixMap.keySet()){
+            List<String> hosts = fixMap.get(filenameChunkId);
+            String askedHost = hosts.get(0);
+            String askingHost = hosts.get(1);
+            String[] askingHosts = askingHost.split(" ");
+            Socket socket = new Socket(askingHosts[0], Integer.parseInt(askingHosts[1]));
+            StorageMessages.FixInfoMsg  fixInfoMsg =
+                    StorageMessages.FixInfoMsg.newBuilder()
+                    .setFilenameChunkId(filenameChunkId)
+                    .setHost(askedHost).build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                            .setFixInfoMsg(fixInfoMsg)
+                            .build();
+            msgWrapper.writeDelimitedTo(socket.getOutputStream());
+            Thread.sleep(1000);
+            socket.close();
         }
     }
 

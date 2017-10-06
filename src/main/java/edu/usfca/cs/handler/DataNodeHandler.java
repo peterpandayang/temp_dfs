@@ -75,6 +75,7 @@ public class DataNodeHandler {
                 continue;
             }
             else if(msgWrapper.hasFixInfoMsg()){ // current datanode will ask other datanode for replica
+                System.out.println("get the fix info from Controller...");
                 DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper);
                 dataNodeFixRouter.startReqFixThread();
             }

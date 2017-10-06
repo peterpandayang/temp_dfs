@@ -32,18 +32,16 @@ message HeartbeatMsg{
 
 
 message FixInfoMsg{
-    string hostname = 1;
-    string filename = 2;
-    int32 chunkId = 3;
-    string success = 4;
+    string host = 1;
+    string filenameChunkId = 2;
+    string success = 3;
 }
 
 
 message FixDataMsg{
-    string filename = 1;
-    int32 chunkId = 2;
-    string success = 3;
-    bytes data = 4;
+    string filenameChunkId = 1;
+    string success = 2;
+    bytes data = 3;
 }
 
 

@@ -28,7 +28,7 @@ public class DataNodeFixRouter {
      * asking other datanode to provide the replicas
      */
     public void startRequsting(){
-
+        System.out.println("starting request duplica to store");
     }
 
 
