@@ -40,6 +40,7 @@ public class ReplicaMaintainer {
                 counter++;
                 if(counter == 3){
                     System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
+                    break;
                 }
             }
             if(fixMap.size() == 0){
