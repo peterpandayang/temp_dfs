@@ -167,6 +167,9 @@ public class ServerCache {
         // <host1(valid chunk), host2(replica destination)>
         Map<String, List<String>> map = new HashMap<>();
         for(String filename : dataMap.keySet()){
+            if(dataMap.get(filename).size() == GeneralCache.DEFAULT_REPLICAS){
+                continue;
+            }
             TreeMap treeMap = dataMap.get(filename);
             for(Object chunkId : treeMap.keySet()){
                 // current host that hold the chunk
