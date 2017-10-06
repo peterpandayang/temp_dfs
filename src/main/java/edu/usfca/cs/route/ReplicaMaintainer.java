@@ -19,6 +19,8 @@ public class ReplicaMaintainer {
     private ServerCache cache;
     private ThreadPoolExecutor threadPool;
     private ConcurrentHashMap<String, List<String>> fixMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, List<String>> tempMap = new ConcurrentHashMap<>();
+
 
     public ReplicaMaintainer(ServerCache cache, ThreadPoolExecutor threadPool){
         this.cache = cache;
@@ -37,25 +39,39 @@ public class ReplicaMaintainer {
             cache.getMaintainMap(fixMap);
             System.out.println("waiting for chunk to be fixed...");
             int counter = 0;
+
             if(fixMap.size() == 0){
                 System.out.println("no duplica needs to be fixed");
+                if(tempMap.size() != 0){
+                    System.out.println("You notice some duplica are missing previously because the system needs time to adjust and now it is fine to use, sorry for any inconvenience");
+                }
+                tempMap = new ConcurrentHashMap<>();
             }
             else{
 //                while(fixMap.size() != 0){
 //                    System.out.println("still waiting...");
 //                    Thread.sleep(5000);
 //                    counter++;
+                System.out.println("There might have some problems, let's wait another 20sec and see...");
                 if(fixMap.size() != 0){
-                    sendFixInfo(fixMap);
-                    if(fixMap.size() == 0){
-                        System.out.println("all duplica has been fixed");
-                        break;
+                    if(tempMap.size() == 0 && fixMap.size() != 0){
+                        tempMap = new ConcurrentHashMap<>(fixMap);
                     }
+                    else{
+                        System.out.println("we have some missing duplica, but don't worry, we'll fix them for you");
+                        sendFixInfo(fixMap);
+                        if(fixMap.size() == 0){
+                            System.out.println("all duplica has been fixed");
+                            break;
+                        }
 //                    if(counter == 3){
 //                        System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
 //                        break;
 //                    }
+                    }
                 }
+
+
             }
             if(fixMap.size() != 0){
                 System.out.println("scan again for insufficient chunk duplica");
