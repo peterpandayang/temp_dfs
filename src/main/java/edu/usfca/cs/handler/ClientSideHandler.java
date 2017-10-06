@@ -126,6 +126,7 @@ public class ClientSideHandler {
                 String checkSum = io.getCheckSum(dataString);
                 cache.setFirstCheckSum(checkSum);
                 System.out.println("initial checksum is: " + checkSum);
+                cache.addToCheckSumMap(filename, checkSum);
             }
             else{
                 System.out.println("merge fail");

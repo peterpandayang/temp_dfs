@@ -116,7 +116,8 @@ public class ClientFileRetriever {
         }
         String dataString = new String(Files.readAllBytes(Paths.get(file.getPath())));
         String checkSum = io.getCheckSum(dataString);
-        if(checkSum.equals(cache.getFirstCheckSum())){
+//        if(checkSum.equals(cache.getFirstCheckSum())){
+        if(cache.checkInCheckSumMap(filename, checkSum)){
             System.out.println("retrieve success :)");
         }
         else{

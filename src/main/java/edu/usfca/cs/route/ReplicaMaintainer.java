@@ -94,7 +94,7 @@ public class ReplicaMaintainer {
                 returnRequestMsg = returnMsgWrapper.getRequestMsg();
             }
 
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             socket.close();
         }
     }
