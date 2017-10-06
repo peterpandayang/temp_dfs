@@ -162,13 +162,14 @@ public class ServerCache {
     }
 
     public Map<String, List<String>> getMaintainMap(){
-        
+
         // this method will get the chunk that needs to be fixed and
         // the value in the map contains the following information:
         // <host1(valid chunk), host2(replica destination)>
         Map<String, List<String>> map = new HashMap<>();
         for(String filename : dataMap.keySet()){
             if(dataMap.get(filename).size() == GeneralCache.DEFAULT_REPLICAS){
+                System.out.println("file " + filename + " has enough chunk ");
                 continue;
             }
             TreeMap treeMap = dataMap.get(filename);
