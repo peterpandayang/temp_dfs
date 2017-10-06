@@ -29,7 +29,7 @@ public class ReplicaMaintainer {
         while(true){
             Thread.sleep(10000);
             Map<String, List<String>> fixMap = cache.getMaintainMap();
-            
+
         }
     }
 

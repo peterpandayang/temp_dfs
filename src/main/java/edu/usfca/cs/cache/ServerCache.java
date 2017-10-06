@@ -177,7 +177,9 @@ public class ServerCache {
                 }
                 List<String> rst = new ArrayList<>();
                 String askedHost = hosts.get(random.nextInt(hosts.size()));
+                System.out.println("hosts size is: " + hosts.size());
                 rst.add(askedHost);
+                System.out.println("temp size is : " + temp.size());
                 String askingHost = temp.get(random.nextInt(temp.size()));
                 rst.add(askingHost);
                 System.out.println("Host " + askingHost + " will ask host " + askedHost + " for file " + filename + "'s " + chunkId + " chunk" );
