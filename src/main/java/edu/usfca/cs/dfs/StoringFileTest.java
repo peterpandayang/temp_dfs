@@ -17,7 +17,7 @@ public class StoringFileTest {
         String oneFile = "../../../../home2/byang14/bigdata/testfile";
         File file = new File(oneFile);
         Path filePath = Paths.get(file.getPath());
-        if(Files.exists(filePath)){
+        if(!Files.exists(filePath)){
             Files.createDirectories(filePath);
         }
         String content = "This is just a test";
