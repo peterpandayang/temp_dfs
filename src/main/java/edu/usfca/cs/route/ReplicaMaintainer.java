@@ -52,7 +52,7 @@ public class ReplicaMaintainer {
 //                    Thread.sleep(5000);
 //                    counter++;
                 if(fixMap.size() != 0){
-                    if(tempMap.size() == 0 && fixMap.size() != 0){
+                    if(tempMap.size() == 0 ){
                         System.out.println("There might have some problems, let's wait another 20sec and see...");
                         tempMap = new ConcurrentHashMap<>(fixMap);
                         continue;
@@ -113,6 +113,9 @@ public class ReplicaMaintainer {
 //            Thread.sleep(1000);
             socket.close();
         }
+
+        // should have all the response from the datanode even of they do not fix it!!!
+
     }
 
 }
