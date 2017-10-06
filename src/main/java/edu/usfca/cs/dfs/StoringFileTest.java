@@ -18,7 +18,7 @@ public class StoringFileTest {
         File file = new File(oneFile);
         Path filePath = Paths.get(file.getPath());
         if(!Files.exists(filePath)){
-            Files.createDirectories(filePath);
+            Files.createFile(filePath);
         }
         String content = "This is just a test";
         Files.write(filePath, content.getBytes(), StandardOpenOption.APPEND);
