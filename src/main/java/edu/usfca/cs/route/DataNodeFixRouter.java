@@ -30,7 +30,7 @@ public class DataNodeFixRouter {
      */
     public void startRequsting() throws IOException {
         System.out.println("starting request duplica to store");
-        if(msgWrapper.hasRequestMsg()){
+        if(msgWrapper.hasFixInfoMsg()){
             System.out.println("has fix info message from the controller");
             StorageMessages.FixInfoMsg fixInfoMsg = msgWrapper.getFixInfoMsg();
             String filenameChunkId = fixInfoMsg.getFilenameChunkId();
@@ -39,18 +39,23 @@ public class DataNodeFixRouter {
             // construct the message to another datanode here...
 
 
-            // construct the return msg to the controller
-            System.out.println("sending back to the server");
-            StorageMessages.FixInfoMsg fixInfoMsg1 =
-                    StorageMessages.FixInfoMsg.newBuilder()
-                    .setSuccess("success").build();
-            StorageMessages.StorageMessageWrapper msgWrapper =
-                    StorageMessages.StorageMessageWrapper.newBuilder()
-                            .setFixInfoMsg(fixInfoMsg1)
-                            .build();
-            msgWrapper.writeDelimitedTo(toServerSocket.getOutputStream());
-            toServerSocket.close();
+
+
         }
+        else{
+            System.out.println("no fixing information");
+        }
+        // construct the return msg to the controller
+        System.out.println("sending back to the server");
+        StorageMessages.FixInfoMsg fixInfoMsg1 =
+                StorageMessages.FixInfoMsg.newBuilder()
+                        .setSuccess("success").build();
+        StorageMessages.StorageMessageWrapper msgWrapper =
+                StorageMessages.StorageMessageWrapper.newBuilder()
+                        .setFixInfoMsg(fixInfoMsg1)
+                        .build();
+        msgWrapper.writeDelimitedTo(toServerSocket.getOutputStream());
+        toServerSocket.close();
     }
 
 
