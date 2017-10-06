@@ -101,7 +101,7 @@ public class ServerCache {
             }
             System.out.println("we have active nodes of size of: " + active.size());
             for(int i = 0; i <= active.size() - 1; i++){
-                System.out.println("active node is: " + active.get(i));
+//                System.out.println("active node is: " + active.get(i));
             }
         }
         else{
