@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ClientCache {
 
-    public static String RETRIEVE_TEMP_PATH = "retrieveTemp/";
-    public static String RETRIEVE_PATH = "retrieve/";
+    public static String RETRIEVE_TEMP_PATH = "client/retrieveTemp/";
+    public static String RETRIEVE_PATH = "client/retrieve/";
     private static String firstCheckSum = "";
     private static ConcurrentHashMap<String, String> checkSumMap = new ConcurrentHashMap<>();
 
