@@ -52,6 +52,7 @@ public class DataNodeDataRemover {
                 if(f.isDirectory()) {
                     deleteFolder(f);
                 } else {
+                    System.out.println("remove file " + f.getName());
                     f.delete();
                 }
             }
