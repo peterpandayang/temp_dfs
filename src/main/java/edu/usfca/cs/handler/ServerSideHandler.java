@@ -58,6 +58,9 @@ public class ServerSideHandler {
                 else if(type.equals("get")){
                     serverReqRouter.startGetReqThread();
                 }
+                else if(type.equals("remove")){
+                    serverReqRouter.startRemoveProcess(msgWrapper.getRequestMsg().getFilename());
+                }
                 else{
                     // handle the put request later...
                 }

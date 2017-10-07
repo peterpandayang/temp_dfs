@@ -4,6 +4,7 @@ import edu.usfca.cs.cache.ClientCache;
 import edu.usfca.cs.io.FileIO;
 import edu.usfca.cs.route.ClientFileRetriever;
 import edu.usfca.cs.route.ClientFileSender;
+import edu.usfca.cs.route.ClientRemoveCmdSender;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -72,8 +73,15 @@ public class ClientSideHandler {
                 else if(method.equals("put")){
                     // to be handled...
                 }
-                else{
-
+                else if(method.equals("rm")){
+                    // do the remove here...
+                    if(filename.equals("-rf")) {
+                        ClientRemoveCmdSender removeCmdSender = new ClientRemoveCmdSender(filename);
+                        removeCmdSender.startRemoveAll();
+                    }
+                    else{
+                        // maybe remove a specific node or a file
+                    }
                 }
             }
         }
@@ -91,8 +99,8 @@ public class ClientSideHandler {
             return false;
         }
         String method = temp[0].toLowerCase();
-        if(!method.equals("get") && !method.equals("post")){
-            System.out.println("Please follow the pattern: [<get/post>, <filename.txt>]");
+        if(!method.equals("get") && !method.equals("post") && !method.equals("rm")){
+            System.out.println("Please follow the pattern: [<get/post>, <filename.txt>] or [rm -rf]");
             return false;
         }
         return true;

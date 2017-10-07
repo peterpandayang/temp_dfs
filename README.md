@@ -8,3 +8,6 @@ To work with Protocol Buffers on your own machine, you'll need to install the ``
 * **protobuf-compiler** on RedHat-based distributions
 
 ...or download via the [Protocol Buffers Homepage](https://developers.google.com/protocol-buffers/)
+
+Assumptions:
+1. The whole system will has at least 3 datanode working.

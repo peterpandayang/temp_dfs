@@ -4,6 +4,7 @@ import edu.usfca.cs.cache.ServerCache;
 import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.thread.ServerGetReqThread;
 import edu.usfca.cs.thread.ServerPostReqThread;
+import edu.usfca.cs.thread.ServerRemoveAllThread;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -71,6 +72,19 @@ public class ServerReqRouter {
 
         // if there is mistake, should get a valid chunk to the client and get make a duplicate
         // for that chunk -> need to get the right replica to the client and send to DataNode.
+    }
+
+
+    public void startRemoveProcess(String target){
+        if(target.equals("-rf")){
+            System.out.println("start remove all thread");
+            ServerRemoveAllThread thread = new ServerRemoveAllThread(this);
+            thread.start();
+        }
+    }
+
+    public void sendRemoveAllCmd(){
+        System.out.println("sending remove request to the datanode...");
     }
 
 }
