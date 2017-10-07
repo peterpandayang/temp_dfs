@@ -21,6 +21,8 @@ public class RequestingFixThread extends Thread{
             router.startRequsting();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
