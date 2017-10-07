@@ -2,6 +2,8 @@ package edu.usfca.cs.cache;
 
 import edu.usfca.cs.dfs.StorageMessages;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -77,7 +79,7 @@ public class ServerCache {
      * @param heartbeatMsg
      * @return
      */
-    public synchronized boolean updateActiveNode(StorageMessages.HeartbeatMsg heartbeatMsg) {
+    public synchronized boolean updateActiveNode(StorageMessages.HeartbeatMsg heartbeatMsg) throws IOException {
         long currentTime = System.currentTimeMillis();
         String host = heartbeatMsg.getHost();
         boolean hasDown = false;
@@ -111,7 +113,19 @@ public class ServerCache {
             String[] hosts = host.split(" ");
             nodeHostMap.put(hosts[0], Integer.parseInt(hosts[1]));
             // should ask for the log info to build the data map
-            
+            Socket toNodeSocket = new Socket(hosts[0], Integer.parseInt(hosts[1]));
+            StorageMessages.HeartbeatMsg requestLogMsg =
+                    StorageMessages.HeartbeatMsg.newBuilder()
+                    .setType("log").build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                    .setHeartbeatMsg(requestLogMsg).build();
+            msgWrapper.writeDelimitedTo(toNodeSocket.getOutputStream());
+            // here should wait and get the output from the node
+
+
+
+            toNodeSocket.close();
 
         }
         return hasDown;

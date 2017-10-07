@@ -68,6 +68,7 @@ public class DataNodeHandler {
                 }
             }
             else if(msgWrapper.hasHeartbeatMsg()){
+                System.out.println("get the repairing request from the controller...");
                 // this is unnecessary
                 continue;
             }
