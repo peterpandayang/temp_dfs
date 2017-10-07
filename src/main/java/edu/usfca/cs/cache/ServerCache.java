@@ -166,12 +166,12 @@ public class ServerCache {
         return active;
     }
 
-    public boolean getMaintainMap(ConcurrentHashMap<String, List<String>> map){
+    public ConcurrentHashMap<String, List<String>> getMaintainMap(){
 
         // this method will get the chunk that needs to be fixed and
         // the value in the map contains the following information:
         // <host1(valid chunk), host2(replica destination)>
-//        ConcurrentHashMap<String, List<String>> map = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, List<String>> map = new ConcurrentHashMap<>();
         boolean hasProblem = false;
         for(String filename : dataMap.keySet()){
             TreeMap treeMap = dataMap.get(filename);
@@ -182,7 +182,7 @@ public class ServerCache {
                 if(hosts.size() == GeneralCache.DEFAULT_REPLICAS || hosts.size() == 0){
                     continue;
                 }
-                hasProblem = true;
+//                hasProblem = true;
                 List<String> temp = new ArrayList<>(active);
                 for(String host : hosts){
                     temp.remove(host);
@@ -199,7 +199,7 @@ public class ServerCache {
                 map.put(filenameChunkId, rst);
             }
         }
-        return hasProblem;
+        return map;
     }
 
     public void clearDataMap(){
