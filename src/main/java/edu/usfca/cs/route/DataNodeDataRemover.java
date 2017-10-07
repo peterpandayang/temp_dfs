@@ -35,28 +35,29 @@ public class DataNodeDataRemover {
         // there should start to do the removal part
         String folderPath = cache.pathPrefix;
         File file = new File(folderPath);
-        deleteFolder(file);
+        delete(file);
         System.out.println("all files have been deleted");
         socket.close();
     }
 
 
     /**
-     * Refer link: https://stackoverflow.com/questions/7768071/how-to-delete-directory-content-in-java
-     * @param folder
+     * Refer link: http://www.technicalkeeda.com/java-tutorials/how-to-delete-file-or-folder-in-java
+     * @param file
      */
-    public static void deleteFolder(File folder) {
-        File[] files = folder.listFiles();
-        if(files!=null) { //some JVMs return null for empty dirs
-            for(File f: files) {
-                if(f.isDirectory()) {
-                    deleteFolder(f);
-                } else {
-                    System.out.println("remove file " + f.getName());
-                    f.delete();
-                }
+    private void delete(File file) {
+        boolean success = false;
+        if (file.isDirectory()) {
+            for (File deleteMe: file.listFiles()) {
+                // recursive delete
+                delete(deleteMe);
             }
         }
-        folder.delete();
+        success = file.delete();
+        if (success) {
+            System.out.println(file.getAbsoluteFile() + " Deleted");
+        } else {
+            System.out.println(file.getAbsoluteFile() + " Deletion failed!!!");
+        }
     }
 }
