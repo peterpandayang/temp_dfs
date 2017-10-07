@@ -94,7 +94,7 @@ public class FileIO {
         System.out.println("storing filename is : " + filename);
         String data = filename + " " + chunkId;
         Files.write(filePath, data.getBytes(), StandardOpenOption.APPEND);
-        Files.write(filePath, "\n".getBytes(), StandardOpenOption.APPEND);
+        Files.write(filePath, "\n\n".getBytes(), StandardOpenOption.APPEND);
     }
 
 }
