@@ -52,6 +52,7 @@ public class HeartbeatSender {
         while(true){
             Thread.sleep(5000);
             try{
+                System.out.println("sending heartbeat...");
                 Socket socket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
                 List<String> filenameAndChunkId = cache.getFilenameAndChunkId();
 //            if(filenameAndChunkId.size() == 0){
