@@ -92,9 +92,11 @@ public class DataNodeFixRouter {
                 io.writeGeneralFile(file, data);
                 File checkSum = new File(folderPath + "/" + chunkId + ".checksum");
                 io.writeGeneralFile(checkSum, fixDataMsg1.getChecksum());
+                String logPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files/log";
                 if(io.fileIsValid(file, checkSum)){
                     cache.updateFileInfo(filename, chunkId);
                     System.out.println("file " + filename + "'s " + "chunk" + chunkId + " has been successfully fixed on this machine");
+                    io.writeLog(filename, chunkId, logPath);
                 }
                 else{
                     System.out.println("chunk id : " + chunkId + " is not correctly stored on the disk");
