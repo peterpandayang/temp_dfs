@@ -34,7 +34,7 @@ public class DataNodeFixRouter {
     /**
      * asking other datanode to provide the replicas
      */
-    public void startRequsting() throws IOException {
+    public void startRequsting() throws IOException, InterruptedException {
         System.out.println("starting request duplica to store");
         if(msgWrapper.hasFixInfoMsg()){
             System.out.println("has fix info message from the controller");
@@ -44,9 +44,28 @@ public class DataNodeFixRouter {
             System.out.println("get the request of fixing " + filenameChunkId + " from " + host);
             // construct the message to another datanode here...
             // this is toDataNodeSocket...
-
-
-
+            String[] hosts = host.split(" ");
+            Socket toDataNodeSocket = new Socket(hosts[0], Integer.parseInt(hosts[1]));
+            StorageMessages.FixDataMsg fixDataMsg =
+                    StorageMessages.FixDataMsg.newBuilder()
+                    .setFilenameChunkId(filenameChunkId).build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                    .setFixDataMsg(fixDataMsg).build();
+            msgWrapper.writeDelimitedTo(toDataNodeSocket.getOutputStream());
+            StorageMessages.StorageMessageWrapper returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
+            int attempt = 0;
+            while(returnMsgWrapper == null && attempt <= 999){
+                attempt++;
+                returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
+                Thread.sleep(10);
+            }
+            if(returnMsgWrapper == null){
+                System.out.println("nothing from the datanode...");
+            }
+            else{
+                System.out.println("get something from the storage node...");
+            }
 
         }
         else{
@@ -79,6 +98,7 @@ public class DataNodeFixRouter {
         System.out.println("start processing fixing data request");
         if(msgWrapper.hasFixDataMsg()){
             System.out.println("there is request for fixing data replica");
+            // should provide the other datanode with duplica here
 
         }
         else{
