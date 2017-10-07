@@ -136,6 +136,8 @@ public class ServerCache {
                 StorageMessages.HeartbeatMsg recoveryMsg = returnMsgWrapper.getHeartbeatMsg();
                 String recoveryHost = recoveryMsg.getHost();
                 System.out.println("Get recover infomation from Node : " + recoveryHost);
+                List<String> filenameChunkIds = recoveryMsg.getFilenameChunkIdList();
+                updateFileInfo(recoveryHost, filenameChunkIds);
             }
 
             toNodeSocket.close();
