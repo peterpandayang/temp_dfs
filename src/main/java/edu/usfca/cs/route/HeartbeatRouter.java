@@ -47,7 +47,7 @@ public class HeartbeatRouter {
         threadPool.execute(thread);
     }
 
-    public void updateDataNodeStatus(){
+    public void updateDataNodeStatus() throws IOException {
         StorageMessages.HeartbeatMsg heartbeatMsg = msgWrapper.getHeartbeatMsg();
         boolean nodeDown = cache.updateActiveNode(heartbeatMsg);
         if(nodeDown){
