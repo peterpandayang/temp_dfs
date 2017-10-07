@@ -8,6 +8,7 @@ import edu.usfca.cs.thread.ServerRemoveAllThread;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -83,8 +84,24 @@ public class ServerReqRouter {
         }
     }
 
-    public void sendRemoveAllCmd(){
+    public void sendRemoveAllCmd() throws IOException {
         System.out.println("sending remove request to the datanode...");
+        List<String> list = new ArrayList<>(cache.getActiveNode());
+        for(String host : list){
+            String[] hosts = host.split(" ");
+            Socket toNodeSocket = new Socket(hosts[0], Integer.parseInt(hosts[1]));
+            StorageMessages.RequestMsg requestMsg =
+                    StorageMessages.RequestMsg.newBuilder()
+                            .setType("remove ")
+                            .setFilename("all")
+                            .build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                            .setRequestMsg(requestMsg).build();
+            msgWrapper.writeDelimitedTo(toNodeSocket.getOutputStream());
+            toNodeSocket.close();
+        }
+        socket.close();
     }
 
 }

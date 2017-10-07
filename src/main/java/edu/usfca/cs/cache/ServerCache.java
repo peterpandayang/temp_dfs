@@ -162,6 +162,10 @@ public class ServerCache {
         return rst;
     }
 
+    public synchronized List<String> getActiveNode(){
+        return active;
+    }
+
     public boolean getMaintainMap(ConcurrentHashMap<String, List<String>> map){
 
         // this method will get the chunk that needs to be fixed and

@@ -74,6 +74,22 @@ public class DataNodeHandler {
                 // this is unnecessary
                 continue;
             }
+            else if(msgWrapper.hasRequestMsg()){
+                if(msgWrapper.getRequestMsg().getType().equals("remove")){
+                    System.out.println("receive request msg from the server");
+                    if(msgWrapper.getRequestMsg().getFilename().equals("all")){
+                        System.out.println("remove all files");
+                        // here should handle the removal
+
+                    }
+                    else{
+                        System.out.println("some other remove request");
+                    }
+                }
+                else{
+                    System.out.println("nothing in the request...");
+                }
+            }
             else if(msgWrapper.hasFixInfoMsg()){ // current datanode will ask other datanode for replica
                 System.out.println("get the fix info from Controller...");
                 DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper, threadPool);
