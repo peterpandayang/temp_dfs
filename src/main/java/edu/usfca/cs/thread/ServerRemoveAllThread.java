@@ -16,6 +16,10 @@ public class ServerRemoveAllThread  extends Thread{
 
     @Override
     public void run() {
-        serverReqRouter.sendRemoveAllCmd();
+        try {
+            serverReqRouter.sendRemoveAllCmd();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
