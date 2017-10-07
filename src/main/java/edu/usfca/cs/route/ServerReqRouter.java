@@ -92,7 +92,7 @@ public class ServerReqRouter {
             Socket toNodeSocket = new Socket(hosts[0], Integer.parseInt(hosts[1]));
             StorageMessages.RequestMsg requestMsg =
                     StorageMessages.RequestMsg.newBuilder()
-                            .setType("remove ")
+                            .setType("remove")
                             .setFilename("all")
                             .build();
             StorageMessages.StorageMessageWrapper msgWrapper =
