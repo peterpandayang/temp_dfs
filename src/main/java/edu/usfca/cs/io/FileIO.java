@@ -92,9 +92,8 @@ public class FileIO {
             file.createNewFile();
         }
         System.out.println("storing filename is : " + filename);
-        String data = filename + " " + chunkId;
+        String data = filename + " " + chunkId + ",";
         Files.write(filePath, data.getBytes(), StandardOpenOption.APPEND);
-        Files.write(filePath, "\n\n".getBytes(), StandardOpenOption.APPEND);
     }
 
 }

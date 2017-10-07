@@ -215,11 +215,11 @@ public class DataNodeFixRouter {
         }
         File log = new File(logPath + "/log");
         String content = io.getFileContent(log);
-        String[] contents = content.split("\n");
+        String[] contents = content.split(",");
         List<String> rst = new ArrayList<>();
         for(String line : contents){
             System.out.println("Current line is : " + line);
-            rst.add(line);
+            rst.add(line.trim());
         }
         return rst;
     }
