@@ -89,11 +89,11 @@ public class DataNodeHandler {
                 }
             }
             else if(msgWrapper.hasFixInfoMsg()){ // current datanode will ask other datanode for replica
-                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper, threadPool);
+                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper, threadPool, cache, myHost);
                 dataNodeFixRouter.startReqFixThread();
             }
             else if(msgWrapper.hasFixDataMsg()){ // current datanode will proved the replica
-                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper, threadPool);
+                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper, threadPool, cache, myHost);
                 dataNodeFixRouter.startResFixThread();
             }
         }

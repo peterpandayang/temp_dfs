@@ -1,11 +1,15 @@
 package edu.usfca.cs.route;
 
+import edu.usfca.cs.cache.DataNodeCache;
 import edu.usfca.cs.dfs.StorageMessages;
+import edu.usfca.cs.io.FileIO;
 import edu.usfca.cs.thread.RequestedFixThread;
 import edu.usfca.cs.thread.RequestingFixThread;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -16,11 +20,17 @@ public class DataNodeFixRouter {
     private Socket socket;  // this is socket from server to datanode;
     private StorageMessages.StorageMessageWrapper msgWrapper;
     private ThreadPoolExecutor threadPool;
+    private DataNodeCache cache;
+    private String myHost;
+    private FileIO io = new FileIO();
 
-    public DataNodeFixRouter(Socket socket, StorageMessages.StorageMessageWrapper msgWrapper, ThreadPoolExecutor threadPool){
+
+    public DataNodeFixRouter(Socket socket, StorageMessages.StorageMessageWrapper msgWrapper, ThreadPoolExecutor threadPool, DataNodeCache cache, String myHost){
         this.socket = socket;
         this.msgWrapper = msgWrapper;
         this.threadPool = threadPool;
+        this.cache = cache;
+        this.myHost = myHost;
     }
 
 
@@ -94,7 +104,7 @@ public class DataNodeFixRouter {
     /**
      * prodigin other datanode with current replicas
      */
-    public void startRequested() throws IOException {
+    public void startRequested() throws IOException, NoSuchAlgorithmException {
         System.out.println("start processing fixing data request");
         if(msgWrapper.hasFixDataMsg()){
             System.out.println("there is request for fixing data replica");
@@ -105,8 +115,19 @@ public class DataNodeFixRouter {
             String filename = fileChunks[0];
             int chunkId = Integer.parseInt(fileChunks[1]);
             System.out.println("Load the file " + filename + "'s chunk " + chunkId + " and send back to the asking node");
-            // construct the message
+            // get the data and check here
+            String port = myHost.split(" ")[1];
+            String folderPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files/" + filename;
+            File file = new File(folderPath + "/" + chunkId);
+            File checkSum = new File(folderPath + "/" + chunkId + ".checksum");
+            if(io.fileIsValid(file, checkSum)){
+                System.out.println("The checksum test has pass locally");
+            }
+            else{
+                System.out.println("The chunk has been corrupted");
+            }
 
+            // construct the message
             StorageMessages.FixDataMsg returnMsg =
                     StorageMessages.FixDataMsg.newBuilder()
                     .setFilenameChunkId(filenameChunkId)
