@@ -3,10 +3,7 @@ package edu.usfca.cs.handler;
 import edu.usfca.cs.cache.DataNodeCache;
 import edu.usfca.cs.cache.GeneralCache;
 import edu.usfca.cs.dfs.StorageMessages;
-import edu.usfca.cs.route.DataNodeDataRouter;
-import edu.usfca.cs.route.DataNodeFixRouter;
-import edu.usfca.cs.route.HeartbeatSender;
-import edu.usfca.cs.route.ServerReqRouter;
+import edu.usfca.cs.route.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -80,7 +77,8 @@ public class DataNodeHandler {
                     if(msgWrapper.getRequestMsg().getFilename().equals("all")){
                         System.out.println("remove all files");
                         // here should handle the removal
-
+                        DataNodeDataRemover dataNodeDataRemover = new DataNodeDataRemover(cache, socket, threadPool);
+                        dataNodeDataRemover.startRemoveAllFileThread();
                     }
                     else{
                         System.out.println("some other remove request");
