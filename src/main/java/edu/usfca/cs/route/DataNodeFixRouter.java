@@ -1,5 +1,6 @@
 package edu.usfca.cs.route;
 
+import com.google.protobuf.ByteString;
 import edu.usfca.cs.cache.DataNodeCache;
 import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.io.FileIO;
@@ -9,6 +10,8 @@ import edu.usfca.cs.thread.RequestingFixThread;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -44,12 +47,15 @@ public class DataNodeFixRouter {
     /**
      * asking other datanode to provide the replicas
      */
-    public void startRequsting() throws IOException, InterruptedException {
+    public void startRequsting() throws IOException, InterruptedException, NoSuchAlgorithmException {
         System.out.println("starting request duplica to store");
         if(msgWrapper.hasFixInfoMsg()){
             System.out.println("has fix info message from the controller");
             StorageMessages.FixInfoMsg fixInfoMsg = msgWrapper.getFixInfoMsg();
             String filenameChunkId = fixInfoMsg.getFilenameChunkId();
+            String[] fileChunks = filenameChunkId.split(" ");
+            String filename = fileChunks[0];
+            int chunkId = Integer.parseInt(fileChunks[1]);
             String host = fixInfoMsg.getHost();
             System.out.println("get the request of fixing " + filenameChunkId + " from " + host);
             // construct the message to another datanode here...
@@ -72,6 +78,25 @@ public class DataNodeFixRouter {
             }
             if(returnMsgWrapper == null){
                 System.out.println("nothing from the datanode...");
+                String port = myHost.split(" ")[1];
+                StorageMessages.FixDataMsg fixDataMsg1 = returnMsgWrapper.getFixDataMsg();
+                String data = fixDataMsg1.getData().toStringUtf8();
+                String folderPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files/" + filename;
+                if(!Files.exists(Paths.get(folderPath))){
+                    Files.createDirectories(Paths.get(folderPath));
+                }
+                File file = new File(folderPath + "/" + chunkId);
+                io.writeGeneralFile(file, data);
+                File checkSum = new File(folderPath + "/" + chunkId + ".checksum");
+                io.writeGeneralFile(checkSum, fixDataMsg1.getChecksum());
+                if(io.fileIsValid(file, checkSum)){
+                    cache.updateFileInfo(filename, chunkId);
+                    System.out.println("file " + filename + "'s " + "chunk" + chunkId + " has been successfully fixed on this machine");
+                }
+                else{
+                    System.out.println("chunk id : " + chunkId + " is not correctly stored on the disk");
+                    // should remove that from the disk
+                }
             }
             else{
                 System.out.println("get data from the other storage node...");
@@ -119,20 +144,22 @@ public class DataNodeFixRouter {
             String port = myHost.split(" ")[1];
             String folderPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files/" + filename;
             File file = new File(folderPath + "/" + chunkId);
-            File checkSum = new File(folderPath + "/" + chunkId + ".checksum");
-            if(io.fileIsValid(file, checkSum)){
+            File checkSumFile = new File(folderPath + "/" + chunkId + ".checksum");
+            if(io.fileIsValid(file, checkSumFile)){
                 System.out.println("The checksum test has pass locally");
             }
             else{
                 System.out.println("The chunk has been corrupted");
             }
-
+            String data = io.getFileContent(file);
+            String checkSum = io.getFileContent(checkSumFile);
+            ByteString byteString = ByteString.copyFromUtf8(data);
             // construct the message
             StorageMessages.FixDataMsg returnMsg =
                     StorageMessages.FixDataMsg.newBuilder()
                     .setFilenameChunkId(filenameChunkId)
-//                    .setData()
-                    .setChecksum("here")
+                    .setData(byteString)
+                    .setChecksum(checkSum)
                     .build();
             StorageMessages.StorageMessageWrapper msgWrapper =
                     StorageMessages.StorageMessageWrapper.newBuilder()
