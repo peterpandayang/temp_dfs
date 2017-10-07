@@ -88,8 +88,10 @@ public class FileIO {
         if(!Files.exists(filePath)){
             Files.createFile(filePath);
         }
+        System.out.println("storing filename is : " + filename);
         String data = filename + " " + chunkId;
         Files.write(filePath, data.getBytes(), StandardOpenOption.APPEND);
+        Files.write(filePath, "\n".getBytes(), StandardOpenOption.APPEND);
     }
 
 }
