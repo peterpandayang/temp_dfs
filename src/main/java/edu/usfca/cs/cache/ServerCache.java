@@ -105,7 +105,13 @@ public class ServerCache {
 //            }
         }
         else{
-            // the shutdown node restart...
+            // ask the node to send the recovery information to the controller
+            lastHeartbeat.put(host, currentTime);
+            active.add(host);
+            String[] hosts = host.split(" ");
+            nodeHostMap.put(hosts[0], Integer.parseInt(hosts[1]));
+            // should ask for the log info to build the data map
+            
 
         }
         return hasDown;
