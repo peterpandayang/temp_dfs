@@ -137,7 +137,9 @@ public class ServerCache {
                 String recoveryHost = recoveryMsg.getHost();
                 System.out.println("Get recover infomation from Node : " + recoveryHost);
                 List<String> filenameChunkIds = recoveryMsg.getFilenameChunkIdList();
-                updateFileInfo(recoveryHost, filenameChunkIds);
+                if(filenameChunkIds.size() != 0){
+                    updateFileInfo(recoveryHost, filenameChunkIds);
+                }
             }
 
             toNodeSocket.close();
