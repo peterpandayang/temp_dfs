@@ -78,6 +78,9 @@ public class DataNodeFixRouter {
             }
             if(returnMsgWrapper == null){
                 System.out.println("nothing from the datanode...");
+            }
+            else{
+                System.out.println("get data from the other storage node...");
                 String port = myHost.split(" ")[1];
                 StorageMessages.FixDataMsg fixDataMsg1 = returnMsgWrapper.getFixDataMsg();
                 String data = fixDataMsg1.getData().toStringUtf8();
@@ -97,9 +100,6 @@ public class DataNodeFixRouter {
                     System.out.println("chunk id : " + chunkId + " is not correctly stored on the disk");
                     // should remove that from the disk
                 }
-            }
-            else{
-                System.out.println("get data from the other storage node...");
             }
             toDataNodeSocket.close();
         }
