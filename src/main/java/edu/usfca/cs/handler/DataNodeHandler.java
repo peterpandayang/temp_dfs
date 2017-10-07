@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -22,6 +23,7 @@ public class DataNodeHandler {
     private DataNodeCache cache;
     private String myHost;
     private static ThreadPoolExecutor threadPool;
+    private Random random = new Random();
 
     public DataNodeHandler(String hostname){
         this.hostname = hostname;
@@ -41,8 +43,18 @@ public class DataNodeHandler {
     }
 
     public void start() throws IOException, NoSuchAlgorithmException {
-
-        datanodeSocket = new ServerSocket(0);
+        boolean portSet = false;
+        while(!portSet){
+            int tempPort = random.nextInt(999) + 38001;
+            try{
+                datanodeSocket = new ServerSocket(tempPort);
+                System.out.println("port assignment successful");
+                portSet = true;
+            }
+            catch (java.lang.Exception e){
+                System.out.println("check for another port");
+            }
+        }
         int port = datanodeSocket.getLocalPort();
         myHost = hostname + " " + port;
 
