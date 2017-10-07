@@ -47,29 +47,23 @@ public class ReplicaMaintainer {
                 tempMap = new ConcurrentHashMap<>();
             }
             else{
-//                while(fixMap.size() != 0){
-//                    System.out.println("still waiting...");
-//                    Thread.sleep(5000);
-//                    counter++;
-                if(fixMap.size() != 0){
-                    if(tempMap.size() == 0 ){
-                        System.out.println("There might have some problems, let's wait another 20sec and see...");
-                        tempMap = new ConcurrentHashMap<>(fixMap);
-                        continue;
+                if(tempMap.size() == 0 ){
+                    System.out.println("There might have some problems, let's wait another 20sec and see...");
+                    tempMap = new ConcurrentHashMap<>(fixMap);
+                    continue;
+                }
+                else{
+                    System.out.println("we have some missing duplica, but don't worry, we'll fix them for you");
+                    sendFixInfo(fixMap);
+                    if(fixMap.size() == 0){
+                        System.out.println("all duplica has been fixed");
+                        tempMap = new ConcurrentHashMap<>();
+                        break;
                     }
-                    else{
-                        System.out.println("we have some missing duplica, but don't worry, we'll fix them for you");
-                        sendFixInfo(fixMap);
-                        if(fixMap.size() == 0){
-                            System.out.println("all duplica has been fixed");
-                            tempMap = new ConcurrentHashMap<>();
-                            break;
-                        }
 //                    if(counter == 3){
 //                        System.out.println("Has been waiting for 15 sec and some chunks has not been fixed.");
 //                        break;
 //                    }
-                    }
                 }
 
             }
