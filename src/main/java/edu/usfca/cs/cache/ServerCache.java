@@ -164,6 +164,9 @@ public class ServerCache {
     public synchronized void updateFileInfo(String host, List<String> list) {
         System.out.println("update some information from heartbeat...");
         for(String info : list){
+            if(info.trim().length() == 0){
+                continue;
+            }
             String[] infos = info.split(" ");
             String filename = infos[0];
             int chunkId = Integer.parseInt(infos[1]);
