@@ -24,6 +24,8 @@ public class ServerGeneralHeartbeatThread extends Thread{
             router.updateDataNodeStatus();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
