@@ -4,6 +4,7 @@ import com.google.protobuf.ByteString;
 import edu.usfca.cs.cache.DataNodeCache;
 import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.io.FileIO;
+import edu.usfca.cs.thread.DataNodeSendLogThread;
 import edu.usfca.cs.thread.RequestedFixThread;
 import edu.usfca.cs.thread.RequestingFixThread;
 
@@ -175,6 +176,23 @@ public class DataNodeFixRouter {
             System.out.println("Nothing in the message wrapper ");
         }
         socket.close();
+    }
+
+    public void startSendLogThread(){
+        DataNodeSendLogThread thread = new DataNodeSendLogThread(this);
+        threadPool.execute(thread);
+    }
+
+    public void sendLogToController(){
+        System.out.println("start to send back the log");
+        // should firstly read the log and send them back
+        String type = msgWrapper.getHeartbeatMsg().getType();
+        if(type.equals(type)){
+            System.out.println("type is " + type);
+        }
+        else{
+            System.out.println("there is some other types");
+        }
     }
 
 

@@ -70,7 +70,8 @@ public class DataNodeHandler {
             else if(msgWrapper.hasHeartbeatMsg()){
                 System.out.println("get the repairing request from the controller...");
                 // this is unnecessary
-                continue;
+                DataNodeFixRouter dataNodeFixRouter = new DataNodeFixRouter(socket, msgWrapper, threadPool, cache, myHost);
+                dataNodeFixRouter.startSendLogThread();
             }
             else if(msgWrapper.hasRequestMsg()){
                 if(msgWrapper.getRequestMsg().getType().equals("remove")){
