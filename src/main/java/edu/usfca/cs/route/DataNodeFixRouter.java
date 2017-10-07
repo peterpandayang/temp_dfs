@@ -53,11 +53,11 @@ public class DataNodeFixRouter {
                     StorageMessages.StorageMessageWrapper.newBuilder()
                     .setFixDataMsg(fixDataMsg).build();
             msgWrapper.writeDelimitedTo(toDataNodeSocket.getOutputStream());
-            StorageMessages.StorageMessageWrapper returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
+            StorageMessages.StorageMessageWrapper returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(toDataNodeSocket.getInputStream());
             int attempt = 0;
             while(returnMsgWrapper == null && attempt <= 999){
                 attempt++;
-                returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
+                returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(toDataNodeSocket.getInputStream());
                 Thread.sleep(10);
             }
             if(returnMsgWrapper == null){
@@ -66,7 +66,7 @@ public class DataNodeFixRouter {
             else{
                 System.out.println("get data from the other storage node...");
             }
-
+            toDataNodeSocket.close();
         }
         else{
             System.out.println("no fixing information");
