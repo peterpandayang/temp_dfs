@@ -192,7 +192,15 @@ public class DataNodeFixRouter {
         if(type.equals(type)){
             System.out.println("type is " + type);
             List<String> filenameChunkIds = constructFileChunks();
-
+            StorageMessages.HeartbeatMsg returnMsg =
+                    StorageMessages.HeartbeatMsg.newBuilder()
+                    .addAllFilenameChunkId(filenameChunkIds)
+                    .setHost(myHost).build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                    .setHeartbeatMsg(returnMsg).build();
+            msgWrapper.writeDelimitedTo(socket.getOutputStream());
+            socket.close();
         }
         else{
             System.out.println("there is some other types");
@@ -211,6 +219,7 @@ public class DataNodeFixRouter {
         List<String> rst = new ArrayList<>();
         for(String line : contents){
             System.out.println("Current line is : " + line);
+            rst.add(line);
         }
         return rst;
     }

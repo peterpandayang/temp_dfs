@@ -79,7 +79,7 @@ public class ServerCache {
      * @param heartbeatMsg
      * @return
      */
-    public synchronized boolean updateActiveNode(StorageMessages.HeartbeatMsg heartbeatMsg) throws IOException {
+    public synchronized boolean updateActiveNode(StorageMessages.HeartbeatMsg heartbeatMsg) throws IOException, InterruptedException {
         long currentTime = System.currentTimeMillis();
         String host = heartbeatMsg.getHost();
         boolean hasDown = false;
@@ -122,8 +122,21 @@ public class ServerCache {
                     .setHeartbeatMsg(requestLogMsg).build();
             msgWrapper.writeDelimitedTo(toNodeSocket.getOutputStream());
             // here should wait and get the output from the node
-
-
+            StorageMessages.StorageMessageWrapper returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(toNodeSocket.getInputStream());
+            int attempt = 0;
+            while(returnMsgWrapper == null && attempt <= 999){
+                attempt++;
+                returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(toNodeSocket.getInputStream());
+                Thread.sleep(10);
+            }
+            if(returnMsgWrapper == null){
+                System.out.println("nothing from the datanode...");
+            }
+            else{
+                StorageMessages.HeartbeatMsg recoveryMsg = returnMsgWrapper.getHeartbeatMsg();
+                String recoveryHost = recoveryMsg.getHost();
+                System.out.println("Get recover infomation from Node : " + recoveryHost);
+            }
 
             toNodeSocket.close();
 
