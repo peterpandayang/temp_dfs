@@ -202,4 +202,8 @@ public class ServerCache {
         return hasProblem;
     }
 
+    public void clearDataMap(){
+        dataMap.clear();
+    }
+
 }

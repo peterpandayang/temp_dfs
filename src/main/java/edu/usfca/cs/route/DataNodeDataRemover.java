@@ -34,10 +34,6 @@ public class DataNodeDataRemover {
         System.out.println("start removing datanode files...");
         // there should start to do the removal part
         String folderPath = cache.pathPrefix;
-
-//        if(Files.exists(Paths.get(folderPath))){
-//            Files.delete(Paths.get(folderPath));
-//        }
         File file = new File(folderPath);
         deleteFolder(file);
         System.out.println("all files have been deleted");

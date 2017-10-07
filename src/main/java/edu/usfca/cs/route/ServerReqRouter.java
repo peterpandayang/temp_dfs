@@ -101,6 +101,7 @@ public class ServerReqRouter {
             msgWrapper.writeDelimitedTo(toNodeSocket.getOutputStream());
             toNodeSocket.close();
         }
+        cache.clearDataMap();
         socket.close();
     }
 
