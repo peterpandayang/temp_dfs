@@ -64,7 +64,7 @@ public class DataNodeFixRouter {
                 System.out.println("nothing from the datanode...");
             }
             else{
-                System.out.println("get something from the storage node...");
+                System.out.println("get data from the other storage node...");
             }
 
         }
@@ -99,10 +99,27 @@ public class DataNodeFixRouter {
         if(msgWrapper.hasFixDataMsg()){
             System.out.println("there is request for fixing data replica");
             // should provide the other datanode with duplica here
+            StorageMessages.FixDataMsg fixDataMsg = msgWrapper.getFixDataMsg();
+            String filenameChunkId = fixDataMsg.getFilenameChunkId();
+            String[] fileChunks = filenameChunkId.split(" ");
+            String filename = fileChunks[0];
+            int chunkId = Integer.parseInt(fileChunks[1]);
+            System.out.println("Load the file " + filename + "'s chunk " + chunkId + " and send back to the asking node");
+            // construct the message
 
+            StorageMessages.FixDataMsg returnMsg =
+                    StorageMessages.FixDataMsg.newBuilder()
+                    .setFilenameChunkId(filenameChunkId)
+//                    .setData()
+                    .setChecksum("here")
+                    .build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                    .setFixDataMsg(returnMsg).build();
+            msgWrapper.writeDelimitedTo(socket.getOutputStream());
         }
         else{
-            System.out.println("Nothing in the message wrapper");
+            System.out.println("Nothing in the message wrapper ");
         }
         socket.close();
     }

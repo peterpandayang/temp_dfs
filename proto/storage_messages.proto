@@ -42,6 +42,7 @@ message FixDataMsg{
     string filenameChunkId = 1;
     string success = 2;
     bytes data = 3;
+    string checksum = 4;
 }
 
 
