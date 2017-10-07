@@ -2,6 +2,8 @@ package edu.usfca.cs.thread;
 
 import edu.usfca.cs.route.DataNodeDataRemover;
 
+import java.io.IOException;
+
 /**
  * Created by bingkunyang on 10/6/17.
  */
@@ -15,6 +17,10 @@ public class DataNodeRemoveAllThread extends Thread {
 
     @Override
     public void run() {
-        dataNodeDataRemover.removeAllFile();
+        try {
+            dataNodeDataRemover.removeAllFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
