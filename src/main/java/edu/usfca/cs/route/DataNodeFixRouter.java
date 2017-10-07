@@ -14,6 +14,8 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -183,16 +185,34 @@ public class DataNodeFixRouter {
         threadPool.execute(thread);
     }
 
-    public void sendLogToController(){
+    public void sendLogToController() throws IOException {
         System.out.println("start to send back the log");
         // should firstly read the log and send them back
         String type = msgWrapper.getHeartbeatMsg().getType();
         if(type.equals(type)){
             System.out.println("type is " + type);
+            List<String> filenameChunkIds = constructFileChunks();
+
         }
         else{
             System.out.println("there is some other types");
         }
+    }
+
+    private List<String> constructFileChunks() throws IOException {
+        String port = myHost.split(" ")[1];
+        String logPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files";
+        if(!Files.exists(Paths.get(logPath))){
+            Files.createDirectories(Paths.get(logPath));
+        }
+        File log = new File(logPath + "/log");
+        String content = io.getFileContent(log);
+        String[] contents = content.split("\n");
+        List<String> rst = new ArrayList<>();
+        for(String line : contents){
+            System.out.println("Current line is : " + line);
+        }
+        return rst;
     }
 
 

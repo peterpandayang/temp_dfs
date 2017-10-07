@@ -2,6 +2,8 @@ package edu.usfca.cs.thread;
 
 import edu.usfca.cs.route.DataNodeFixRouter;
 
+import java.io.IOException;
+
 /**
  * Created by bingkunyang on 10/7/17.
  */
@@ -15,6 +17,10 @@ public class DataNodeSendLogThread extends Thread {
 
     @Override
     public void run() {
-        router.sendLogToController();
+        try {
+            router.sendLogToController();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
