@@ -82,4 +82,14 @@ public class FileIO {
         }
     }
 
+    public void writeLog(String filename, int chunkId, String path) throws IOException {
+        File file = new File(path);
+        Path filePath = Paths.get(file.getPath());
+        if(!Files.exists(filePath)){
+            Files.createFile(filePath);
+        }
+        String data = filename + " " + chunkId;
+        Files.write(filePath, data.getBytes(), StandardOpenOption.APPEND);
+    }
+
 }

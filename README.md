@@ -12,4 +12,5 @@ To work with Protocol Buffers on your own machine, you'll need to install the ``
 Assumptions:
 1. The whole system will has at least 3 datanode working;
 2. The system does not multiple storing the same file;
+3. The system has at least one chunk replica successfully stored for each chunk;
 

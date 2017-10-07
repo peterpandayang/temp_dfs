@@ -55,7 +55,7 @@ public class DataNodeDataRouter {
         // later I will not use the port as the path but use hostname.
 //        String folderPath = DataNodeCache.PATH + "/" + port + "/files/" + filename;
         String folderPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files/" + filename;
-
+        String logPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files/log";
         if(!Files.exists(Paths.get(folderPath))){
             Files.createDirectories(Paths.get(folderPath));
         }
@@ -69,6 +69,7 @@ public class DataNodeDataRouter {
             cache.updateFileInfo(filename, chunkId);
             System.out.println("chunk id : " + chunkId + " is stored on the disk");
             builder = StorageMessages.DataMsg.newBuilder().setSuccess("success");
+            io.writeLog(filename, chunkId, logPath);
         }
         else{
             System.out.println("chunk id : " + chunkId + " is not correctly stored on the disk");
