@@ -92,6 +92,9 @@ public class ClientSideHandler {
                 }
                 else if(line.trim().equals("ls -l")){
                     List<String> files = cache.getAllFilename();
+                    if(files.size() == 0){
+                        continue;
+                    }
                     for(String file : files){
                         System.out.println(file);
                     }
