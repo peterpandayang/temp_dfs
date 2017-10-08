@@ -133,11 +133,12 @@ public class ClientSideHandler {
         // check if the file exist
         File file = new File(FILE_PATH + filename);
         if(file.exists()){
-            boolean hasFile = cache.addToFileSet(filename);
+            boolean hasFile = cache.checkIfExits(filename);
             if(hasFile){
                 System.out.println("This file has already in the system, please store another file");
                 return;
             }
+            cache.addToFileSet(filename);
             InputStream inputStream = new FileInputStream(file);
             byte[] buffer = new byte[1024 * 1024];
             BufferedInputStream bin = new BufferedInputStream(inputStream);
