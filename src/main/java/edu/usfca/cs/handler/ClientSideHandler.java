@@ -112,8 +112,8 @@ public class ClientSideHandler {
             return false;
         }
         String method = temp[0].toLowerCase();
-        if(!method.equals("get") && !method.equals("post") && !method.equals("rm")){
-            System.out.println("Please follow the pattern: [<get/post>, <filename.txt>] or [rm -rf]");
+        if(!method.equals("get") && !method.equals("post") && !method.equals("rm") && !method.equals("ls")){
+            System.out.println("Please follow the pattern: [<get/post>, <filename.txt>] or [rm -rf] or [ls -l]");
             return false;
         }
         return true;
@@ -129,7 +129,7 @@ public class ClientSideHandler {
         File file = new File(FILE_PATH + filename);
         if(file.exists()){
             boolean hasFile = cache.addToFileSet(filename);
-            if(!hasFile){
+            if(hasFile){
                 System.out.println("This file has already in the system, please store another file");
                 return;
             }
