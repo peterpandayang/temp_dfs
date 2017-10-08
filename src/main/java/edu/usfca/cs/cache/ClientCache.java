@@ -1,5 +1,7 @@
 package edu.usfca.cs.cache;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -11,6 +13,7 @@ public class ClientCache {
     public static String RETRIEVE_PATH = "client/retrieve/";
     private static String firstCheckSum = "";
     private static ConcurrentHashMap<String, String> checkSumMap = new ConcurrentHashMap<>();
+    private static Set<String> storedFile = new HashSet<>();
 
     public void setFirstCheckSum(String s){
         this.firstCheckSum = s;
@@ -39,5 +42,17 @@ public class ClientCache {
     }
 
     public ClientCache(){}
+
+    public boolean addToFileSet(String filename){
+        return storedFile.add(filename);
+    }
+
+    public void clearAllFile(){
+        storedFile = new HashSet<>();
+    }
+
+    public boolean checkIfExits(String filename){
+        return storedFile.contains(filename);
+    }
 
 }

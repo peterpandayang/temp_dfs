@@ -52,6 +52,7 @@ public class ClientSideHandler {
         Scanner scanner = new Scanner(System.in);
         String line = "";
         while (true) {
+            System.out.println("FYI: The chunk size in this system is 1MB");
             System.out.println("please enter your command...");
             line = scanner.nextLine();
             if (line.equals("EOF")) {
@@ -65,6 +66,9 @@ public class ClientSideHandler {
                 }
                 else if (method.equals("get")){
                     // this will do the retrieval in parallel
+                    if(!cache.checkIfExits(filename)){
+                        System.out.println("The file you're retrieving does not exist");
+                    }
                     initThreadPool();
                     ClientFileRetriever retriever = new ClientFileRetriever(filename, myHostname, threadPool);
                     retriever.startGetReq();
@@ -76,6 +80,7 @@ public class ClientSideHandler {
                 else if(method.equals("rm")){
                     // do the remove here...
                     if(filename.equals("-rf")) {
+                        cache.clearAllFile();
                         ClientRemoveCmdSender removeCmdSender = new ClientRemoveCmdSender(filename);
                         removeCmdSender.startRemoveAll();
                     }
@@ -115,6 +120,11 @@ public class ClientSideHandler {
         // check if the file exist
         File file = new File(FILE_PATH + filename);
         if(file.exists()){
+            boolean hasFile = cache.addToFileSet(filename);
+            if(!hasFile){
+                System.out.println("This file has already in the system, please store another file");
+                return;
+            }
             InputStream inputStream = new FileInputStream(file);
             byte[] buffer = new byte[1024 * 1024];
             BufferedInputStream bin = new BufferedInputStream(inputStream);
