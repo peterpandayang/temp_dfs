@@ -10,6 +10,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -87,6 +88,12 @@ public class ClientSideHandler {
                     }
                     else{
                         // maybe remove a specific node or a file
+                    }
+                }
+                else if(line.trim().equals("ls -l")){
+                    List<String> files = cache.getAllFilename();
+                    for(String file : files){
+                        System.out.println(file);
                     }
                 }
             }
