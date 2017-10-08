@@ -90,6 +90,17 @@ public class ClientSideHandler {
                         // maybe remove a specific node or a file
                     }
                 }
+                else if(line.trim().equals("ls -l")){
+                    System.out.println("This is listing file function");
+                    List<String> files = cache.getAllFilename();
+                    if(files.size() == 0){
+                        System.out.println("No file in the system");
+                        continue;
+                    }
+                    for(String file : files){
+                        System.out.println(file);
+                    }
+                }
             }
         }
     }
