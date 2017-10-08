@@ -49,10 +49,10 @@ public class ClientSideHandler {
      * @throws IOException
      */
     private void startClient() throws IOException, InterruptedException, NoSuchAlgorithmException {
+        System.out.println("FYI: The chunk size in this system is 1MB");
         Scanner scanner = new Scanner(System.in);
         String line = "";
         while (true) {
-            System.out.println("FYI: The chunk size in this system is 1MB");
             System.out.println("please enter your command...");
             line = scanner.nextLine();
             if (line.equals("EOF")) {
@@ -68,6 +68,7 @@ public class ClientSideHandler {
                     // this will do the retrieval in parallel
                     if(!cache.checkIfExits(filename)){
                         System.out.println("The file you're retrieving does not exist");
+                        continue;
                     }
                     initThreadPool();
                     ClientFileRetriever retriever = new ClientFileRetriever(filename, myHostname, threadPool);
