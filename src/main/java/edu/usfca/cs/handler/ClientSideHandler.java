@@ -91,7 +91,6 @@ public class ClientSideHandler {
                     }
                 }
                 else if(line.trim().equals("ls -l")){
-                    System.out.println("This is listing file function");
                     List<String> files = cache.getAllFilename();
                     if(files.size() == 0){
                         System.out.println("No file in the system");
