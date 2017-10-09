@@ -124,7 +124,7 @@ public class ClientSideHandler {
             return false;
         }
         String method = temp[0].toLowerCase();
-        if(!method.equals("get") && !method.equals("post") && !method.equals("rm") && !method.equals("ls")){
+        if(!method.equals("get") && !method.equals("post") && !method.equals("rm") && !method.equals("ls") && !method.equals("ask")){
             System.out.println("Please follow the pattern: [<get/post>, <filename.txt>] or [rm -rf] or [ls -l]");
             return false;
         }
