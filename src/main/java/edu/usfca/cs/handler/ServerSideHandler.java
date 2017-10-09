@@ -63,6 +63,7 @@ public class ServerSideHandler {
                 }
                 else if(type.equals("storage")){
                     System.out.println("get the request of asking storage");
+                    serverReqRouter.startCountStorageThread();
                 }
                 else{
                     // handle the put request later...
