@@ -44,11 +44,10 @@ public class StorageRequester {
             System.out.println("printing the storage information");
             System.out.println("hostname                    size                    used");
             for(String hostSize : hostSizes){
-                System.out.println(hostSize);
                 String[] hostsizearray = hostSize.split(" ");
                 String host = hostsizearray[0];
                 int used = Integer.parseInt(hostsizearray[2]);
-                System.out.print(host + "                     ");
+                System.out.print(host + "         ");
                 System.out.print("9GB                     ");
                 System.out.println(used + "MB");
             }
