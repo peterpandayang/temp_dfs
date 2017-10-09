@@ -61,6 +61,9 @@ public class ServerSideHandler {
                 else if(type.equals("remove")){
                     serverReqRouter.startRemoveProcess(msgWrapper.getRequestMsg().getFilename());
                 }
+                else if(type.equals("storage")){
+                    System.out.println("get the request of asking storage");
+                }
                 else{
                     // handle the put request later...
                 }

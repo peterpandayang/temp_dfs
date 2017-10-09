@@ -5,6 +5,7 @@ import edu.usfca.cs.io.FileIO;
 import edu.usfca.cs.route.ClientFileRetriever;
 import edu.usfca.cs.route.ClientFileSender;
 import edu.usfca.cs.route.ClientRemoveCmdSender;
+import edu.usfca.cs.route.StorageRequester;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -88,6 +89,13 @@ public class ClientSideHandler {
                     }
                     else{
                         // maybe remove a specific node or a file
+                    }
+                }
+                else if(method.equals("ask")){
+                    System.out.println("sending ask storage request");
+                    StorageRequester requester = new StorageRequester();
+                    if(filename.trim().equals("storage")){
+                        requester.requestStorage();
                     }
                 }
                 else if(line.trim().equals("ls -l")){

@@ -9,6 +9,7 @@ message RequestMsg{
     repeated string chunkIdHost = 4;
     string type = 5;
     string success = 6;
+    repeated string hostSize = 7;
 }
 
 
