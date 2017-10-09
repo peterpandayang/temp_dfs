@@ -135,9 +135,11 @@ public class ClientFileRetriever {
     public void retrieveOneChunkAndStore(String filename, String chunkIdHost) throws IOException, InterruptedException, NoSuchAlgorithmException {
         String[] allChunkIdHosts = chunkIdHost.split(" ");
         List<String> list = new ArrayList<>();
-        for(int i = 0; i <= allChunkIdHosts.length - 1; i += 2){
+        int loop = allChunkIdHosts.length % 2 == 0 ? allChunkIdHosts.length : allChunkIdHosts.length - 1;
+        for(int i = 0; i <= loop - 1; i += 2){
             if(allChunkIdHosts[i].trim().length() != 0){
                 String s = allChunkIdHosts[i] + " " + allChunkIdHosts[i + 1];
+                System.out.println("add " + s + " to the list");
                 list.add(s);
             }
         }
