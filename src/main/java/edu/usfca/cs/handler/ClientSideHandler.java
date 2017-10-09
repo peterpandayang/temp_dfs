@@ -93,7 +93,7 @@ public class ClientSideHandler {
                 }
                 else if(method.equals("ask")){
                     System.out.println("sending ask storage request");
-                    StorageRequester requester = new StorageRequester();
+                    StorageRequester requester = new StorageRequester(cache);
                     if(filename.trim().equals("storage")){
                         requester.requestStorage();
                     }
@@ -168,6 +168,8 @@ public class ClientSideHandler {
                 cache.addToCheckSumMap(filename, checkSum);
             }
             else{
+                String checkSum = io.getCheckSum(dataString);
+                cache.addToCheckSumMap(filename, checkSum);
                 System.out.println("merge fail");
             }
         }

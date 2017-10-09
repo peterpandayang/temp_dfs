@@ -13,8 +13,10 @@ import java.util.List;
  */
 public class StorageRequester {
 
-    public StorageRequester(){
+    private ClientCache cache;
 
+    public StorageRequester(ClientCache cache){
+        this.cache = cache;
     }
 
     public void requestStorage() throws IOException, InterruptedException {
