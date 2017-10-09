@@ -40,7 +40,7 @@ public class StorageRequester {
         }
         else{
             StorageMessages.RequestMsg returnMsg = returnMsgWrapper.getRequestMsg();
-            List<String> hostSizes = requestMsg.getHostSizeList();
+            List<String> hostSizes = returnMsg.getHostSizeList();
             System.out.println("printing the storage information");
             System.out.println("hostname                    size                    used");
             for(String hostSize : hostSizes){
