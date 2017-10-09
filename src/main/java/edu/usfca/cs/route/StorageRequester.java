@@ -44,6 +44,7 @@ public class StorageRequester {
             System.out.println("printing the storage information");
             System.out.println("hostname                    size                    used");
             for(String hostSize : hostSizes){
+                System.out.println(hostSize);
                 String[] hostsizearray = hostSize.split(" ");
                 String host = hostsizearray[0].split(".")[0];
                 int used = Integer.parseInt(hostsizearray[2]);
