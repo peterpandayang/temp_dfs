@@ -6,6 +6,7 @@ import edu.usfca.cs.dfs.StorageMessages;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
 /**
  * Created by bingkunyang on 10/8/17.
@@ -38,7 +39,18 @@ public class StorageRequester {
             System.out.println("nothing from the datanode...");
         }
         else{
-            System.out.println("get something from the storage node...");
+            StorageMessages.RequestMsg returnMsg = returnMsgWrapper.getRequestMsg();
+            List<String> hostSizes = requestMsg.getHostSizeList();
+            System.out.println("printing the storage information");
+            System.out.println("hostname                    size                    used");
+            for(String hostSize : hostSizes){
+                String[] hostsizearray = hostSize.split(" ");
+                String host = hostsizearray[0].split(".")[0];
+                int used = Integer.parseInt(hostsizearray[2]);
+                System.out.print(host + "                     ");
+                System.out.print("9GB                     ");
+                System.out.println(used + "MB");
+            }
         }
 
 
