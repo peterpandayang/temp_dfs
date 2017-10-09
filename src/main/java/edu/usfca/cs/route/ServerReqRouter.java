@@ -2,6 +2,7 @@ package edu.usfca.cs.route;
 
 import edu.usfca.cs.cache.ServerCache;
 import edu.usfca.cs.dfs.StorageMessages;
+import edu.usfca.cs.thread.CountStorageThread;
 import edu.usfca.cs.thread.ServerGetReqThread;
 import edu.usfca.cs.thread.ServerPostReqThread;
 import edu.usfca.cs.thread.ServerRemoveAllThread;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by bingkunyang on 9/24/17.
@@ -19,11 +21,13 @@ public class ServerReqRouter {
     private static Socket socket;
     private ServerCache cache;
     StorageMessages.StorageMessageWrapper msgWrapper;
+    private ThreadPoolExecutor threadPool;
 
-    public ServerReqRouter(Socket socket, ServerCache cache, StorageMessages.StorageMessageWrapper msgWrapper){
+    public ServerReqRouter(Socket socket, ServerCache cache, StorageMessages.StorageMessageWrapper msgWrapper, ThreadPoolExecutor threadPool){
         this.socket = socket;
         this.cache = cache;
         this.msgWrapper = msgWrapper;
+        this.threadPool = threadPool;
     }
 
     public void startPostReqThread(){
@@ -102,6 +106,25 @@ public class ServerReqRouter {
             toNodeSocket.close();
         }
         cache.clearDataMap();
+        socket.close();
+    }
+
+    public void startCountStorageThread(){
+        CountStorageThread thread = new CountStorageThread(this);
+        threadPool.execute(thread);
+    }
+
+    public void sendStorageInfo() throws IOException {
+        List<String> storageList = cache.getStorageList();
+        System.out.println("storage list is : " + storageList);
+        StorageMessages.RequestMsg requestMsg =
+                StorageMessages.RequestMsg.newBuilder()
+                .addAllHostSize(storageList)
+                .build();
+        StorageMessages.StorageMessageWrapper msgWrapper =
+                StorageMessages.StorageMessageWrapper.newBuilder()
+                .setRequestMsg(requestMsg).build();
+        msgWrapper.writeDelimitedTo(socket.getOutputStream());
         socket.close();
     }
 

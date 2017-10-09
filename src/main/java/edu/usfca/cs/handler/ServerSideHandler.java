@@ -50,7 +50,7 @@ public class ServerSideHandler {
             Socket socket = serverSocket.accept();
             StorageMessages.StorageMessageWrapper msgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(socket.getInputStream());
             if(msgWrapper.hasRequestMsg()){
-                ServerReqRouter serverReqRouter = new ServerReqRouter(socket, cache, msgWrapper);
+                ServerReqRouter serverReqRouter = new ServerReqRouter(socket, cache, msgWrapper, threadPool);
                 String type = msgWrapper.getRequestMsg().getType();
                 if(type.equals("post")){
                     serverReqRouter.startPostReqThread();

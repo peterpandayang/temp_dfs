@@ -246,4 +246,27 @@ public class ServerCache {
         dataMap.clear();
     }
 
+    public List<String> getStorageList(){
+        List<String> rst = new ArrayList<>();
+        Map<String, Integer> map = new HashMap<>();
+        for(String filename : dataMap.keySet()){
+            TreeMap treeMap = dataMap.get(filename);
+            for(Object chunkId : treeMap.keySet()) {
+                List<String> hosts = (List<String>) treeMap.get(chunkId);
+                for(String host : hosts){
+                    if(!map.containsKey(host)){
+                        map.put(host, 1);
+                    }
+                    else{
+                        map.put(host, map.get(host) + 1);
+                    }
+                }
+            }
+        }
+        for(String key : map.keySet()){
+            rst.add(key + " " + map.get(key));
+        }
+        return rst;
+    }
+
 }
