@@ -137,10 +137,10 @@ public class ClientFileRetriever {
         System.out.println("The original chunkIdHost is : " + chunkIdHost);
         String[] allChunkIdHosts = chunkIdHost.split(" ");
         List<String> list = new ArrayList<>();
-        int loop = allChunkIdHosts.length % 2 == 0 ? allChunkIdHosts.length : allChunkIdHosts.length - 1;
-        for(int i = 0; i <= loop - 1; i += 2){
+        String chunkId = allChunkIdHosts[0];
+        for(int i = 1; i <= allChunkIdHosts.length - 2; i += 2){
             if(allChunkIdHosts[i].trim().length() != 0){
-                String s = allChunkIdHosts[i] + " " + allChunkIdHosts[i + 1];
+                String s = chunkId + " " + allChunkIdHosts[i] + " " + allChunkIdHosts[i + 1];
                 System.out.println("add " + s + " to the list");
                 list.add(s);
             }
