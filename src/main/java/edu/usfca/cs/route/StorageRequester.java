@@ -46,7 +46,7 @@ public class StorageRequester {
             for(String hostSize : hostSizes){
                 System.out.println(hostSize);
                 String[] hostsizearray = hostSize.split(" ");
-                String host = hostsizearray[0].split(".")[0];
+                String host = hostsizearray[0];
                 int used = Integer.parseInt(hostsizearray[2]);
                 System.out.print(host + "                     ");
                 System.out.print("9GB                     ");
