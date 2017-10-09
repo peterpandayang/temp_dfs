@@ -193,8 +193,7 @@ public class ServerCache {
             sb.append(chunkId).append(" ");
             for(String s : potentialNodes){
                 if(active.contains(s)){
-                    sb.append(s);
-                    break;
+                    sb.append(s).append(" ");
                 }
             }
             rst.add(sb.toString());

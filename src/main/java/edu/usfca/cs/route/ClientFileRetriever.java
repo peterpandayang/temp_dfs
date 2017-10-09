@@ -133,6 +133,32 @@ public class ClientFileRetriever {
     }
 
     public void retrieveOneChunkAndStore(String filename, String chunkIdHost) throws IOException, InterruptedException, NoSuchAlgorithmException {
+        String[] allChunkIdHosts = chunkIdHost.split(" ");
+        List<String> list = new ArrayList<>();
+        for(int i = 0; i <= allChunkIdHosts.length - 1; i += 2){
+            if(allChunkIdHosts[i].trim().length() != 0){
+                String s = allChunkIdHosts[i] + " " + allChunkIdHosts[i + 1];
+                list.add(s);
+            }
+        }
+        boolean hasRetrieved = false;
+        int count = 0;
+        while(!hasRetrieved){
+            hasRetrieved = sendgetReqHelper(filename, list.get(count));
+            // should send something to the controller
+
+            count++;
+        }
+        if(hasRetrieved){
+            System.out.println("This chunk has successfully retrieved");
+        }
+        else{
+            System.out.println("This file has corrupted");
+        }
+
+    }
+
+    private boolean sendgetReqHelper(String filename, String chunkIdHost) throws IOException, InterruptedException, NoSuchAlgorithmException {
         String[] info = chunkIdHost.split(" ");
         int chunkId = Integer.parseInt(info[0]);
         Socket socket = new Socket(info[1], Integer.parseInt(info[2]));
@@ -180,7 +206,9 @@ public class ClientFileRetriever {
             File file = new File(folderPath + "/" + chunkId);
             io.writeGeneralFile(file, dataMsg.getData().toStringUtf8());
             socket.close();
+            return true;
         }
+        return false;
     }
 
 }
