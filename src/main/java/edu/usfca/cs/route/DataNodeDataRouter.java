@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 
@@ -84,6 +85,40 @@ public class DataNodeDataRouter {
                         .setDataMsg(builder.build())
                         .build();
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
+        int level = msgWrapper.getDataMsg().getLevel();
+        if(level != 3){
+            List<String> hosts = msgWrapper.getDataMsg().getHostsList();
+            if(level == 1){
+                String nextHost = hosts.get(0);
+                hosts.remove(0);
+                String[] nextHosts = nextHost.split(" ");
+                Socket nextSocket = new Socket(nextHosts[0], Integer.parseInt(nextHosts[1]));
+                StorageMessages.DataMsg nextMsg =
+                        StorageMessages.DataMsg.newBuilder()
+                                .setData(dataMsg.getData())
+                                .setFilename(dataMsg.getFilename())
+                                .setChunkId(dataMsg.getChunkId())
+                                .setChecksum(dataMsg.getChecksum())
+                                .setLevel(2).addAllHosts(hosts).build();
+                nextMsg.writeDelimitedTo(nextSocket.getOutputStream());
+                nextSocket.close();
+            }
+            else if(level == 2){
+                String nextHost = hosts.get(0);
+                String[] nextHosts = nextHost.split(" ");
+                Socket nextSocket = new Socket(nextHosts[0], Integer.parseInt(nextHosts[1]));
+                StorageMessages.DataMsg nextMsg =
+                        StorageMessages.DataMsg.newBuilder()
+                                .setData(dataMsg.getData())
+                                .setFilename(dataMsg.getFilename())
+                                .setChunkId(dataMsg.getChunkId())
+                                .setChecksum(dataMsg.getChecksum())
+                                .setLevel(3).build();
+                nextMsg.writeDelimitedTo(nextSocket.getOutputStream());
+                nextSocket.close();
+            }
+        }
+        socket.close();
     }
 
     public void startGetDataThread(){

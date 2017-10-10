@@ -63,16 +63,19 @@ public class ClientFileSender {
         if(returnMsgWrapper != null){
             // make a new socket to connect to the datanode
             List<String> datanodeList = returnMsgWrapper.getRequestMsg().getHostList();
-            for(String node : datanodeList){
-                sendDataToDataNode(node);
-            }
+//            for(String node : datanodeList){
+//                sendDataToDataNode(node);
+//            }
+            sendDataToDataNode(datanodeList);
         }
 
         toServerSocket.close();
     }
 
 
-    private void sendDataToDataNode(String node) throws IOException, NoSuchAlgorithmException {
+    private void sendDataToDataNode(List<String> nodes) throws IOException, NoSuchAlgorithmException {
+        String node = nodes.get(0);
+        nodes.remove(0);
         String[] nodeInfo = node.split(" ");
         Socket nodeSocket = new Socket(nodeInfo[0], Integer.parseInt(nodeInfo[1]));
         ByteString byteString = ByteString.copyFromUtf8(data);
@@ -83,7 +86,9 @@ public class ClientFileSender {
                 .setData(byteString)
                 .setFilename(filename)
                 .setChecksum(checksum)
-                .setType("store");
+                .setType("store")
+                .setLevel(1)
+                .addAllHosts(nodes);
         StorageMessages.StorageMessageWrapper dataMsgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
                         .setDataMsg(dataMsgBuilder.build())

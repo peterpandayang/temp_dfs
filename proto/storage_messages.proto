@@ -21,6 +21,8 @@ message DataMsg{
     string type = 5;
     string checksum = 6;
     string success = 7;
+    int32 level = 8;
+    repeated string hosts = 9;
 }
 
 
