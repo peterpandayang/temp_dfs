@@ -8,6 +8,7 @@ import edu.usfca.cs.io.FileIO;
 import java.io.*;
 import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,7 +76,10 @@ public class ClientFileSender {
 
     private void sendDataToDataNode(List<String> nodes) throws IOException, NoSuchAlgorithmException {
         String node = nodes.get(0);
-        nodes.remove(node);
+        List<String> temp = new ArrayList<>();
+        for(int i = 1; i <= nodes.size() - 1; i++){
+            temp.add(nodes.get(i));
+        }
         String[] nodeInfo = node.split(" ");
         Socket nodeSocket = new Socket(nodeInfo[0], Integer.parseInt(nodeInfo[1]));
         ByteString byteString = ByteString.copyFromUtf8(data);
@@ -88,7 +92,7 @@ public class ClientFileSender {
                 .setChecksum(checksum)
                 .setType("store")
                 .setLevel(1)
-                .addAllHosts(nodes);
+                .addAllHosts(temp);
         StorageMessages.StorageMessageWrapper dataMsgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
                         .setDataMsg(dataMsgBuilder.build())

@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -92,7 +93,8 @@ public class DataNodeDataRouter {
             StorageMessages.DataMsg nextMsg = null;
             if(level == 1){
                 String nextHost = hosts.get(0);
-                hosts.remove(nextHost);
+                List<String> temp = new ArrayList<>();
+                temp.add(hosts.get(1));
                 String[] nextHosts = nextHost.split(" ");
                 nextSocket = new Socket(nextHosts[0], Integer.parseInt(nextHosts[1]));
                 nextMsg = StorageMessages.DataMsg.newBuilder()
@@ -100,7 +102,7 @@ public class DataNodeDataRouter {
                                 .setFilename(dataMsg.getFilename())
                                 .setChunkId(dataMsg.getChunkId())
                                 .setChecksum(dataMsg.getChecksum())
-                                .setLevel(2).addAllHosts(hosts).build();
+                                .setLevel(2).addAllHosts(temp).build();
             }
             else if(level == 2){
                 String nextHost = hosts.get(0);
