@@ -279,9 +279,13 @@ public class ServerCache {
         String[] chunkIdHosts = chunkIdHost.split(" ");
         int chunkId = Integer.parseInt(chunkIdHosts[0]);
         String host = chunkIdHosts[1];
-        List<String> list = dataMap.get(filename).get(chunkId);
+        TreeMap<Integer, List<String>> map = dataMap.get(filename);
+        List<String> list = map.get(chunkId);
         list.remove(host);
-        System.out.println("This chunk has been removed");
+        System.out.println("Remove host from the chunk " + chunkId + "'s list");
+        System.out.println("The chunk now has duplica size of : " + list.size());
+        map.put(chunkId, list);
+        dataMap.put(filename, map);
     }
 
 }
