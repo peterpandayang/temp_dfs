@@ -124,8 +124,17 @@ public class DataNodeDataRouter {
             socket.close();
         }
         else{
+            System.out.println("This chunk has been corrupted");
             // create message and write not valid to socket
-
+            StorageMessages.DataMsg returnMsg =
+                    StorageMessages.DataMsg.newBuilder()
+                    .setSuccess("false").build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                    .setDataMsg(returnMsg).build();
+            msgWrapper.writeDelimitedTo(socket.getOutputStream());
+            socket.close();
+            // should remove that from the disk
         }
     }
 

@@ -200,11 +200,12 @@ public class ClientFileRetriever {
         }
         if(returnMsgWrapper == null){
             System.out.println("nothing from the datanode...");
+            return false;
         }
         else{
             System.out.println("get something from the storage node...");
         }
-        if(returnMsgWrapper != null){
+        if(returnMsgWrapper != null && !returnMsgWrapper.getDataMsg().getSuccess().equals("false")){
             StorageMessages.DataMsg dataMsg = returnMsgWrapper.getDataMsg();
             String folderPath = cache.RETRIEVE_TEMP_PATH + "/files/" + filename;
             String checksum = dataMsg.getChecksum();
