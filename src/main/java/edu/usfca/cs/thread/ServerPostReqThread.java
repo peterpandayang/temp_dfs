@@ -21,6 +21,8 @@ public class ServerPostReqThread extends Thread{
             router.processPostReq();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

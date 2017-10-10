@@ -67,6 +67,7 @@ public class ClientFileSender {
                 sendDataToDataNode(node);
             }
         }
+
         toServerSocket.close();
     }
 

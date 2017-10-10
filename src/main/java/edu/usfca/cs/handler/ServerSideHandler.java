@@ -69,6 +69,10 @@ public class ServerSideHandler {
                     System.out.println("Get request to remove the corrupted chunk");
                     serverReqRouter.startRemoveOneChunkInfoThread();
                 }
+                else if(type.equals("signal")){
+                    System.out.println("get the signal from the client");
+                    
+                }
                 else{
                     // handle the put request later...
                 }

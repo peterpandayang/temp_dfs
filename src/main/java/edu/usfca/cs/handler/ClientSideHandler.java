@@ -1,6 +1,8 @@
 package edu.usfca.cs.handler;
 
 import edu.usfca.cs.cache.ClientCache;
+import edu.usfca.cs.cache.GeneralCache;
+import edu.usfca.cs.dfs.StorageMessages;
 import edu.usfca.cs.io.FileIO;
 import edu.usfca.cs.route.ClientFileRetriever;
 import edu.usfca.cs.route.ClientFileSender;
@@ -8,6 +10,7 @@ import edu.usfca.cs.route.ClientRemoveCmdSender;
 import edu.usfca.cs.route.StorageRequester;
 
 import java.io.*;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
@@ -145,6 +148,18 @@ public class ClientSideHandler {
                 System.out.println("This file has already in the system, please store another file");
                 return;
             }
+            // send start signal to the controller
+            Socket startSignalSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
+            StorageMessages.RequestMsg startSignal =
+                    StorageMessages.RequestMsg.newBuilder()
+                    .setType("signal")
+                    .setSuccess("start").build();
+            StorageMessages.StorageMessageWrapper startWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                    .setRequestMsg(startSignal).build();
+            startWrapper.writeDelimitedTo(startSignalSocket.getOutputStream());
+            startSignalSocket.close();
+            // start spliting the file
             cache.addToFileSet(filename);
             InputStream inputStream = new FileInputStream(file);
             byte[] buffer = new byte[1024 * 1024];
@@ -172,6 +187,17 @@ public class ClientSideHandler {
                 cache.addToCheckSumMap(filename, checkSum);
                 System.out.println("merge fail");
             }
+            // send finish signal to the controller
+            Socket finishSignalSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
+            StorageMessages.RequestMsg finishSignal =
+                    StorageMessages.RequestMsg.newBuilder()
+                            .setType("signal")
+                            .setSuccess("finish").build();
+            StorageMessages.StorageMessageWrapper finishWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                            .setRequestMsg(finishSignal).build();
+            finishWrapper.writeDelimitedTo(finishSignalSocket.getOutputStream());
+            finishSignalSocket.close();
         }
         else{
             System.out.println("The file you want to store does not exists");

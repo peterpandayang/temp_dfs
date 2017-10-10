@@ -284,8 +284,8 @@ public class ServerCache {
         for(String s : list){
             if(s.split(" ")[0].equals(host)){
                 System.out.println("Remove host from the chunk " + chunkId + "'s list");
-                System.out.println("The chunk now has duplica size of : " + list.size());
                 list.remove(s);
+                System.out.println("The chunk now has duplica size of : " + list.size());
                 break;
             }
         }

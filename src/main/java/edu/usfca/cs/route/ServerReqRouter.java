@@ -39,7 +39,7 @@ public class ServerReqRouter {
         thread.start();
     }
 
-    public void processPostReq() throws IOException {
+    public void processPostReq() throws IOException, InterruptedException {
         cache.storeChunkInfo(msgWrapper.getRequestMsg());
         List<String> nodes = cache.getAvailableNodeName(); // the available nodes
         StorageMessages.RequestMsg.Builder responseMsgBuilder
