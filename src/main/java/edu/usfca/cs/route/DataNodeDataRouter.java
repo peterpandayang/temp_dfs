@@ -86,7 +86,7 @@ public class DataNodeDataRouter {
                         .setDataMsg(builder.build())
                         .build();
         returnMsgWrapper.writeDelimitedTo(socket.getOutputStream());
-        int level = returnMsgWrapper.getDataMsg().getLevel();
+        int level = msgWrapper.getDataMsg().getLevel();
         if(level != 3){
             List<String> hosts = msgWrapper.getDataMsg().getHostsList();
             Socket nextSocket = null;
