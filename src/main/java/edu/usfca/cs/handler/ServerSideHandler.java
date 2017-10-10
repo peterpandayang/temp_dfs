@@ -65,6 +65,9 @@ public class ServerSideHandler {
                     System.out.println("get the request of asking storage");
                     serverReqRouter.startCountStorageThread();
                 }
+                else if(type.equals("fix")){
+                    System.out.println("Get request to remove the corrupted chunk");
+                }
                 else{
                     // handle the put request later...
                 }

@@ -1,6 +1,7 @@
 package edu.usfca.cs.route;
 
 import com.google.protobuf.ByteString;
+import com.sun.org.apache.bcel.internal.generic.StoreInstruction;
 import edu.usfca.cs.cache.ClientCache;
 import edu.usfca.cs.cache.GeneralCache;
 import edu.usfca.cs.dfs.StorageMessages;
@@ -133,7 +134,6 @@ public class ClientFileRetriever {
     }
 
     public void retrieveOneChunkAndStore(String filename, String chunkIdHost) throws IOException, InterruptedException, NoSuchAlgorithmException {
-        System.out.println("heeeeeee");
         System.out.println("The original chunkIdHost is : " + chunkIdHost);
         String[] allChunkIdHosts = chunkIdHost.split(" ");
         List<String> list = new ArrayList<>();
@@ -150,7 +150,19 @@ public class ClientFileRetriever {
         while(!hasRetrieved){
             hasRetrieved = sendgetReqHelper(filename, list.get(count));
             // should send something to the controller
-
+            Socket toServerSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
+            List<String> temp = new ArrayList<>();
+            temp.add(list.get(count));
+            StorageMessages.RequestMsg requestMsg =
+                    StorageMessages.RequestMsg.newBuilder()
+                    .setType("fix")
+                    .setFilename(filename)
+                    .addAllChunkIdHost(temp).build();
+            StorageMessages.StorageMessageWrapper msgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                    .setRequestMsg(requestMsg).build();
+            msgWrapper.writeDelimitedTo(toServerSocket.getOutputStream());
+            toServerSocket.close();
             count++;
         }
         if(hasRetrieved){
