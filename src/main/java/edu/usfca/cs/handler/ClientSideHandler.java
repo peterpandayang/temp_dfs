@@ -179,25 +179,9 @@ public class ClientSideHandler {
                 sender.startPostReq();
                 chunkId++;
             }
-//            String dataString = new String(Files.readAllBytes(Paths.get(file.getPath())));
-//            if(sb.toString().equals(dataString)){
-//                System.out.println("merge successful");
             String checkSum = io.getCheckSum(sb.toString());
-//            String checkSum = io.getCheckSum(dataString);
-
-//                cache.setFirstCheckSum(checkSum);
-//                System.out.println("initial checksum is: " + checkSum);
             cache.addToCheckSumMap(filename, checkSum);
-//                System.out.println("The original file has size: " + dataString.length());
-//                System.out.println("The merged file has length : " + sb.toString().length());
-//            }
-//            else{
-//                String checkSum = io.getCheckSum(dataString);
-//                cache.addToCheckSumMap(filename, checkSum);
-//                System.out.println("merge fail");
-//                System.out.println("The original file has size: " + dataString.length());
-//                System.out.println("The merged file has length: " + sb.toString().length());
-//            }
+
             // send finish signal to the controller
             Socket finishSignalSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
             StorageMessages.RequestMsg finishSignal =
