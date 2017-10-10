@@ -92,7 +92,7 @@ public class DataNodeDataRouter {
             StorageMessages.DataMsg nextMsg = null;
             if(level == 1){
                 String nextHost = hosts.get(0);
-                hosts.remove(0);
+                hosts.remove(nextHost);
                 String[] nextHosts = nextHost.split(" ");
                 nextSocket = new Socket(nextHosts[0], Integer.parseInt(nextHosts[1]));
                 nextMsg = StorageMessages.DataMsg.newBuilder()

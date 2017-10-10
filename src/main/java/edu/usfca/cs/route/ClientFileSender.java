@@ -75,7 +75,7 @@ public class ClientFileSender {
 
     private void sendDataToDataNode(List<String> nodes) throws IOException, NoSuchAlgorithmException {
         String node = nodes.get(0);
-        nodes.remove(0);
+        nodes.remove(node);
         String[] nodeInfo = node.split(" ");
         Socket nodeSocket = new Socket(nodeInfo[0], Integer.parseInt(nodeInfo[1]));
         ByteString byteString = ByteString.copyFromUtf8(data);
