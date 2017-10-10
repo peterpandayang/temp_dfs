@@ -81,12 +81,12 @@ public class DataNodeDataRouter {
             builder = StorageMessages.DataMsg.newBuilder().setSuccess("failed");
             // should remove that from the disk
         }
-        StorageMessages.StorageMessageWrapper msgWrapper =
+        StorageMessages.StorageMessageWrapper returnMsgWrapper =
                 StorageMessages.StorageMessageWrapper.newBuilder()
                         .setDataMsg(builder.build())
                         .build();
-        msgWrapper.writeDelimitedTo(socket.getOutputStream());
-        int level = msgWrapper.getDataMsg().getLevel();
+        returnMsgWrapper.writeDelimitedTo(socket.getOutputStream());
+        int level = returnMsgWrapper.getDataMsg().getLevel();
         if(level != 3){
             List<String> hosts = msgWrapper.getDataMsg().getHostsList();
             Socket nextSocket = null;
