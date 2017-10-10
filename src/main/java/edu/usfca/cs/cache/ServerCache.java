@@ -17,7 +17,7 @@ public class ServerCache {
     private List<String> active;                //record the active node host
     private Map<String, Long> lastHeartbeat; // this map record the last heartbeat for each active host
     Random random = new Random();
-    public volatile boolean started = false;
+    public  static volatile boolean started = false;
 
     public ServerCache(){
         dataMap = new ConcurrentHashMap<>();
