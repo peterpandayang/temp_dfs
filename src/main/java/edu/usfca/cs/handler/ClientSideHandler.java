@@ -181,11 +181,15 @@ public class ClientSideHandler {
                 cache.setFirstCheckSum(checkSum);
                 System.out.println("initial checksum is: " + checkSum);
                 cache.addToCheckSumMap(filename, checkSum);
+                System.out.println("The original file has size: " + dataString.length());
+                System.out.println("The merged file has length : " + sb.toString().length());
             }
             else{
                 String checkSum = io.getCheckSum(dataString);
                 cache.addToCheckSumMap(filename, checkSum);
                 System.out.println("merge fail");
+                System.out.println("The original file has size: " + dataString.length());
+                System.out.println("The merged file has length : " + sb.toString().length());
             }
             // send finish signal to the controller
             Socket finishSignalSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
