@@ -49,6 +49,7 @@ public class DataNodeDataRouter {
     public void storeData(Socket socket) throws NoSuchAlgorithmException, IOException {
         // this is the real part that store the data
         StorageMessages.DataMsg dataMsg = msgWrapper.getDataMsg();
+        int level = msgWrapper.getDataMsg().getLevel();
         String port = myHost.split(" ")[1];
         String filename = dataMsg.getFilename();
         int chunkId = dataMsg.getChunkId();
@@ -86,7 +87,6 @@ public class DataNodeDataRouter {
                         .setDataMsg(builder.build())
                         .build();
         returnMsgWrapper.writeDelimitedTo(socket.getOutputStream());
-        int level = msgWrapper.getDataMsg().getLevel();
         if(level != 3){
             List<String> hosts = msgWrapper.getDataMsg().getHostsList();
             Socket nextSocket = null;
@@ -102,7 +102,7 @@ public class DataNodeDataRouter {
                                 .setFilename(dataMsg.getFilename())
                                 .setChunkId(dataMsg.getChunkId())
                                 .setChecksum(dataMsg.getChecksum())
-                                .setLevel(2).addAllHosts(temp).build();
+                                .setLevel(2).addAllHosts(temp).setType("store").build();
             }
             else if(level == 2){
                 String nextHost = hosts.get(0);
@@ -113,7 +113,7 @@ public class DataNodeDataRouter {
                                 .setFilename(dataMsg.getFilename())
                                 .setChunkId(dataMsg.getChunkId())
                                 .setChecksum(dataMsg.getChecksum())
-                                .setLevel(3).build();
+                                .setLevel(3).setType("store").build();
             }
             System.out.println("current level is : " + level);
             StorageMessages.StorageMessageWrapper nextMsgWrapper =
