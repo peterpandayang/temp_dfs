@@ -114,6 +114,7 @@ public class ClientFileSender {
         String response = returnMsgWrapper.getDataMsg().getSuccess();
         nodeSocket.close();
         if(response.equals("success")){
+            System.out.println("This store is success");
             return true;
         }
         return false;
