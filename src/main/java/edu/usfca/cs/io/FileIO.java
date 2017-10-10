@@ -101,6 +101,8 @@ public class FileIO {
         File file = new File(path);
         Path filePath = Paths.get(file.getPath());
         String logInfo = new String(Files.readAllBytes(Paths.get(file.getPath())));
+        Files.delete(filePath);
+        Files.createFile(filePath);
         String[] infos = logInfo.split(",");
         for(String filenamChunkId : infos){
             if(!filenamChunkId.trim().equals(curr)){
