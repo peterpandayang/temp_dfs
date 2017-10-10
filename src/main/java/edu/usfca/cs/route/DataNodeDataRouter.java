@@ -115,6 +115,7 @@ public class DataNodeDataRouter {
                                 .setChecksum(dataMsg.getChecksum())
                                 .setLevel(3).build();
             }
+            System.out.println("current level is : " + level);
             StorageMessages.StorageMessageWrapper nextMsgWrapper =
                     StorageMessages.StorageMessageWrapper.newBuilder()
                     .setDataMsg(nextMsg).build();
