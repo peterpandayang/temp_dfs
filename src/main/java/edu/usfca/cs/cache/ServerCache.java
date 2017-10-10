@@ -282,6 +282,8 @@ public class ServerCache {
         TreeMap<Integer, List<String>> map = dataMap.get(filename);
         List<String> list = map.get(chunkId);
         list.remove(host);
+        System.out.println("host is : " + host);
+        System.out.println("the list is : " + list);
         System.out.println("Remove host from the chunk " + chunkId + "'s list");
         System.out.println("The chunk now has duplica size of : " + list.size());
         map.put(chunkId, list);
