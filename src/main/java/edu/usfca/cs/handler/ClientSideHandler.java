@@ -167,9 +167,13 @@ public class ClientSideHandler {
             int byteread;
             int chunkId = 0;
             StringBuffer sb = new StringBuffer();
+            int len = 0;
             while((byteread = bin.read(buffer)) != -1){
                 String data = new String(buffer, 0, byteread);
+                len += data.length();
+                System.out.println("data total consuming length is: " + (len));
                 sb.append(data);
+                System.out.println("string buffer length is : " + sb.length());
                 ClientFileSender sender = new ClientFileSender(myHostname, filename, chunkId, data);
                 sender.startPostReq();
                 chunkId++;
