@@ -96,4 +96,18 @@ public class FileIO {
         Files.write(filePath, data.getBytes(), StandardOpenOption.APPEND);
     }
 
+    public void removeFilenamChunkId(String filename, int chunkId, String path) throws IOException {
+        String curr = filename + " " + chunkId;
+        File file = new File(path);
+        Path filePath = Paths.get(file.getPath());
+        String logInfo = new String(Files.readAllBytes(Paths.get(file.getPath())));
+        String[] infos = logInfo.split(",");
+        for(String filenamChunkId : infos){
+            if(!filenamChunkId.trim().equals(curr)){
+                String data = filenamChunkId + ",";
+                Files.write(filePath, data.getBytes(), StandardOpenOption.APPEND);
+            }
+        }
+    }
+
 }

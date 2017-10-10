@@ -175,6 +175,8 @@ public class DataNodeDataRouter {
             msgWrapper.writeDelimitedTo(socket.getOutputStream());
             socket.close();
             // should remove that from the disk
+            String logPath = cache.pathPrefix + DataNodeCache.PATH + "/" + port + "/files";
+            io.removeFilenamChunkId(filename, chunkId, logPath + "/log");
         }
     }
 
