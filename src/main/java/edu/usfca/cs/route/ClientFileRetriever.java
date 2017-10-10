@@ -148,7 +148,13 @@ public class ClientFileRetriever {
         boolean hasRetrieved = false;
         int count = 0;
         while(!hasRetrieved){
+            if(count != 0){
+                System.out.println("send get data again to another datanode : " + list.get(count));
+            }
             hasRetrieved = sendgetReqHelper(filename, list.get(count));
+            if(hasRetrieved){
+                break;
+            }
             // should send something to the controller
             Socket toServerSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
             List<String> temp = new ArrayList<>();
@@ -164,11 +170,6 @@ public class ClientFileRetriever {
             msgWrapper.writeDelimitedTo(toServerSocket.getOutputStream());
             toServerSocket.close();
             count++;
-        }
-        if(hasRetrieved){
-            System.out.println("This chunk has successfully retrieved");
-        }
-        else{
             System.out.println("This file has corrupted");
         }
 
