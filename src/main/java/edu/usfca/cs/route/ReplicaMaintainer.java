@@ -34,6 +34,9 @@ public class ReplicaMaintainer {
 
     public void scanAndFix() throws InterruptedException, IOException {
         while(true){
+            while(cache.started){
+                Thread.sleep(5000);
+            }
             Thread.sleep(20000);
             System.out.println("start scanning...");
             fixMap = cache.getMaintainMap();
