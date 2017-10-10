@@ -166,7 +166,7 @@ public class ClientSideHandler {
             BufferedInputStream bin = new BufferedInputStream(inputStream);
             int byteread;
             int chunkId = 0;
-            StringBuilder sb = new StringBuilder();
+            StringBuffer sb = new StringBuffer();
             while((byteread = bin.read(buffer)) != -1){
                 String data = new String(buffer, 0, byteread);
                 sb.append(data);
@@ -189,7 +189,7 @@ public class ClientSideHandler {
                 cache.addToCheckSumMap(filename, checkSum);
                 System.out.println("merge fail");
                 System.out.println("The original file has size: " + dataString.length());
-                System.out.println("The merged file has length : " + sb.toString().length());
+                System.out.println("The merged file has length: " + sb.toString().length());
             }
             // send finish signal to the controller
             Socket finishSignalSocket = new Socket(GeneralCache.SERVER_HOSTNAME, GeneralCache.SERVER_PORT);
