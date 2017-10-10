@@ -67,6 +67,7 @@ public class ServerSideHandler {
                 }
                 else if(type.equals("fix")){
                     System.out.println("Get request to remove the corrupted chunk");
+                    serverReqRouter.startRemoveOneChunkInfoThread();
                 }
                 else{
                     // handle the put request later...

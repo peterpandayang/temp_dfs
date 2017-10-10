@@ -2,10 +2,7 @@ package edu.usfca.cs.route;
 
 import edu.usfca.cs.cache.ServerCache;
 import edu.usfca.cs.dfs.StorageMessages;
-import edu.usfca.cs.thread.CountStorageThread;
-import edu.usfca.cs.thread.ServerGetReqThread;
-import edu.usfca.cs.thread.ServerPostReqThread;
-import edu.usfca.cs.thread.ServerRemoveAllThread;
+import edu.usfca.cs.thread.*;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -126,6 +123,19 @@ public class ServerReqRouter {
                 .setRequestMsg(requestMsg).build();
         msgWrapper.writeDelimitedTo(socket.getOutputStream());
         socket.close();
+    }
+
+    public void startRemoveOneChunkInfoThread(){
+        ServerRemoveOneChunkInfo thread = new ServerRemoveOneChunkInfo(this);
+        threadPool.execute(thread);
+    }
+
+    public void startRemoveOneChunk(){
+        StorageMessages.RequestMsg requestMsg = msgWrapper.getRequestMsg();
+        String filename = requestMsg.getFilename();
+        List<String> chunkInHosts = requestMsg.getChunkIdHostList();
+        String chunkIdHost = chunkInHosts.get(0);
+        cache.removeOneChunkInfo(filename, chunkIdHost);
     }
 
 }

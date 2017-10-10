@@ -275,4 +275,13 @@ public class ServerCache {
         return rst;
     }
 
+    public void removeOneChunkInfo(String filename, String chunkIdHost){
+        String[] chunkIdHosts = chunkIdHost.split(" ");
+        int chunkId = Integer.parseInt(chunkIdHosts[0]);
+        String host = chunkIdHosts[1];
+        List<String> list = dataMap.get(filename).get(chunkId);
+        list.remove(host);
+        System.out.println("This chunk has been removed");
+    }
+
 }
