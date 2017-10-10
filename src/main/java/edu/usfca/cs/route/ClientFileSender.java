@@ -67,14 +67,18 @@ public class ClientFileSender {
 //            for(String node : datanodeList){
 //                sendDataToDataNode(node);
 //            }
-            sendDataToDataNode(datanodeList);
+            boolean rst = false;
+            while(!rst){
+                rst = sendDataToDataNode(datanodeList);
+            }
+
         }
 
         toServerSocket.close();
     }
 
 
-    private void sendDataToDataNode(List<String> nodes) throws IOException, NoSuchAlgorithmException {
+    private boolean sendDataToDataNode(List<String> nodes) throws IOException, NoSuchAlgorithmException, InterruptedException {
         String node = nodes.get(0);
         List<String> temp = new ArrayList<>();
         for(int i = 1; i <= nodes.size() - 1; i++){
@@ -99,8 +103,20 @@ public class ClientFileSender {
                         .build();
         System.out.println("sending chunk : " + chunkId + " for file: " + filename);
         dataMsgWrapper.writeDelimitedTo(nodeSocket.getOutputStream());
+        // get the response from the datanode
+        StorageMessages.StorageMessageWrapper returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(nodeSocket.getInputStream());
+        int attempt = 0;
+        while(returnMsgWrapper == null && attempt <= 999){
+            attempt++;
+            returnMsgWrapper = StorageMessages.StorageMessageWrapper.parseDelimitedFrom(nodeSocket.getInputStream());
+            Thread.sleep(10);
+        }
+        String response = returnMsgWrapper.getDataMsg().getSuccess();
         nodeSocket.close();
+        if(response.equals("success")){
+            return true;
+        }
+        return false;
     }
-
 
 }
