@@ -38,7 +38,7 @@ public class ReplicaMaintainer {
                 Thread.sleep(5000);
             }
             Thread.sleep(20000);
-            System.out.println("start scanning...");
+            System.out.println("start scanning..............................................................................................................................");
             fixMap = cache.getMaintainMap();
             int counter = 0;
 
