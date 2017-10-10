@@ -88,35 +88,37 @@ public class DataNodeDataRouter {
         int level = msgWrapper.getDataMsg().getLevel();
         if(level != 3){
             List<String> hosts = msgWrapper.getDataMsg().getHostsList();
+            Socket nextSocket = null;
+            StorageMessages.DataMsg nextMsg = null;
             if(level == 1){
                 String nextHost = hosts.get(0);
                 hosts.remove(0);
                 String[] nextHosts = nextHost.split(" ");
-                Socket nextSocket = new Socket(nextHosts[0], Integer.parseInt(nextHosts[1]));
-                StorageMessages.DataMsg nextMsg =
-                        StorageMessages.DataMsg.newBuilder()
+                nextSocket = new Socket(nextHosts[0], Integer.parseInt(nextHosts[1]));
+                nextMsg = StorageMessages.DataMsg.newBuilder()
                                 .setData(dataMsg.getData())
                                 .setFilename(dataMsg.getFilename())
                                 .setChunkId(dataMsg.getChunkId())
                                 .setChecksum(dataMsg.getChecksum())
                                 .setLevel(2).addAllHosts(hosts).build();
-                nextMsg.writeDelimitedTo(nextSocket.getOutputStream());
-                nextSocket.close();
             }
             else if(level == 2){
                 String nextHost = hosts.get(0);
                 String[] nextHosts = nextHost.split(" ");
-                Socket nextSocket = new Socket(nextHosts[0], Integer.parseInt(nextHosts[1]));
-                StorageMessages.DataMsg nextMsg =
-                        StorageMessages.DataMsg.newBuilder()
+                nextSocket = new Socket(nextHosts[0], Integer.parseInt(nextHosts[1]));
+                nextMsg = StorageMessages.DataMsg.newBuilder()
                                 .setData(dataMsg.getData())
                                 .setFilename(dataMsg.getFilename())
                                 .setChunkId(dataMsg.getChunkId())
                                 .setChecksum(dataMsg.getChecksum())
                                 .setLevel(3).build();
-                nextMsg.writeDelimitedTo(nextSocket.getOutputStream());
-                nextSocket.close();
             }
+            StorageMessages.StorageMessageWrapper nextMsgWrapper =
+                    StorageMessages.StorageMessageWrapper.newBuilder()
+                    .setDataMsg(nextMsg).build();
+            System.out.println("sending to next node");
+            nextMsgWrapper.writeDelimitedTo(nextSocket.getOutputStream());
+            nextSocket.close();
         }
         socket.close();
     }
