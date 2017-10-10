@@ -71,7 +71,15 @@ public class ServerSideHandler {
                 }
                 else if(type.equals("signal")){
                     System.out.println("get the signal from the client");
-                    
+                    String signal = msgWrapper.getRequestMsg().getSuccess();
+                    if(signal.equals("start")){
+                        System.out.println("The client started to store the file");
+                        cache.setTheFlag();
+                    }
+                    else{
+                        System.out.println("The client has finished storing the file");
+                        cache.removeTheFlag();
+                    }
                 }
                 else{
                     // handle the put request later...
